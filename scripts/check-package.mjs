@@ -23,8 +23,8 @@ try {
   assert.ok(packageInfo.files.every(file => !/\.(?:py|whl)$/.test(file.path)), 'Old Python artifacts must not ship');
   const installed = join(temporary, 'installed');
   await mkdir(installed);
-  // Dependencies were fetched by npm ci; an install smoke test needs no new network calls.
-  run('npm', ['install', '--offline', '--ignore-scripts', '--no-audit', '--no-fund',
+  // npm ci caches tarballs but may not cache registry metadata needed for a fresh install.
+  run('npm', ['install', '--prefer-offline', '--ignore-scripts', '--no-audit', '--no-fund',
     '--prefix', installed, join(temporary, packageInfo.filename)], temporary);
   const binary = join(installed, 'node_modules/.bin/grad-eval');
   assert.equal(run(binary, ['--version'], installed).trim(), '0.2.0');
