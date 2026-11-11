@@ -8,7 +8,8 @@
     "node": ">=22"
   },
   "bin": {
-    "grad-eval": "dist/cli.js"
+    "grad-eval": "dist/cli.js",
+    "grad-eval-claude": "dist/adapters/claude.js"
   },
   "exports": {
     ".": {
