@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Local evaluation material and model transcripts do not belong in this repo.
+private/
+local/
+artifacts/
+runs/
+reports/
+demo-output/
+*.local.json
+*.local.jsonl
