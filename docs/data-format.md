@@ -79,7 +79,7 @@
 다른 실행기에서 만든 결과를 가져오려면 먼저 계획을 고정합니다.
 
 ```bash
-grad-eval plan --cases local/cases.jsonl --conditions A B C --repeats 3 --out local/plan.json
+node dist/cli.js plan --cases local/cases.jsonl --conditions A,B,C --repeats 3 --out local/plan.json
 ```
 
 해시는 변경 감지용입니다. 기록자의 신원, 실제 원문의 권위 또는 프로세스 격리를 인증하지 않습니다. 계획·입력·결과를 함께 임의 변경하는 행위까지 막는 서명 시스템은 아닙니다.
@@ -122,4 +122,8 @@ grad-eval plan --cases local/cases.jsonl --conditions A B C --repeats 3 --out lo
 | `report` | 보고서 생성 | `--check`에서 하나라도 PASS가 아님 | 입력 오류 |
 | 나머지 | 처리 완료 | 사용하지 않음 | 입력·실행 준비 오류 |
 
-일반 `report`의 0은 품질 통과가 아닙니다. `--check`는 모든 조건의 holdout 판정이 PASS일 때만 0을 반환합니다. 입력 오류가 발생하면 지정한 보고서에도 INCONCLUSIVE를 기록해 이전 PASS가 최신 결과로 남지 않게 합니다.
+일반 `report`의 0은 품질 통과가 아닙니다. `--check`는 모든 조건의 holdout 판정이 PASS일 때만 0을 반환합니다. 입력 파일·계획 검증 단계에서 오류가 발생하면 지정한 보고서에도 INCONCLUSIVE를 기록해 이전 PASS가 최신 결과로 남지 않게 합니다. 잘못된 명령 옵션이나 출력 경로 충돌은 파일을 변경하기 전에 거부합니다.
+
+## 이전 버전에서 옮기기
+
+TypeScript 구현은 harness `graduation-wiki-eval/0.2`, 계획 `graduation-wiki-eval/plan-v2`를 사용합니다. 초기 Python 구현의 v0.1 보고서와 해시는 호환되지 않습니다. 기존 기록을 보존하고, 현재 버전으로 계획을 다시 만든 뒤 실행·검토하세요. 버전 문자열만 바꿔 이전 결과를 합치지 않습니다.

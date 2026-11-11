@@ -4,14 +4,15 @@
 
 ## Claude Code 참조 어댑터
 
-이 레포의 어댑터는 Claude Code 2.1.322 이상을 대상으로 합니다. 해당 CLI의 옵션과 반환 형식을 확인하고 모의 프로세스로 검사했습니다. 실제 API를 호출한 통합 검증은 아직 하지 않았습니다.
+`grad-eval-claude`는 Claude Code 2.1.322 이상을 대상으로 하는 TypeScript 어댑터입니다. CLI의 옵션과 반환 형식을 확인하고 모의 프로세스로 검사했습니다. 실제 API를 호출한 통합 검증은 아직 하지 않았습니다.
 
 `ANTHROPIC_API_KEY`를 실행 환경에 설정해야 합니다. 키는 설정 JSON이나 커밋에 넣지 않습니다. `--bare` 모드는 구독 로그인·키체인을 사용하지 않습니다. [공식 설명](https://code.claude.com/docs/en/headless)
 
 ```bash
 # 먼저 local/run.json의 모델·제한·runtime을 실제 값으로 맞추고 prepare를 실행합니다.
-grad-eval run --plan artifacts/baseline/plan.json -- \
-  python -m graduation_wiki_eval.adapters.claude_cli \
+npm run build
+node dist/cli.js run --plan artifacts/baseline/plan.json -- \
+  node "$PWD/dist/adapters/claude.js" \
   --model YOUR_PINNED_MODEL_ID --max-budget-usd 0.10 --max-turns 12 --effort medium --timeout 120
 ```
 
@@ -25,7 +26,9 @@ grad-eval run --plan artifacts/baseline/plan.json -- \
 - 지정한 모델·effort·턴·비용 제한 사용
 - 성공한 `structured_output`만 수용. 오류·거절·일반 텍스트를 정답 JSON으로 추정해 복구하지 않음
 
-런너의 timeout은 어댑터 timeout보다 길게 잡습니다. 예를 들어 어댑터 120초라면 실행 설정에는 150초를 둘 수 있습니다. 어댑터 오류는 실행 실패로 기록하며 런너가 자동 재시도하지 않습니다. Claude 내부 API 재시도는 CLI의 동작이므로 별개입니다.
+npm 패키지로 설치한 경우 `grad-eval`과 `grad-eval-claude` 명령을 사용할 수 있습니다. 직접 스크립트 경로를 넘길 때는 위 예시처럼 절대 경로를 사용합니다. 실행기는 작업마다 현재 디렉터리를 바꿉니다.
+
+런너의 timeout은 어댑터 timeout보다 길게 잡습니다. 예를 들어 어댑터 120초라면 실행 설정에는 150초를 둘 수 있습니다. 바깥 실행기가 먼저 제한에 도달하더라도 종료 신호를 Claude 자식 프로세스 그룹까지 전달하고, 정리되지 않으면 짧은 유예 뒤 강제 종료합니다. 어댑터 오류는 실행 실패로 기록하며 런너가 자동 재시도하지 않습니다. Claude 내부 API 재시도는 CLI의 동작이므로 별개입니다.
 
 ## C 조건에서 평가하는 범위
 
