@@ -2,13 +2,13 @@ import assert from "node:assert/strict";
 import { mkdtemp, mkdir, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { setTimeout as delay } from "node:timers/promises";
 import { test, type TestContext } from "node:test";
 import { digest, readJson, readRecords } from "../src/json.js";
 import { evaluate } from "../src/evaluate.js";
 import { parseCases, type Case } from "../src/schema.js";
 import { prepare, runPlan, requestSchema, type RunnerPlan } from "../src/runner.js";
 import { runProcess } from "../src/process.js";
+import { assertStopped, cleanupProcesses, controlledDeadline, isRunning, waitForPid, within } from "./helpers/processes.js";
 
 const ADAPTER = `
 const fs = require('node:fs');
@@ -197,73 +197,113 @@ test("timeout is a recorded error, not an implicit retry", async (t) => {
 test("timeout and successful parent exit clean up ordinary grandchildren", async (t) => {
   const f = await fixture(t);
   for (const parentExits of [false, true]) {
-    const marker = path.join(f.root, `survived-${parentExits}`);
-    const child = `setTimeout(()=>require('node:fs').writeFileSync(${JSON.stringify(marker)},'alive'),350)`;
-    const code = `require('node:child_process').spawn(process.execPath,['-e',${JSON.stringify(child)}],{stdio:'inherit'});` +
-      (parentExits ? "process.exit(0)" : "setTimeout(()=>{},3000)");
-    const result = await runProcess([process.execPath, "-e", code], { cwd: f.root, input: "", timeoutMs: parentExits ? 2000 : 150 });
-    assert.equal(result.timedOut, !parentExits);
-    await delay(450);
-    await assert.rejects(readFile(marker), /ENOENT/);
+    const parentPid = path.join(f.root, `parent-${parentExits}`);
+    const childPid = path.join(f.root, `child-${parentExits}`);
+    const child = `require('node:fs').writeFileSync(${JSON.stringify(childPid)},String(process.pid));` +
+      "process.send('ready');setInterval(()=>{},1000);";
+    const code = `require('node:fs').writeFileSync(${JSON.stringify(parentPid)},String(process.pid));` +
+      `const child=require('node:child_process').spawn(process.execPath,['-e',${JSON.stringify(child)}],{stdio:['ignore','inherit','inherit','ipc']});` +
+      (parentExits ? "child.once('message',()=>process.exit(0));" : "setInterval(()=>{},1000);");
+    const deadline = controlledDeadline(t, 150);
+    const execution = runProcess([process.execPath, "-e", code], { cwd: f.root, input: "", timeoutMs: 150 });
+    try {
+      const pid = await waitForPid(childPid);
+      if (!parentExits) {
+        assert.ok(isRunning(pid));
+        deadline.expire();
+      }
+      const result = await within(execution, 'Parent process did not finish');
+      assert.equal(result.timedOut, !parentExits);
+      if (parentExits) assert.equal(result.exitCode, 0);
+      await assertStopped([pid, await waitForPid(parentPid)]);
+    } finally {
+      deadline.expire();
+      await cleanupProcesses([parentPid, childPid]);
+      await within(execution, 'Process cleanup did not finish');
+    }
   }
 });
 
 test("outer timeout cleans nested SIGTERM-ignoring children before killing their adapter", async (t) => {
   const f = await fixture(t);
-  const started = path.join(f.root, "nested-started");
-  const survived = path.join(f.root, "nested-survived");
+  const adapterPid = path.join(f.root, "nested-adapter-pid");
+  const parentPid = path.join(f.root, "nested-parent-pid");
+  const childPid = path.join(f.root, "nested-child-pid");
   const interrupted = path.join(f.root, "nested-interrupted");
-  const descendant = `process.on('SIGTERM',()=>{});require('node:fs').writeFileSync(${JSON.stringify(started)},'ready');` +
-    `setTimeout(()=>require('node:fs').writeFileSync(${JSON.stringify(survived)},'alive'),1800);`;
-  const nestedChild = `process.on('SIGTERM',()=>{});require('node:child_process').spawn(process.execPath,['-e',${JSON.stringify(descendant)}],{stdio:'inherit'});` +
-    "setTimeout(()=>{},10000);";
+  const descendant = `process.on('SIGTERM',()=>{});require('node:fs').writeFileSync(${JSON.stringify(childPid)},String(process.pid));setInterval(()=>{},1000);`;
+  const nestedChild = `process.on('SIGTERM',()=>{});require('node:fs').writeFileSync(${JSON.stringify(parentPid)},String(process.pid));` +
+    `require('node:child_process').spawn(process.execPath,['-e',${JSON.stringify(descendant)}],{stdio:'inherit'});setInterval(()=>{},1000);`;
   const module = new URL("../src/process.ts", import.meta.url).href;
   const adapter = `
     import { writeFileSync } from 'node:fs';
     import { runProcess, ProcessInterruptedError } from ${JSON.stringify(module)};
+    writeFileSync(${JSON.stringify(adapterPid)}, String(process.pid));
     try {
       await runProcess([process.execPath,'-e',${JSON.stringify(nestedChild)}],
-        {cwd:process.cwd(),input:'',timeoutMs:10000,forwardSignals:true});
+        {cwd:process.cwd(),input:'',timeoutMs:30000,forwardSignals:true});
     } catch (error) {
       if (!(error instanceof ProcessInterruptedError)) throw error;
       writeFileSync(${JSON.stringify(interrupted)}, JSON.stringify({signal:error.signal,
         listeners:process.listenerCount('SIGTERM')}));
     }
   `;
-  const result = await runProcess([process.execPath, "--import", import.meta.resolve("tsx"),
+  const deadline = controlledDeadline(t, 1000);
+  const execution = runProcess([process.execPath, "--import", import.meta.resolve("tsx"),
     "--input-type=module", "-e", adapter], { cwd: f.root, input: "", timeoutMs: 1000 });
-  assert.equal(result.timedOut, true);
-  assert.equal(await readFile(started, "utf8"), "ready");
-  assert.equal(digest(await readJson(interrupted)), digest({ signal: "SIGTERM", listeners: 0 }));
-  await delay(1100);
-  await assert.rejects(readFile(survived), /ENOENT/);
+  try {
+    const pid = await waitForPid(childPid);
+    assert.ok(isRunning(pid));
+    deadline.expire();
+    const result = await within(execution, 'Nested adapter did not finish after timeout');
+    assert.equal(result.timedOut, true);
+    assert.equal(digest(await readJson(interrupted)), digest({ signal: "SIGTERM", listeners: 0 }));
+    await assertStopped([pid, await waitForPid(parentPid), await waitForPid(adapterPid)]);
+  } finally {
+    deadline.expire();
+    await cleanupProcesses([adapterPid, parentPid, childPid]);
+    await within(execution, 'Nested adapter cleanup did not finish');
+  }
 });
 
 test("timeout escalates when a process ignores SIGTERM", async (t) => {
   const f = await fixture(t);
   const ready = path.join(f.root, "ignores-term");
-  const code = `process.on('SIGTERM',()=>{});require('node:fs').writeFileSync(${JSON.stringify(ready)},'ready');setInterval(()=>{},1000);`;
-  const result = await runProcess([process.execPath, "-e", code],
+  const code = `process.on('SIGTERM',()=>{});require('node:fs').writeFileSync(${JSON.stringify(ready)},String(process.pid));setInterval(()=>{},1000);`;
+  const deadline = controlledDeadline(t, 150);
+  const execution = runProcess([process.execPath, "-e", code],
     { cwd: f.root, input: "", timeoutMs: 150 });
-  assert.equal(await readFile(ready, "utf8"), "ready");
-  assert.equal(result.timedOut, true);
-  assert.equal(result.signal, "SIGKILL");
+  try {
+    const pid = await waitForPid(ready);
+    assert.ok(isRunning(pid));
+    deadline.expire();
+    const result = await within(execution, 'SIGTERM-ignoring process did not finish');
+    assert.equal(result.timedOut, true);
+    assert.equal(result.signal, "SIGKILL");
+    await assertStopped([pid]);
+  } finally {
+    deadline.expire();
+    await cleanupProcesses([ready]);
+    await within(execution, 'SIGTERM-ignoring process cleanup did not finish');
+  }
 });
 
 test("interrupting runPlan stops its nested child and does not start the next job", async (t) => {
   const f = await fixture(t);
-  await prepare(f.cases, { ...f.config, timeout: 10 }, f.out);
+  await prepare(f.cases, { ...f.config, timeout: 30 }, f.out);
   const started = path.join(f.root, "interrupt-child-ready");
-  const survived = path.join(f.root, "interrupt-child-survived");
+  const adapterPid = path.join(f.root, "interrupt-adapter-pid");
   const supervisorPid = path.join(f.root, "supervisor-pid");
   const stopped = path.join(f.root, "supervisor-stopped");
-  const child = `process.on('SIGTERM',()=>{});require('node:fs').writeFileSync(${JSON.stringify(started)},'ready');` +
-    `setTimeout(()=>require('node:fs').writeFileSync(${JSON.stringify(survived)},'alive'),1800);`;
+  const jobStarts = path.join(f.root, "job-starts");
+  const child = `process.on('SIGTERM',()=>{});require('node:fs').writeFileSync(${JSON.stringify(started)},String(process.pid));setInterval(()=>{},1000);`;
   const processModule = new URL("../src/process.ts", import.meta.url).href;
   const runnerModule = new URL("../src/runner.ts", import.meta.url).href;
-  const adapter = `import {runProcess} from ${JSON.stringify(processModule)};
+  const adapter = `import {readFileSync,writeFileSync,appendFileSync} from 'node:fs';
+    import {runProcess} from ${JSON.stringify(processModule)};
+    writeFileSync(${JSON.stringify(adapterPid)},String(process.pid));
+    appendFileSync(${JSON.stringify(jobStarts)},JSON.parse(readFileSync(0,'utf8')).job_id+'\\n');
     await runProcess([process.execPath,'-e',${JSON.stringify(child)}],
-      {cwd:process.cwd(),input:'',timeoutMs:10000,forwardSignals:true});`;
+      {cwd:process.cwd(),input:'',timeoutMs:30000,forwardSignals:true});`;
   const adapterCommand = [process.execPath, "--import", import.meta.resolve("tsx"), "--input-type=module", "-e", adapter];
   const supervisor = `import {writeFileSync} from 'node:fs';
     import {runPlan} from ${JSON.stringify(runnerModule)};
@@ -275,20 +315,24 @@ test("interrupting runPlan stops its nested child and does not start the next jo
       writeFileSync(${JSON.stringify(stopped)},error.signal);
     }`;
   const execution = runProcess([process.execPath, "--import", import.meta.resolve("tsx"),
-    "--input-type=module", "-e", supervisor], { cwd: f.root, input: "", timeoutMs: 5000 });
-  for (let attempt = 0; attempt < 150; attempt += 1) {
-    try { await readFile(started); break; } catch { await delay(20); }
+    "--input-type=module", "-e", supervisor], { cwd: f.root, input: "", timeoutMs: 30000 });
+  try {
+    const pid = await waitForPid(started);
+    assert.ok(isRunning(pid));
+    const supervisor = await waitForPid(supervisorPid);
+    process.kill(supervisor, "SIGINT");
+    const result = await within(execution, 'Interrupted runPlan did not finish');
+    assert.equal(result.timedOut, false);
+    assert.equal(result.exitCode, 0);
+    assert.equal(await readFile(stopped, "utf8"), "SIGINT");
+    assert.equal((await readRecords(path.join(f.out, "runs.jsonl"))).length, 0);
+    assert.equal(await readFile(jobStarts, "utf8"), "A-0001-001\n");
+    await assert.rejects(readFile(path.join(f.out, "jobs/B-0001-001/result.json")), /ENOENT/);
+    await assertStopped([pid, supervisor, await waitForPid(adapterPid)]);
+  } finally {
+    await cleanupProcesses([supervisorPid, adapterPid, started]);
+    await within(execution, 'Interrupted runPlan cleanup did not finish');
   }
-  assert.equal(await readFile(started, "utf8"), "ready");
-  process.kill(Number(await readFile(supervisorPid, "utf8")), "SIGINT");
-  const result = await execution;
-  assert.equal(result.timedOut, false);
-  assert.equal(result.exitCode, 0);
-  assert.equal(await readFile(stopped, "utf8"), "SIGINT");
-  assert.equal((await readRecords(path.join(f.out, "runs.jsonl"))).length, 0);
-  await assert.rejects(readFile(path.join(f.out, "jobs/B-0001-001/result.json")), /ENOENT/);
-  await delay(1900);
-  await assert.rejects(readFile(survived), /ENOENT/);
 });
 
 test("invalid output and nonzero exits preserve per-job errors", async (t) => {
