@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-export const HARNESS_VERSION = 'graduation-wiki-eval/0.2';
-export const PLAN_SCHEMA = 'graduation-wiki-eval/plan-v2';
+export const HARNESS_VERSION = 'graduation-wiki-eval/0.3';
+export const PLAN_SCHEMA = 'graduation-wiki-eval/plan-v3';
 export const METRIC_KEYS = ['elapsed_ms', 'input_tokens', 'output_tokens'] as const;
 export const VERSION_KEYS = ['model', 'model_config', 'prompt', 'source', 'code', 'data', 'wiki', 'skill', 'dataset', 'tools', 'runtime', 'harness'] as const;
 
@@ -23,12 +23,30 @@ const actionSchema = z.enum(['answer', 'clarify', 'escalate']);
 const verdictSchema = z.enum(['pass', 'fail', 'pending']);
 const metric = z.number().finite().nonnegative().nullable();
 
+export const criterionSchema = z.strictObject({
+  id: nonempty, dimension: z.enum(['answer', 'evidence']), description: nonempty,
+});
+export const rubricSchema = z.strictObject({
+  version: nonempty, criteria: z.array(criterionSchema).min(2),
+}).superRefine((value, ctx) => {
+  if (new Set(value.criteria.map(item => item.id)).size !== value.criteria.length) ctx.addIssue({ code: 'custom', message: 'Duplicate rubric criterion id', path: ['criteria'] });
+  for (const dimension of ['answer', 'evidence'] as const) {
+    if (!value.criteria.some(item => item.dimension === dimension)) ctx.addIssue({ code: 'custom', message: `Rubric requires ${dimension} criteria`, path: ['criteria'] });
+  }
+});
+export const criterionResultSchema = z.strictObject({
+  criterion_id: nonempty, verdict: verdictSchema, rationale: z.string(),
+}).superRefine((value, ctx) => {
+  if (value.verdict !== 'pending' && !value.rationale.trim()) ctx.addIssue({ code: 'custom', message: 'Completed criterion requires a rationale', path: ['rationale'] });
+});
+
 export const caseSchema = z.strictObject({
   id: nonempty, family: nonempty, split: splitSchema,
   origin: z.enum(['real', 'synthetic']), review_status: z.enum(['draft', 'verified']),
   oracle_reviewer: nonempty.nullable().optional(), independent_reference: z.boolean(),
   question: nonempty, inputs: jsonObjectSchema.optional(), tags: z.array(nonempty).optional(),
   expected: z.strictObject({ action: actionSchema, facts: jsonObjectSchema }),
+  rubric: rubricSchema,
   sources: z.array(z.strictObject({ id: nonempty, version: nonempty, locator: nonempty, excerpt: nonempty, authoritative: z.boolean() })).min(1),
 }).superRefine((value, ctx) => {
   if (value.review_status === 'verified' && !value.oracle_reviewer) ctx.addIssue({ code: 'custom', message: 'Verified oracle requires a reviewer', path: ['oracle_reviewer'] });
@@ -54,14 +72,15 @@ export const runSchema = z.discriminatedUnion('status', [
   z.strictObject({ ...runBase, status: z.literal('error'), error: nonempty }),
 ]);
 export const reviewSchema = z.strictObject({
-  run_id: nonempty, case_sha256: hash, output_sha256: hash, reviewer_kind: z.literal('human'),
-  reviewer_id: nonempty, reviewed_at: nonempty, rationale: nonempty,
-  evidence_verdict: verdictSchema, answer_verdict: verdictSchema,
+  run_id: nonempty, case_sha256: hash, output_sha256: hash, rubric_sha256: hash, reviewer_kind: z.literal('human'),
+  reviewer_id: nonempty, reviewed_at: nonempty, criterion_results: z.array(criterionResultSchema).min(2),
+}).superRefine((value, ctx) => {
+  if (new Set(value.criterion_results.map(item => item.criterion_id)).size !== value.criterion_results.length) ctx.addIssue({ code: 'custom', message: 'Duplicate criterion result', path: ['criterion_results'] });
 });
 export const planSchema = z.strictObject({
   schema: z.literal(PLAN_SCHEMA), dataset_sha256: hash,
   conditions: z.array(conditionSchema).min(1), repeats: z.number().int().positive(),
-  cases: z.array(z.strictObject({ case_id: nonempty, case_sha256: hash, split: splitSchema })).min(1),
+  cases: z.array(z.strictObject({ case_id: nonempty, case_sha256: hash, rubric_sha256: hash, split: splitSchema })).min(1),
 });
 const diagnosticSchema = z.strictObject({
   field: nonempty, reason: nonempty, expected: jsonValueSchema.optional(), actual: jsonValueSchema.optional(), actual_present: z.boolean().optional(),
@@ -69,6 +88,7 @@ const diagnosticSchema = z.strictObject({
 const metricsSchema = z.strictObject({ elapsed_ms: metric, input_tokens: metric, output_tokens: metric });
 export const rowSchema = z.strictObject({
   case_id: nonempty, case_sha256: hash, split: splitSchema, condition: conditionSchema, repeat: z.number().int().positive(),
+  rubric: rubricSchema, rubric_sha256: hash,
   run_id: nonempty.nullable(), missing: z.boolean(), error: z.boolean(), unreviewed: z.boolean(),
   synthetic: z.boolean(), oracle_ready: z.boolean(), versions: versionsSchema.nullable(),
   objective: z.boolean().nullable(), objective_details: z.array(diagnosticSchema),
@@ -105,6 +125,9 @@ export type Output = z.infer<typeof outputSchema>;
 export type Versions = z.infer<typeof versionsSchema>;
 export type Run = z.infer<typeof runSchema>;
 export type Review = z.infer<typeof reviewSchema>;
+export type Rubric = z.infer<typeof rubricSchema>;
+export type Criterion = z.infer<typeof criterionSchema>;
+export type CriterionResult = z.infer<typeof criterionResultSchema>;
 export type EvaluationPlan = z.infer<typeof planSchema>;
 export type Diagnostic = z.infer<typeof diagnosticSchema>;
 export type Row = z.infer<typeof rowSchema>;

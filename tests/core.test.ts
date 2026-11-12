@@ -7,6 +7,8 @@ import { digest, parseJson, readRecords, writeRecords } from '../src/json.js';
 import { HARNESS_VERSION, VERSION_KEYS, parseCases, parseRuns, parseReviews, versionsSchema, type Case, type Run, type Review } from '../src/schema.js';
 import { datasetHash, evaluate, makePlan, objectiveDetails, validatePlan, validateReport } from '../src/evaluate.js';
 import { compareReports } from '../src/compare.js';
+import { summarizeReview } from '../src/review.js';
+import { jsonBlock, markdown } from '../src/reporting.js';
 
 function at<T>(values: T[], index = 0): T {
   const item = values[index];
@@ -23,6 +25,10 @@ function fixtures(): { cases: Case[]; runs: Run[]; reviews: Review[] } {
   const cases = parseCases([0, 1, 2].map(index => ({
     id: `test-${index}`, family: `family-${index}`, split: 'holdout', origin: 'real',
     review_status: 'verified', independent_reference: true, oracle_reviewer: 'unit-test-only',
+    rubric: { version: 'test-v1', criteria: [
+      { id: 'answer-scope', dimension: 'answer', description: 'The answer applies the test rule.' },
+      { id: 'source-scope', dimension: 'evidence', description: 'The answer cites the applicable test source.' },
+    ] },
     question: 'Fictional question for software testing', expected: { action: 'answer', facts: { credits: index + 1 } },
     sources: [{ id: 'test-source', version: 'test-v1', locator: 'test clause', excerpt: 'Invented source', authoritative: true }],
   })));
@@ -35,8 +41,9 @@ function fixtures(): { cases: Case[]; runs: Run[]; reviews: Review[] } {
   const reviews = runs.map((_, index): Review => {
     const run = success(runs, index);
     return { run_id: run.run_id, case_sha256: run.case_sha256, output_sha256: run.output_sha256,
-      reviewer_kind: 'human', reviewer_id: 'test-human-attestation', reviewed_at: 'test-only', rationale: 'Manufactured review',
-      answer_verdict: 'pass', evidence_verdict: 'pass' };
+      reviewer_kind: 'human', reviewer_id: 'test-human-attestation', reviewed_at: 'test-only',
+      rubric_sha256: digest(at(cases, index).rubric),
+      criterion_results: at(cases, index).rubric.criteria.map(item => ({ criterion_id: item.id, verdict: 'pass', rationale: 'Manufactured review' })) };
   });
   return { cases, runs, reviews };
 }
@@ -45,7 +52,7 @@ function refresh(fixture: ReturnType<typeof fixtures>): void {
     run.case_sha256 = digest(at(fixture.cases, index));
     run.versions.dataset = datasetHash(fixture.cases);
     const review = fixture.reviews.find(item => item.run_id === run.run_id);
-    if (review) review.case_sha256 = run.case_sha256;
+    if (review) { review.case_sha256 = run.case_sha256; review.rubric_sha256 = digest(at(fixture.cases, index).rubric); }
     if (run.status === 'ok') {
       run.output_sha256 = digest(run.output);
       if (review) review.output_sha256 = run.output_sha256;
@@ -97,9 +104,9 @@ test('both human verdicts are required and model confidence is ignored', () => {
   fixture.reviews = [];
   assert.equal(report(fixture).overall_counts.reviewed_success, 0);
   assert.equal(report(fixture).gates['C']?.gate, 'INCONCLUSIVE');
-  const other = fixtures(); at(other.reviews).answer_verdict = 'pending';
+  const other = fixtures(); at(at(other.reviews).criterion_results).verdict = 'pending';
   assert.equal(report(other).gates['C']?.gate, 'INCONCLUSIVE');
-  at(other.reviews).answer_verdict = 'fail';
+  at(at(other.reviews).criterion_results).verdict = 'fail';
   assert.equal(report(other).gates['C']?.gate, 'FAIL');
 });
 
@@ -206,15 +213,15 @@ test('dev-only and synthetic batches cannot produce holdout approval', () => {
 
 test('reported rows do not change when caller data is mutated later', () => {
   const fixture = fixtures(), result = report(fixture), original = digest(result);
-  at(fixture.reviews).answer_verdict = 'fail';
+  at(at(fixture.reviews).criterion_results).verdict = 'fail';
   at(fixture.runs).versions.model = 'changed';
   assert.equal(digest(result), original);
 });
 
 test('same total success can contain both an improvement and a regression', () => {
-  const fixture = fixtures(); at(fixture.reviews).answer_verdict = 'fail';
+  const fixture = fixtures(); at(at(fixture.reviews).criterion_results).verdict = 'fail';
   const baseline = report(fixture);
-  at(fixture.reviews).answer_verdict = 'pass'; at(fixture.reviews, 1).answer_verdict = 'fail';
+  at(at(fixture.reviews).criterion_results).verdict = 'pass'; at(at(fixture.reviews, 1).criterion_results).verdict = 'fail';
   fixture.runs.forEach(run => { run.versions.wiki = 'wiki-v2'; });
   const result = compareReports(baseline, report(fixture));
   assert.equal(result.status, 'COMPARABLE');
@@ -274,4 +281,96 @@ test('JSONL roundtrip preserves exact answers and Unicode', async () => {
     await writeRecords(path, data);
     assert.equal(digest(await readRecords(path)), digest(data));
   } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('rubrics require both dimensions and unique nonempty criteria', () => {
+  for (const mutate of [
+    (item: Case) => { item.rubric.criteria = []; },
+    (item: Case) => { item.rubric.criteria.forEach(criterion => { criterion.dimension = 'answer'; }); },
+    (item: Case) => { at(item.rubric.criteria, 1).id = at(item.rubric.criteria).id; },
+    (item: Case) => { at(item.rubric.criteria).description = ' '; },
+  ]) {
+    const fixture = fixtures(); mutate(at(fixture.cases));
+    assert.throws(() => parseCases(fixture.cases));
+  }
+  const { rubric: _rubric, ...oldCase } = at(fixtures().cases);
+  assert.throws(() => parseCases([oldCase]));
+});
+
+test('criterion coverage is exact and completed judgments need a reason', () => {
+  for (const mutate of [
+    (review: Review) => { review.criterion_results.pop(); },
+    (review: Review) => { review.criterion_results.push({ criterion_id: 'unknown', verdict: 'pass', rationale: 'Unknown criterion' }); },
+    (review: Review) => { at(review.criterion_results).criterion_id = 'unknown'; },
+    (review: Review) => { review.criterion_results.push(at(review.criterion_results)); },
+    (review: Review) => { at(review.criterion_results).rationale = ' '; },
+  ]) {
+    const fixture = fixtures(); mutate(at(fixture.reviews));
+    assert.throws(() => report(fixture));
+  }
+  const fixture = fixtures();
+  at(at(fixture.reviews).criterion_results).verdict = 'pending';
+  at(at(fixture.reviews).criterion_results).rationale = '';
+  assert.equal(report(fixture).gates['C']?.gate, 'INCONCLUSIVE');
+  assert.throws(() => parseReviews([{ ...at(fixtures().reviews), answer_verdict: 'pass', evidence_verdict: 'pass' }]));
+});
+
+test('failed criteria do not hide pending criteria in the same dimension', () => {
+  const fixture = fixtures(), item = at(fixture.cases), review = at(fixture.reviews);
+  item.rubric.criteria.push({ id: 'exception', dimension: 'answer', description: 'Explain the exception.' });
+  review.criterion_results.push({ criterion_id: 'exception', verdict: 'pending', rationale: '' });
+  at(review.criterion_results).verdict = 'fail';
+  refresh(fixture);
+  assert.deepEqual(summarizeReview(item.rubric, review), { answer: 'fail', evidence: 'pass', pending: true });
+  const result = report(fixture);
+  assert.equal(at(result.rows).unreviewed, true);
+  assert.equal(result.gates['C']?.gate, 'FAIL');
+  assert.deepEqual(validateReport(result), result);
+  at(result.rows).unreviewed = false;
+  assert.throws(() => validateReport(result), /completeness/);
+});
+
+test('rubric content is bound to cases, plans, reviews and report snapshots', () => {
+  const fixture = fixtures(), plan = makePlan(fixture.cases, ['C']);
+  const originalReview = structuredClone(at(fixture.reviews));
+  at(at(fixture.cases).rubric.criteria).description = 'A revised rule with the same version label.';
+  assert.throws(() => validatePlan(plan, fixture.cases), /complete cases/);
+  refresh(fixture);
+  at(fixture.reviews).rubric_sha256 = originalReview.rubric_sha256;
+  assert.throws(() => report(fixture), /rubric hash/);
+  const result = report(fixtures());
+  const row = at(result.rows);
+  at(row.rubric.criteria).description = 'Unrecorded criterion change';
+  row.rubric_sha256 = digest(row.rubric);
+  assert.throws(() => validateReport(result), /rubric differs from plan/);
+});
+
+test('report recomputes human verdicts and shows failed criterion reasons safely', () => {
+  const fixture = fixtures();
+  const criterion = at(at(fixture.reviews).criterion_results);
+  criterion.verdict = 'fail';
+  criterion.rationale = 'Wrong cohort. ```\n<img src=x onerror=alert(1)>\n';
+  const result = report(fixture);
+  const rendered = markdown(result);
+  assert.match(rendered, /answer-scope/);
+  assert.match(rendered, /The answer applies the test rule/);
+  assert.match(rendered, /Wrong cohort/);
+  assert.match(rendered, /````json/);
+  assert.match(rendered, /"objective_details"/);
+  at(result.rows).answer = 'pass';
+  assert.throws(() => validateReport(result), /verdict differs/);
+});
+
+test('previous harness and plan versions are rejected', () => {
+  const fixture = fixtures();
+  assert.throws(() => parseRuns([{ ...at(fixture.runs), versions: { ...at(fixture.runs).versions, harness: 'graduation-wiki-eval/0.2' } }]));
+  assert.throws(() => validatePlan({ ...makePlan(fixture.cases), schema: 'graduation-wiki-eval/plan-v2' }, fixture.cases));
+});
+
+test('Markdown fencing handles many backtick runs without an argument-limit error', () => {
+  const value = { rationale: '`x'.repeat(150_000) };
+  const rendered = jsonBlock(value);
+  assert.ok(rendered.startsWith('```json\n'));
+  assert.ok(rendered.endsWith('\n```'));
+  assert.deepEqual(JSON.parse(rendered.slice('```json\n'.length, -'\n```'.length)), value);
 });

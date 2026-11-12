@@ -27,7 +27,7 @@ try {
   run('npm', ['install', '--prefer-offline', '--ignore-scripts', '--no-audit', '--no-fund',
     '--prefix', installed, join(temporary, packageInfo.filename)], temporary);
   const binary = join(installed, 'node_modules/.bin/grad-eval');
-  assert.equal(run(binary, ['--version'], installed).trim(), '0.2.0');
+  assert.equal(run(binary, ['--version'], installed).trim(), '0.3.0');
   run(binary, ['demo', '--out', 'demo'], installed);
   run(binary, ['report', '--cases', 'demo/cases.jsonl', '--runs', 'demo/experiment/runs.jsonl',
     '--plan', 'demo/experiment/plan.json', '--out', 'demo/rechecked.json'], installed);

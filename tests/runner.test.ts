@@ -32,6 +32,10 @@ async function fixture(t: TestContext) {
   const cases: Case[] = parseCases([{
     id: "toy", family: "toy-rule", split: "dev", origin: "synthetic", review_status: "draft",
     oracle_reviewer: null, independent_reference: false,
+    rubric: { version: "toy-v1", criteria: [
+      { id: "answer", dimension: "answer", description: "Explain the toy result." },
+      { id: "source", dimension: "evidence", description: "Use the toy source." },
+    ] },
     question: "INVENTED task: return toy_result as a number.", inputs: { toy_given: 7 },
     expected: { action: "answer", facts: { toy_result: 7 } },
     sources: [{ id: "toy-source", version: "invented", locator: "GOLD-LOCATION-SECRET",
@@ -64,6 +68,8 @@ test("prepare exposes only task inputs and condition-specific documents", async 
     assert(!text.includes("GOLD-"));
     assert(!Object.hasOwn(request, "expected"));
     assert(!Object.hasOwn(request, "review_status"));
+    assert(!Object.hasOwn(request, "rubric"));
+    assert(!Object.hasOwn(request, "criterion_results"));
     assert.equal(request.context.wiki.length > 0, job.condition !== "A");
     assert.equal(request.context.skills.length > 0, job.condition === "C");
     assert.deepEqual(request.inputs, { toy_given: 7 });
@@ -77,6 +83,10 @@ test("nested gold-like input keys are rejected before creating output", async (t
   item.inputs = { payload: [{ oracle: "secret" }] };
   await assert.rejects(prepare(f.cases, f.config, f.out), /oracle key/);
   await assert.rejects(readFile(path.join(f.out, "plan.json")), /ENOENT/);
+  for (const key of ['rubric', 'criterion_results', 'rubric_sha256', 'review_guide']) {
+    item.inputs = { payload: [{ [key]: 'reviewer-only' }] };
+    await assert.rejects(prepare(f.cases, f.config, f.out), /oracle key/);
+  }
 });
 
 test("allowlist rejects sensitive paths, globs, directories and symlink escape", async (t) => {

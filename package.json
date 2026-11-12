@@ -1,6 +1,6 @@
 {
   "name": "graduation-wiki-eval",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Evaluate graduation-policy answers and compare WIKI and Skill revisions.",
   "type": "module",
