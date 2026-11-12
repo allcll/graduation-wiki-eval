@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtemp, mkdir, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -31,6 +31,13 @@ try {
   run(binary, ['demo', '--out', 'demo'], installed);
   run(binary, ['report', '--cases', 'demo/cases.jsonl', '--runs', 'demo/experiment/runs.jsonl',
     '--plan', 'demo/experiment/plan.json', '--out', 'demo/rechecked.json'], installed);
+  run(binary, ['review-template', '--cases', 'demo/cases.jsonl', '--runs', 'demo/experiment/runs.jsonl',
+    '--plan', 'demo/experiment/plan.json', '--out', 'reviews/demo.jsonl'], installed);
+  const reviews = (await readFile(join(installed, 'reviews/demo.jsonl'), 'utf8')).trim().split('\n').map(line => JSON.parse(line));
+  assert.equal(reviews.length, 9);
+  assert.ok(reviews.every(review => review.criterion_results.length >= 2 &&
+    review.criterion_results.every(criterion => criterion.verdict === 'pending')));
+  assert.match(await readFile(join(installed, 'reviews/demo.md'), 'utf8'), /평가자용 정답/);
   run(join(installed, 'node_modules/.bin/grad-eval-claude'), ['--help'], installed);
   run(process.execPath, ['--input-type=module', '-e', `
     import assert from 'node:assert/strict';
@@ -40,7 +47,7 @@ try {
     assert.equal(report.overall_counts.missing, 9);
     assert.equal(report.gates.C.gate, 'INCONCLUSIVE');
   `], installed);
-  console.log('Installed CLI, Claude entry point, library exports, and bundled demo passed.');
+  console.log('Installed CLI, review guide, Claude entry point, library exports, and bundled demo passed.');
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }
