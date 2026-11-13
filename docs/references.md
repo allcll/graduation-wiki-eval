@@ -10,6 +10,14 @@
 
 이 프로젝트에서는 정책 적용과 작업 절차를 따로 검토하고, 개발에 사용한 사례와 최종 평가 사례를 분리한다. A/B/C로 WIKI·Skill의 효과를 비교하는 설계는 이 프로젝트에서 정한 것이다. 토스의 `avg@4`는 객관식 정답 위치를 바꾸는 방식이므로 자유서술 응답의 반복 성공률로 사용하지 않는다.
 
+## 토스 — Skill 품질 Rubric
+
+[Skill 품질 관리를 위한 Rubric 설계와 시스템 구현](https://toss.tech/article/skill-quality-rubric) · 2026-06-08
+
+규칙 검사와 의미 판단을 분리하고, 결함의 심각도와 수정할 항목을 함께 제시한다. 로컬과 GitHub Actions가 같은 평가 기준을 공유하며 PR 결과 댓글과 수동 실행을 제공한다.
+
+이 프로젝트에서는 정확한 값 비교와 사람의 의미 검토를 분리하고, 심각도·공통 CLI·PR 요약 방식을 참고했다. 평가 대상은 Skill 파일 자체의 작성 품질이 아니라 WIKI와 Skill 문서를 제공했을 때의 답변이다. 따라서 토스의 30개 항목이나 S~F 등급을 복사하지 않았다. 이 프로젝트의 blocker·major는 모두 필수 실패이며, 토스의 등급별 머지 정책과도 다르다. 공개 예제 CI와 실제 모델 평가는 따로 구분하고, LLM 채점기는 아직 사용하지 않는다.
+
 ## GitLab — Duo
 
 [Developing GitLab Duo: How we validate and test AI models at scale](https://about.gitlab.com/blog/developing-gitlab-duo-how-we-validate-and-test-ai-models-at-scale/) · 2024-05-09
