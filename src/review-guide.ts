@@ -16,6 +16,7 @@ export async function writeReviewBundle(casesInput: Case[], runsInput: Run[], pl
     '# 답변 검토 가이드',
     '이 문서는 평가자용 정답과 판정 기준을 포함합니다. 모델 입력 자료에 넣지 않습니다.',
     '사례와 원문을 확인한 뒤 JSONL의 검토자·검토 시점, 각 기준의 verdict와 rationale을 작성합니다. pass/fail에는 판단 이유와 원문 위치를 남깁니다. 아직 판단하지 못한 기준은 pending으로 둡니다.',
+    '심각도는 실행 전에 확정한 rubric을 따릅니다. blocker·major 실패는 필수 실패, minor 실패는 개선 권고입니다. minor도 검토하지 않았다면 pending으로 남기며 통과 처리하지 않습니다.',
     `계획한 실행 ${plan.cases.length * plan.conditions.length * plan.repeats}건 · 전달된 실행 ${runs.length}건 · 오류 ${runs.filter(run => run.status === 'error').length}건`,
   ];
   for (const run of runs) {

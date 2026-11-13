@@ -5,7 +5,7 @@ import { dirname, isAbsolute, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
 import { parseCases, parseRuns, parseReviews, conditionSchema, splitSchema } from './schema.js';
-import type { EvaluationPlan, Report, Run } from './schema.js';
+import type { Condition, EvaluationPlan, Report, Run } from './schema.js';
 import { digest, readJson, readRecords, writeRecords } from './json.js';
 import { evaluate, makePlan, parsePlan } from './evaluate.js';
 import { compareReports } from './compare.js';
@@ -26,7 +26,7 @@ const flags = {
 } as const;
 const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flags)[]> = {
   validate: ['cases'], plan: ['cases', 'conditions', 'repeats', 'out'], prepare: ['cases', 'config', 'out'],
-  run: ['plan'], 'review-template': ['cases', 'runs', 'plan', 'out'], report: ['cases', 'runs', 'reviews', 'plan', 'out', 'check'],
+  run: ['plan'], 'review-template': ['cases', 'runs', 'plan', 'out'], report: ['cases', 'runs', 'reviews', 'plan', 'out', 'check', 'condition'],
   compare: ['baseline', 'candidate', 'condition', 'split', 'out'], demo: ['out'],
 };
 const HELP = `grad-eval <command> [options]
@@ -36,11 +36,13 @@ const HELP = `grad-eval <command> [options]
   prepare         --cases FILE --config FILE --out NEW_DIRECTORY
   run             --plan FILE -- COMMAND [ARGUMENTS...]
   review-template --cases FILE --runs FILE --plan FILE --out NEW_FILE.jsonl
-  report          --cases FILE --runs FILE --plan FILE --out FILE [--reviews FILE] [--check]
+  report          --cases FILE --runs FILE --plan FILE --out FILE [--reviews FILE] [--check [--condition C]]
   compare         --baseline FILE --candidate FILE --out FILE [--condition C] [--split holdout]
   demo            [--out NEW_DIRECTORY]
 
 demo does not call a model. run executes the specified adapter and may incur API costs.
+report --check requires all planned conditions to pass unless --condition selects one gate.
+The saved report always contains every planned condition.
 `;
 
 function required(value: string | undefined, name: string): string {
@@ -84,7 +86,7 @@ export async function demo(out: string): Promise<Report> {
 
 export async function main(argv = process.argv.slice(2)): Promise<number> {
   if (!argv.length || argv[0] === '--help' || argv[1] === '--help') { process.stdout.write(HELP); return 0; }
-  if (argv[0] === '--version') { process.stdout.write('0.3.0\n'); return 0; }
+  if (argv[0] === '--version') { process.stdout.write('0.4.0\n'); return 0; }
   let reportPath: string | undefined;
   let protectedPaths: string[] = [];
   try {
@@ -95,6 +97,11 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     if (delimiter >= 0 && command !== 'run') throw new Error('-- COMMAND is only supported by run');
     const values = parseArgs({ args: delimiter < 0 ? tail : tail.slice(0, delimiter), options: flags, strict: true, allowPositionals: false }).values;
     for (const key of Object.keys(values)) if (!allowed[command].some(flag => flag === key)) throw new Error(`Unsupported option for ${command}: --${key}`);
+    let checkCondition: Condition | undefined;
+    if (command === 'report' && values.condition !== undefined) {
+      if (!values.check) throw new Error('report --condition requires --check');
+      checkCondition = conditionSchema.parse(values.condition);
+    }
     protectedPaths = [values.cases, values.runs, values.reviews, values.plan, values.baseline, values.candidate]
       .filter((path): path is string => typeof path === 'string').map(path => resolve(path));
     if (command === 'report' || command === 'compare') {
@@ -150,9 +157,11 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
         const runs = parseRuns(await readRecords(required(values.runs, 'runs')));
         const report = evaluate(parseCases(await readRecords(required(values.cases, 'cases'))), runs,
           values.reviews ? parseReviews(await readRecords(values.reviews)) : [], await loadPlan(required(values.plan, 'plan'), runs));
+        if (checkCondition !== undefined && !report.plan.conditions.includes(checkCondition)) throw new Error(`Condition ${checkCondition} is not in the evaluation plan`);
+        const checkedConditions = checkCondition === undefined ? report.plan.conditions : [checkCondition];
         await writeReport(required(values.out, 'out'), report);
-        console.log(JSON.stringify(summary(report, values.out), null, 2));
-        return values.check && Object.values(report.gates).some(gate => gate.gate !== 'PASS') ? 1 : 0;
+        console.log(JSON.stringify(summary(report, values.out, values.check ? checkedConditions : undefined), null, 2));
+        return values.check && checkedConditions.some(condition => report.gates[condition]?.gate !== 'PASS') ? 1 : 0;
       }
       case 'compare': {
         const report = compareReports(await readJson(required(values.baseline, 'baseline')), await readJson(required(values.candidate, 'candidate')),
@@ -180,9 +189,10 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
   }
 }
 
-function summary(report: Report, path: string | undefined): unknown {
+function summary(report: Report, path: string | undefined, checkedConditions?: Condition[]): unknown {
   return { report: path, label: report.label, counts: report.overall_counts,
-    gates: Object.fromEntries(Object.entries(report.gates).map(([condition, gate]) => [condition, gate.gate])) };
+    gates: Object.fromEntries(Object.entries(report.gates).map(([condition, gate]) => [condition, gate.gate])),
+    ...(checkedConditions ? { checked_conditions: checkedConditions } : {}) };
 }
 
 if (isMain(import.meta.url)) process.exitCode = await main();

@@ -33,8 +33,8 @@ async function fixture(t: TestContext) {
     id: "toy", family: "toy-rule", split: "dev", origin: "synthetic", review_status: "draft",
     oracle_reviewer: null, independent_reference: false,
     rubric: { version: "toy-v1", criteria: [
-      { id: "answer", dimension: "answer", description: "Explain the toy result." },
-      { id: "source", dimension: "evidence", description: "Use the toy source." },
+      { id: "answer", dimension: "answer", severity: "major", description: "Explain the toy result." },
+      { id: "source", dimension: "evidence", severity: "major", description: "Use the toy source." },
     ] },
     question: "INVENTED task: return toy_result as a number.", inputs: { toy_given: 7 },
     expected: { action: "answer", facts: { toy_result: 7 } },

@@ -27,7 +27,7 @@ import {
 } from "./schema.js";
 import { MAX_TIMEOUT_MS, ProcessInterruptedError, runProcess, TERMINATION_GRACE_MS } from "./process.js";
 
-const RUNNER_SCHEMA = "graduation-wiki-eval/runner-v3";
+const RUNNER_SCHEMA = "graduation-wiki-eval/runner-v4";
 export const CONTEXT_GROUPS = ["sources", "wiki", "skills"] as const;
 type ContextGroup = (typeof CONTEXT_GROUPS)[number];
 const blockedParts = new Set([

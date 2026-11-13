@@ -37,6 +37,6 @@ export function compareReports(baselineInput: unknown, candidateInput: unknown, 
   const counts: Comparison['counts'] = { improved: 0, regressed: 0, unchanged_pass: 0, unchanged_fail: 0 };
   for (const item of transitions) counts[item.transition]++;
   return { status: reasons.size ? 'INCONCLUSIVE' : 'COMPARABLE', condition, split,
-    label: 'Matched diagnostic comparison; NOT a deployment approval or significance test',
+    label: 'Matched required-criteria comparison; minor advisories remain in each report. NOT a deployment approval or significance test',
     planned_pairs: keys.length, comparable_pairs: transitions.length, reasons: [...reasons].sort(), counts, transitions };
 }

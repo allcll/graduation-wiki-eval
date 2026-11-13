@@ -19,10 +19,11 @@
   "inputs": {"admission_year": 2024, "completed_credits": 112},
   "expected": {"action": "answer", "facts": {"remaining_credits": 8}},
   "rubric": {
-    "version": "sample-v1",
+    "version": "sample-v2",
     "criteria": [
-      {"id": "answer-scope", "dimension": "answer", "description": "8학점이 부족하다고 설명하고 다른 졸업요건까지 충족한다고 단정하지 않는다."},
-      {"id": "applicable-source", "dimension": "evidence", "description": "2024년 일반전공 입학생에게 적용되는 원문 규정을 근거로 사용한다."}
+      {"id": "answer-scope", "dimension": "answer", "severity": "blocker", "description": "8학점이 부족하다고 설명하고 다른 졸업요건까지 충족한다고 단정하지 않는다."},
+      {"id": "applicable-source", "dimension": "evidence", "severity": "major", "description": "2024년 일반전공 입학생에게 적용되는 원문 규정을 근거로 사용한다."},
+      {"id": "direct-answer", "dimension": "answer", "severity": "minor", "description": "필요한 답변을 먼저 제시하고 같은 내용을 불필요하게 반복하지 않는다."}
     ]
   },
   "sources": [{
@@ -45,12 +46,13 @@
 | `sources` | 적용 대상과 시점에 유효한 출처·버전·페이지·근거 |
 | `expected.facts` | 정확히 비교할 구조화된 값. 부가 키도 불일치로 판정 |
 | `rubric.version` | 사람이 관리하는 판정 기준 버전 |
-| `rubric.criteria` | 고유한 id, answer 또는 evidence dimension, 구체적인 description. 양쪽 dimension에 각각 한 항목 이상 필요 |
+| `rubric.criteria` | 고유한 id, answer 또는 evidence dimension, severity, 구체적인 description. 양쪽 dimension에 각각 한 항목 이상 필요 |
+| `rubric.criteria[].severity` | `blocker`·`major`: 필수 기준, `minor`: 개선 권고. 생략하거나 다른 값을 쓰면 오류 |
 | `inputs` | 모델에 제공할 작업 입력. expected·정답표·검토 기록을 넣지 않음 |
 
 모호한 정책에는 확정 수치를 만들지 않고 추가 질문이나 사람 확인을 기대 행동으로 정합니다. 본문의 예외·모순·근거 적합성은 자동 값 검사와 별도로 사람이 검토합니다. 예를 들어 추가 질문 사례의 evidence 기준은 "적용 학번을 알 수 없는 규정을 임의로 인용하지 않는다"처럼 작성할 수 있습니다.
 
-판정 기준은 모델 응답을 보기 전에 확정합니다. `prepare`와 `plan`은 rubric 내용의 해시를 계산해 사례별로 고정합니다. 버전 문자열을 그대로 두고 설명만 바꿔도 사례·정답셋 해시가 달라지므로 기존 계획과 검토를 재사용할 수 없습니다. rubric과 정답은 모델 요청에 포함하지 않습니다.
+판정 기준과 심각도는 모델 응답을 보기 전에 확정합니다. `prepare`와 `plan`은 rubric 내용의 해시를 계산해 사례별로 고정합니다. 버전 문자열을 그대로 두고 설명이나 심각도만 바꿔도 사례·정답셋 해시가 달라지므로 기존 계획과 검토를 재사용할 수 없습니다. rubric과 정답은 모델 요청에 포함하지 않습니다.
 
 ## 실행 설정
 
@@ -137,23 +139,54 @@ Markdown에는 질문·입력·정답·원출처·모델 원답변·rubric이 �
 
 답변·근거 판정을 별도로 적지 않습니다. 도구가 dimension별 항목을 집계합니다. 하나라도 fail이면 fail, fail 없이 pending이 있으면 pending, 모두 pass이면 pass입니다. fail이 있어도 다른 항목이 pending이면 검토 대기 건수에 계속 포함합니다. 보고서의 확인할 실행에는 실패·미검토 항목의 기준 설명과 판정 이유가 함께 표시됩니다.
 
+dimension 판정은 minor까지 포함한 항목 전체의 요약입니다. 최종 품질 판정의 필수 실패는 자동 `action`·`facts` 불일치 또는 blocker·major 실패로 정합니다. 그래서 minor 항목만 실패한 답변은 `answer: fail`이면서 최종 gate가 PASS일 수 있습니다. 어느 항목이든 pending이면 검토 미완료이며, 필수 실패와 검토 대기가 함께 있을 수도 있습니다.
+
+## 보고서 집계 단위
+
+`overall_counts`는 전체 실행, `condition_counts.C`는 C 조건의 dev·holdout 실행, `gates.C.holdout_counts`는 C 조건의 holdout만 집계합니다.
+
+| 필드 | 단위와 의미 |
+| --- | --- |
+| `expected` | 계획한 사례 × 조건 × 반복 실행 수 |
+| `reviewed_success` | 검토된 실제 정답 기준으로 모든 검토가 끝나고 필수 기준을 통과한 실행 수. minor 권고만 남은 경우 포함 |
+| `required_fail` | 자동 값 불일치 또는 blocker·major 실패가 하나 이상 관찰된 실행 수 |
+| `advisory_runs` | minor 실패가 하나 이상 관찰된 실행 수. 필수 실패 실행과 겹칠 수 있음 |
+| `criterion_failures.blocker`, `.major`, `.minor` | 해당 심각도로 fail 판정한 사람 검토 항목 수. 한 실행에 여러 항목이 실패하면 각각 세며, 반복 실행도 각각 셈 |
+| `objective_fail` | 자동 값 검사에 실패한 실행 수. 심각도별 사람 검토 항목 수에는 포함하지 않음 |
+| `answer_fail`, `evidence_fail` | 각 dimension에 실패 항목이 있는 실행 수. minor 실패도 포함 |
+| `missing`, `error`, `unreviewed` | 실행 누락, 실행 오류, 사람 검토 대기 실행 수 |
+
+실패·권고 건수는 초안 정답과 합성 자료에서도 관찰값으로 남습니다. 실제 품질 결론은 정답 검토와 자료 출처를 확인하는 gate를 함께 봅니다. 필수 실패와 검토 대기는 동시에 존재할 수 있으므로 위 건수들을 더해 전체 실행 수로 해석하지 않습니다. 반복 실행 수는 고유 사례 수가 아닙니다.
+
 ## 종료 코드
 
 | 명령 | 0 | 1 | 2 |
 | --- | --- | --- | --- |
 | `run` | 모든 어댑터 실행 정상 종료 | 실행 오류 포함 | 계획·설정 오류 |
-| `report` | 보고서 생성 | `--check`에서 하나라도 PASS가 아님 | 입력 오류 |
+| `report` | 보고서 생성 | `--check` 대상 중 하나라도 PASS가 아님 | 입력·조건 선택 오류 |
 | 나머지 | 처리 완료 | 사용하지 않음 | 입력·실행 준비 오류 |
 
-일반 `report`의 0은 품질 통과가 아닙니다. `--check`는 모든 조건의 holdout 판정이 PASS일 때만 0을 반환합니다. 입력 파일·계획 검증 단계에서 오류가 발생하면 지정한 보고서에도 INCONCLUSIVE를 기록해 이전 PASS가 최신 결과로 남지 않게 합니다. 잘못된 명령 옵션이나 출력 경로 충돌은 파일을 변경하기 전에 거부합니다.
+일반 `report`의 0은 품질 통과가 아닙니다. `--check`는 계획한 모든 조건의 holdout 판정이 PASS일 때만 0을 반환합니다. A/B는 참고하고 C만 통과 대상으로 정했다면 다음처럼 실행합니다.
+
+```bash
+node dist/cli.js report --cases local/cases.jsonl --runs artifacts/baseline/runs.jsonl \
+  --reviews local/reviews.jsonl --plan artifacts/baseline/plan.json \
+  --out artifacts/baseline/report.json --check --condition C
+```
+
+이 경우 C가 PASS이면 0, FAIL 또는 INCONCLUSIVE이면 1입니다. 보고서에는 모든 조건의 결과가 그대로 남으며 CLI 요약의 `checked_conditions`에 종료 코드의 검사 대상을 표시합니다. `--check` 없이 `--condition`을 쓰거나 계획에 없는 조건을 고르면 2입니다. 같은 `--condition` 옵션이라도 `compare`에서는 비교 대상 선택에 사용합니다.
+
+입력 파일·계획 검증 단계에서 오류가 발생하면 지정한 보고서에도 INCONCLUSIVE를 기록해 이전 PASS가 최신 결과로 남지 않게 합니다. 잘못된 명령 옵션이나 출력 경로 충돌은 파일을 변경하기 전에 거부합니다.
 
 ## 이전 버전에서 옮기기
 
-v0.3은 harness `graduation-wiki-eval/0.3`, 평가 계획 `graduation-wiki-eval/plan-v3`, 실행 계획 `graduation-wiki-eval/runner-v3`를 사용합니다. v0.2와 초기 Python v0.1의 기록과 호환되지 않습니다.
+v0.4는 harness `graduation-wiki-eval/0.4`, 평가 계획 `graduation-wiki-eval/plan-v4`, 실행 계획 `graduation-wiki-eval/runner-v4`를 사용합니다. v0.3 이하의 기록과 호환되지 않습니다.
 
 1. 기존 사례·계획·실행·검토·보고서를 보존합니다.
-2. 사례마다 원출처를 확인해 `rubric.version`과 답변·근거 기준을 작성합니다.
+2. 사례마다 원출처를 확인해 답변·근거 기준과 각 항목의 `severity`를 확정하고 `rubric.version`을 갱신합니다. 누락된 심각도를 자동으로 채우지 않습니다.
 3. 새 경로에서 `prepare`와 `run`을 다시 실행합니다.
 4. 새 사례와 계획을 지정해 `review-template`을 만들고 항목별로 검토합니다.
+
+v0.3의 필수 실패 정책은 모든 항목을 동일하게 취급했습니다. v0.4에서는 minor 실패를 권고로 구분하므로 구버전 성공률과 그대로 비교하지 않습니다. 심각도를 낮춰 통과하게 만든 변경도 동일 평가 기준의 성능 개선이 아닙니다.
 
 v0.2의 `answer_verdict`, `evidence_verdict`, 전체 `rationale`은 새 Review 형식에 없습니다. 기존 통과 판정을 각 항목의 pass로 자동 복사하거나 버전 문자열만 바꿔 이전 결과를 합치지 않습니다.
