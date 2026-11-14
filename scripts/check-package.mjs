@@ -31,6 +31,7 @@ try {
   run(binary, ['demo', '--out', 'demo'], installed);
   run(binary, ['report', '--cases', 'demo/cases.jsonl', '--runs', 'demo/experiment/runs.jsonl',
     '--plan', 'demo/experiment/plan.json', '--out', 'demo/rechecked.json'], installed);
+  run(join(installed, 'node_modules/.bin/grad-eval-claude'), ['--help'], installed);
   run(process.execPath, ['--input-type=module', '-e', `
     import assert from 'node:assert/strict';
     import { evaluate, parseCases, readRecords, makePlan } from 'graduation-wiki-eval';
@@ -39,7 +40,7 @@ try {
     assert.equal(report.overall_counts.missing, 9);
     assert.equal(report.gates.C.gate, 'INCONCLUSIVE');
   `], installed);
-  console.log('Installed CLI, library exports, and bundled demo passed.');
+  console.log('Installed CLI, Claude entry point, library exports, and bundled demo passed.');
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }
