@@ -397,3 +397,26 @@ test("oversized timeout is rejected before Node can shorten it to one millisecon
   await assert.rejects(runProcess([process.execPath, "-e", ADAPTER],
     { cwd: f.root, input: "", timeoutMs: 2_147_483_648 }), /timeout/);
 });
+
+test('provider envelope records actual model and tokens without treating response IDs as versions', async t => {
+  const f = await fixture(t);
+  const plan = await prepare(f.cases, { ...f.config, conditions: ['A'], repeats: 2 }, f.out);
+  const runs = await f.execute(`
+    const req = JSON.parse(require('node:fs').readFileSync(0, 'utf8'));
+    console.log(JSON.stringify({schema:'graduation-wiki-eval/adapter-v1',
+      output:{action:'answer',facts:{toy_result:7},answer_text:'Fixture',citations:req.context.sources},
+      usage:{input_tokens:100,output_tokens:20},
+      runtime:{provider:'openai',model:'actual-snapshot',requested_model:'requested',model_config:'fixed',
+        tools:'none-inline-text',runtime:'test',response_id:req.job_id}}));
+  `);
+  assert.equal(runs.length, 2);
+  for (const run of runs) {
+    assert.equal(run.status, 'ok'); assert.equal(run.input_tokens, 100); assert.equal(run.output_tokens, 20);
+    assert.equal(run.versions.model, 'actual-snapshot');
+    assert.equal(run.versions.provider, 'openai');
+    assert.ok(!Object.hasOwn(run.versions, 'response_id'));
+  }
+  assert.deepEqual(runs[0]?.versions, runs[1]?.versions);
+  const report = evaluate(f.cases, runs, [], plan.evaluation_plan);
+  assert.ok(!report.gates.A?.reasons.includes('mixed_versions_within_condition'));
+});

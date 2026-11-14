@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { realpathSync } from 'node:fs';
-import { mkdtemp, realpath, rm, stat } from 'node:fs/promises';
+import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,34 +8,12 @@ import { parseArgs } from 'node:util';
 import { z } from 'zod';
 import { parseJson } from '../json.js';
 import { runProcess, type ProcessResult } from '../process.js';
-import { jsonValueSchema } from '../schema.js';
+import { answerSchema, validateRequest, type AdapterRequest } from './request.js';
+export { validateRequest } from './request.js';
 
-const groups = ['sources', 'wiki', 'skills'] as const;
 const minimumVersion = [2, 1, 322] as const;
 const efforts = ['low', 'medium', 'high', 'xhigh', 'max'] as const;
 const movingAliases = new Set(['sonnet', 'opus', 'haiku', 'fable', 'default', 'opusplan']);
-
-const requestSchema = z.strictObject({
-  job_id: z.string().trim().min(1),
-  case_id: z.string().trim().min(1),
-  condition: z.enum(['A', 'B', 'C']),
-  question: z.string().refine((text) => text.trim().length > 0),
-  inputs: z.record(z.string(), jsonValueSchema),
-  context: z.strictObject({
-    sources: z.array(z.string()).min(1),
-    wiki: z.array(z.string()),
-    skills: z.array(z.string()),
-  }),
-  instructions: z.string(),
-  output_contract: z.record(z.string(), jsonValueSchema),
-});
-
-const answerSchema = z.strictObject({
-  action: z.enum(['answer', 'clarify', 'escalate']),
-  facts: z.record(z.string(), jsonValueSchema),
-  answer_text: z.string().refine((text) => text.trim().length > 0),
-  citations: z.array(z.string()),
-});
 
 const resultSchema = z.looseObject({
   type: z.literal('result'),
@@ -56,7 +34,7 @@ const optionsSchema = z.strictObject({
   executable: z.string().trim().min(1).default('claude'),
 });
 
-export type ClaudeRequest = z.infer<typeof requestSchema>;
+export type ClaudeRequest = AdapterRequest;
 export type ClaudeAnswer = z.infer<typeof answerSchema>;
 export type ClaudeOptions = z.input<typeof optionsSchema>;
 export interface ClaudeDependencies {
@@ -91,42 +69,6 @@ without a resolution, explain the conflict and request human confirmation.
 Return the complete user-facing answer in answer_text and source locations in
 citations. Use the facts field names specified by the task; do not invent a
 confidence score or a self-grading verdict. Return the required structured output.`;
-
-export async function validateRequest(value: unknown, cwd: string): Promise<ClaudeRequest> {
-  const parsed = requestSchema.safeParse(value);
-  if (!parsed.success) throw new ClaudeAdapterError('Invalid runner request');
-  const request = parsed.data;
-  if (request.condition === 'A' && (request.context.wiki.length > 0 || request.context.skills.length > 0)) {
-    throw new ClaudeAdapterError('A cannot include WIKI or Skill files');
-  }
-  if (request.condition === 'B' && request.context.skills.length > 0) {
-    throw new ClaudeAdapterError('B cannot include Skill files');
-  }
-  if (request.condition !== 'A' && request.context.wiki.length === 0) {
-    throw new ClaudeAdapterError('B/C require WIKI files');
-  }
-  if (request.condition === 'C' && request.context.skills.length === 0) {
-    throw new ClaudeAdapterError('C requires Skill files');
-  }
-  const root = await realpath(cwd);
-  for (const group of groups) {
-    const paths = request.context[group];
-    if (new Set(paths).size !== paths.length) throw new ClaudeAdapterError('Duplicate context paths');
-    for (const file of paths) {
-      const parts = file.split('/');
-      if (path.posix.isAbsolute(file) || file.includes('\\') || parts.some((part) => ['', '.', '..'].includes(part)) ||
-          parts[0] !== 'context' || parts[1] !== group) {
-        throw new ClaudeAdapterError('Invalid context path');
-      }
-      const resolved = await realpath(path.join(root, file));
-      const relative = path.relative(root, resolved);
-      if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative) || !(await stat(resolved)).isFile()) {
-        throw new ClaudeAdapterError('Context file escapes the job directory');
-      }
-    }
-  }
-  return request;
-}
 
 export function buildCommand(value: ClaudeOptions): string[] {
   const parsed = optionsSchema.safeParse(value);

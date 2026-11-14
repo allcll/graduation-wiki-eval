@@ -9,7 +9,8 @@
   },
   "bin": {
     "grad-eval": "dist/cli.js",
-    "grad-eval-claude": "dist/adapters/claude.js"
+    "grad-eval-claude": "dist/adapters/claude.js",
+    "grad-eval-openai": "dist/adapters/openai.js"
   },
   "exports": {
     ".": {
