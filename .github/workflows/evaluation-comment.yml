@@ -1,0 +1,85 @@
+name: evaluation-comment
+
+on:
+  workflow_run:
+    workflows: [evaluation-preview]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+
+concurrency:
+  group: evaluation-comment-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  comment:
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.head_repository.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out trusted comment code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: trusted
+          persist-credentials: false
+      - name: Find the bounded summary artifact
+        id: artifact
+        continue-on-error: true
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+            const artifacts = await github.paginate(github.rest.actions.listWorkflowRunArtifacts, {
+              ...context.repo, run_id: run.id, per_page: 100,
+            });
+            const matches = artifacts.filter(item => item.name === 'evaluation-public-summary' && !item.expired);
+            if (matches.length !== 1 || matches[0].size_in_bytes > 65536) {
+              core.notice('No bounded public summary is available.');
+              return;
+            }
+            core.setOutput('id', String(matches[0].id));
+      - name: Download data, never executable code
+        if: ${{ steps.artifact.outputs.id != '' }}
+        continue-on-error: true
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          artifact-ids: ${{ steps.artifact.outputs.id }}
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+          path: summary-artifact
+          merge-multiple: true
+      - name: Update the synthetic-example comment
+        if: ${{ !cancelled() }}
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('node:fs/promises');
+            const path = require('node:path');
+            const { pathToFileURL } = require('node:url');
+            const { failedPublicSummary, parsePublicSummary } = await import(pathToFileURL(path.resolve('trusted/scripts/ci-summary.mjs')));
+            let summary = failedPublicSummary('sample');
+            try {
+              const directory = path.resolve('summary-artifact');
+              const names = await fs.readdir(directory);
+              if (names.length !== 1 || names[0] !== 'public-summary.json') throw new Error('Unexpected artifact contents');
+              const file = path.join(directory, names[0]);
+              const info = await fs.lstat(file);
+              if (!info.isFile() || info.isSymbolicLink() || info.size > 16384) throw new Error('Invalid summary artifact');
+              const parsed = parsePublicSummary(JSON.parse(await fs.readFile(file, 'utf8')));
+              if (parsed.mode !== 'sample') throw new Error('Unexpected evaluation mode');
+              summary = parsed;
+            } catch {
+              core.notice('The current run has no valid public summary; reporting it as incomplete.');
+            }
+            const { publishEvaluationComment } = await import(pathToFileURL(path.resolve('trusted/scripts/comment-evaluation.mjs')));
+            const result = await publishEvaluationComment({
+              github, ...context.repo, workflowRun: context.payload.workflow_run, summary,
+            });
+            core.info(result.status);
+
+# This workflow must already exist on the default branch. It never checks out
+# the evaluated PR, installs its dependencies or executes an uploaded artifact.

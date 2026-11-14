@@ -1,0 +1,209 @@
+name: evaluation
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'sample: no model; claude: private repository and raw retention required'
+        type: choice
+        options: [sample, claude]
+        default: sample
+      engine-ref:
+        description: 'Evaluation engine full commit SHA (blank uses this workflow commit)'
+        type: string
+      data-ref:
+        description: 'Data checkout full commit SHA (blank uses this workflow commit)'
+        type: string
+      cases:
+        description: 'Case JSONL path relative to the data checkout'
+        type: string
+        default: eval/cases.jsonl
+      config:
+        description: 'Run JSON path relative to the data checkout'
+        type: string
+        default: eval/run.json
+      model:
+        description: 'Explicit model ID, required for claude'
+        type: string
+      max-budget-usd:
+        description: 'Positive USD budget per job, required for claude'
+        type: string
+      claude-version:
+        description: 'Numeric Claude Code version, e.g. 2.1.322; required for claude'
+        type: string
+      upload-raw:
+        description: 'Retain private answers and reviewer files for 7 days (private repository only)'
+        type: boolean
+        default: false
+  workflow_call:
+    inputs:
+      mode:
+        type: string
+        default: sample
+      engine-ref:
+        description: 'Same full commit SHA used in the caller uses reference'
+        type: string
+        required: true
+      data-ref:
+        description: 'Full commit SHA of the caller data checkout'
+        type: string
+        required: true
+      cases:
+        type: string
+        default: eval/cases.jsonl
+      config:
+        type: string
+        default: eval/run.json
+      model:
+        type: string
+        default: ''
+      max-budget-usd:
+        type: string
+        default: ''
+      claude-version:
+        type: string
+        default: ''
+      upload-raw:
+        type: boolean
+        default: false
+    secrets:
+      ANTHROPIC_API_KEY:
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      engine-ref: ${{ steps.inputs.outputs.engine-ref }}
+      data-ref: ${{ steps.inputs.outputs.data-ref }}
+    steps:
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '22'
+      - name: Validate immutable refs and execution scope before checkout
+        id: inputs
+        env:
+          ENGINE_REF: ${{ inputs.engine-ref || github.sha }}
+          DATA_REF: ${{ inputs.data-ref || github.sha }}
+          MODE: ${{ inputs.mode }}
+          SOURCE_EVENT: ${{ github.event_name }}
+          PRIVATE_REPOSITORY: ${{ github.event.repository.private }}
+          UPLOAD_RAW: ${{ inputs.upload-raw }}
+          CLAUDE_VERSION: ${{ inputs.claude-version }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { appendFileSync } from 'node:fs';
+          const env = process.env;
+          for (const name of ['ENGINE_REF', 'DATA_REF']) {
+            if (!/^[0-9a-f]{40}$/u.test(env[name] ?? '')) throw new Error('Use full commit SHAs');
+          }
+          if (!['sample', 'claude'].includes(env.MODE)) throw new Error('Unknown evaluation mode');
+          if (env.MODE === 'claude') {
+            if (env.SOURCE_EVENT !== 'workflow_dispatch' || env.PRIVATE_REPOSITORY !== 'true' || env.UPLOAD_RAW !== 'true') {
+              throw new Error('Claude requires a manual run in a private repository with explicit raw retention');
+            }
+            if (!/^\d+\.\d+\.\d+$/u.test(env.CLAUDE_VERSION ?? '')) throw new Error('Pin a numeric Claude Code version');
+          }
+          if (env.UPLOAD_RAW === 'true' && env.PRIVATE_REPOSITORY !== 'true') throw new Error('Raw output cannot be uploaded in a public repository');
+          appendFileSync(env.GITHUB_OUTPUT, `engine-ref=${env.ENGINE_REF}\ndata-ref=${env.DATA_REF}\n`);
+          NODE
+
+  sample:
+    if: ${{ inputs.mode == 'sample' }}
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: allcll/graduation-wiki-eval
+          ref: ${{ needs.validate.outputs.engine-ref }}
+          path: engine
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts
+        working-directory: engine
+      - run: npm run build
+        working-directory: engine
+      - name: Run the same public fixture as the local command
+        run: node engine/scripts/evaluate-ci.mjs --mode sample --out ci-evaluation
+      - name: Publish counts only
+        if: ${{ !cancelled() && hashFiles('ci-evaluation/public/public-summary.json') != '' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: evaluation-public-summary
+          path: ci-evaluation/public/public-summary.json
+          if-no-files-found: error
+          retention-days: 7
+
+  claude:
+    if: ${{ inputs.mode == 'claude' && github.event_name == 'workflow_dispatch' && github.event.repository.private && inputs.upload-raw }}
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    environment: llm-evaluation
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: allcll/graduation-wiki-eval
+          ref: ${{ needs.validate.outputs.engine-ref }}
+          path: engine
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ needs.validate.outputs.data-ref }}
+          path: data
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts
+        working-directory: engine
+      - run: npm run build
+        working-directory: engine
+      - name: Install the explicitly pinned Claude Code version
+        env:
+          CLAUDE_VERSION: ${{ inputs.claude-version }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          const version = process.env.CLAUDE_VERSION;
+          if (!/^\d+\.\d+\.\d+$/u.test(version ?? '')) throw new Error('Invalid Claude Code version');
+          execFileSync('npm', ['install', '--global', `@anthropic-ai/claude-code@${version}`], { stdio: 'inherit' });
+          NODE
+      - name: Evaluate without publishing private model output
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EVAL_CASES: ${{ inputs.cases }}
+          EVAL_CONFIG: ${{ inputs.config }}
+          EVAL_MODEL: ${{ inputs.model }}
+          EVAL_BUDGET: ${{ inputs.max-budget-usd }}
+          CLAUDE_VERSION: ${{ inputs.claude-version }}
+        run: |
+          node engine/scripts/evaluate-ci.mjs --mode claude --data-root data \
+            --cases "$EVAL_CASES" --config "$EVAL_CONFIG" --model "$EVAL_MODEL" \
+            --max-budget-usd "$EVAL_BUDGET" --claude-version "$CLAUDE_VERSION" \
+            --max-turns 12 --effort medium --timeout 120 --out ci-evaluation
+      - name: Publish counts only
+        if: ${{ !cancelled() && hashFiles('ci-evaluation/public/public-summary.json') != '' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: evaluation-public-summary
+          path: ci-evaluation/public/public-summary.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Retain reviewer files in the private caller only
+        if: ${{ !cancelled() && github.event.repository.private && inputs.upload-raw }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: evaluation-private-review
+          path: ci-evaluation/raw
+          if-no-files-found: warn
+          retention-days: 7
