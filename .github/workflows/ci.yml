@@ -24,3 +24,5 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npm run check
+      - name: Verify the installed package without a model
+        run: npm run check:package
