@@ -184,7 +184,7 @@ node dist/cli.js oracle-review --cases local/cases.draft.jsonl --out local/oracl
 
 `local/cases.draft.jsonl`은 준비한 사례 파일입니다. 브라우저에서 원문과 대조한 뒤 검토 파일을 저장하고, 확인한 정답을 평가용 파일로 내보냅니다. 이후 `validate → prepare → run → review-template → 사람 검토 → report → compare` 순서로 진행합니다. 변경 전후를 비교할 때는 두 버전을 각각 실행해야 합니다.
 
-실제 호출은 Claude Code CLI를 거치거나 [OpenAI API를 직접 호출](docs/openai.md)하도록 선택할 수 있습니다. 각각 `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`가 필요하며 MCP 서버는 필요하지 않습니다. 모델과 자료를 읽는 방식이 달라지므로 비교 실험에서는 한 경로를 고정합니다. 설치·인증·실행 제한은 [모델 연결](docs/adapters.md)에 설명했습니다.
+실제 호출은 Claude Code CLI를 거치거나 [OpenAI API를 직접 호출](docs/openai.md)하도록 선택할 수 있습니다. 로컬 Claude Code는 기존 구독 로그인으로도 실행할 수 있습니다. 구독 한도만 사용하려면 계정의 추가 사용량을 끈 뒤 `--auth subscription --usage-credits-disabled`를 지정합니다. API 방식은 각각 `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`가 필요합니다. MCP 서버는 필요하지 않습니다. 모델과 인증 방식·자료 탐색 방식을 고정하고, 설치와 실행 제한은 [모델 연결](docs/adapters.md)을 따릅니다.
 
 패키지를 설치하면 `grad-eval`, `grad-eval-claude`, `grad-eval-openai` 명령을 사용할 수 있습니다. `report --check`는 모든 조건의 holdout 판정을 검사하며, C만 통과 기준으로 정했다면 `--check --condition C`를 사용합니다. A/B 결과는 보고서에 유지합니다. [입력 형식·종료 코드·버전 변경](docs/data-format.md)에 세부 사용법이 있습니다. v0.3 이하의 기록은 현재 v0.4 형식으로 변환해야 합니다.
 
@@ -210,12 +210,12 @@ node dist/cli.js oracle-review --cases local/cases.draft.jsonl --out local/oracl
 | CLI·자료 준비·응답과 오류 기록 | 구현 |
 | 자동 검사·사람 검토 연결·보고서·변경 전후 비교 | 구현 |
 | 정답지 HTML 검토·저장·이어 하기 | 구현 |
-| Claude Code·OpenAI API 연결 코드 | 구현, 모의 응답 검사 완료·실제 모델 호출 검증 전 |
+| Claude Code·OpenAI API 연결 코드 | Claude 구독 로그인으로 1사례 × A/B/C 실제 실행 확인. API 키 경로는 모의 응답 검사 완료 |
 | 도구 CI·고정 응답 예제·PR 댓글 갱신 | 구현 및 실행 확인 |
-| ALLCLL 개발용 평가셋 112건·초안 승인 기록 | 공개본 구성, 실제 모델 성능 측정 전 |
+| ALLCLL 개발용 평가셋 112건·초안 승인 기록 | 공개본 구성, 1사례 파일럿 실행·응답 검토 대기 |
 | 디스코드 웹훅·실제 WIKI 변경 PR 평가 | 후속 구현·연결 예정 |
 
-다음 작업은 승인한 평가셋으로 로컬 파일럿을 실행하고 모델 응답을 검토하는 것입니다. 공개 예제나 소프트웨어 테스트 통과를 WIKI의 실제 품질 측정 결과로 사용하지 않습니다.
+첫 로컬 실행에서는 A의 값이 정답지와 일치했고, B·C에서 인정 학점 불일치를 발견했습니다. [실행 범위와 관찰 결과](docs/experiments/first-subscription-pilot.md)를 기록했습니다. 다음 작업은 원문·정답지·답변을 대조해 이 차이를 검토하는 것입니다. 1사례 결과나 소프트웨어 테스트 통과를 전체 WIKI의 품질 측정 결과로 사용하지 않습니다.
 
 ## 개발과 참고 자료
 

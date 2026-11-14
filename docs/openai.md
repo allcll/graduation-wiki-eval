@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | 자료 전달 | 파일 목록을 넘기고 모델이 Read/Grep/Glob으로 탐색 | 해당 조건에 허용된 텍스트 파일 내용을 한 요청에 담음 |
 | 실행 | Claude Code CLI | HTTPS Responses API |
-| 인증 | `ANTHROPIC_API_KEY` | `OPENAI_API_KEY` |
+| 인증 | API 키 또는 로컬 Claude 구독 로그인 | `OPENAI_API_KEY` |
 | 제한 | CLI의 턴·비용·시간 제한 | 입력 바이트·출력 토큰·시간 제한 |
 | 재시도 | 실행기는 재시도하지 않음. CLI 내부 동작은 별도 | 자동 재시도 없음. 작업당 요청 한 번 |
 
