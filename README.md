@@ -60,6 +60,8 @@ node dist/cli.js demo --out artifacts/demo
 
 처음 실행한다면 [첫 실제 평가 준비](docs/first-evaluation.md)에서 준비물과 순서를 확인하세요. 사례·정답·설정은 로컬에 두고, 실행할 때 조건별 파일 목록을 지정합니다. [입력 형식](docs/data-format.md)과 [모델 연결](docs/adapters.md)에 작성 예시가 있습니다.
 
+정답 초안은 [정답지 검토](docs/oracle-review.md)에서 원문과 대조한 뒤 확정합니다. 검토 파일에 수정안·검토자·의견을 보관하고, 확인한 문항을 새 사례 파일로 내보냅니다. 모델 답변을 실행한 뒤 채점하는 단계와는 별도입니다.
+
 ```bash
 node dist/cli.js validate --cases local/cases.jsonl
 node dist/cli.js prepare --cases local/cases.jsonl --config local/run.json --out artifacts/baseline

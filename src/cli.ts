@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { parseArgs } from 'node:util';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, isAbsolute, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
@@ -14,8 +14,9 @@ import { writeJson, isMain, errorMessage } from './io.js';
 import { writeReport } from './reporting.js';
 import type { SavedReport } from './reporting.js';
 import { writeReviewBundle } from './review-guide.js';
+import { createOracleWorkspace, validateOracleWorkspace, exportOracleCases } from './oracle-review.js';
 
-const commands = ['validate', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
+const commands = ['validate', 'oracle-init', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
 const commandSchema = z.enum(commands);
 const flags = {
   cases: { type: 'string' }, runs: { type: 'string' }, reviews: { type: 'string' },
@@ -23,15 +24,19 @@ const flags = {
   baseline: { type: 'string' }, candidate: { type: 'string' },
   conditions: { type: 'string' }, repeats: { type: 'string' },
   condition: { type: 'string' }, split: { type: 'string' }, check: { type: 'boolean' },
+  workspace: { type: 'string' }, title: { type: 'string' }, 'approved-only': { type: 'boolean' },
 } as const;
 const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flags)[]> = {
   validate: ['cases'], plan: ['cases', 'conditions', 'repeats', 'out'], prepare: ['cases', 'config', 'out'],
   run: ['plan'], 'review-template': ['cases', 'runs', 'plan', 'out'], report: ['cases', 'runs', 'reviews', 'plan', 'out', 'check', 'condition'],
   compare: ['baseline', 'candidate', 'condition', 'split', 'out'], demo: ['out'],
+  'oracle-init': ['cases', 'out', 'title'], 'oracle-export': ['cases', 'workspace', 'out', 'approved-only'],
 };
 const HELP = `grad-eval <command> [options]
 
   validate        --cases FILE
+  oracle-init     --cases FILE --out NEW_FILE.json [--title TEXT]
+  oracle-export   --cases FILE --workspace FILE --out NEW_FILE.jsonl [--approved-only]
   plan            --cases FILE --out FILE [--conditions A,B,C] [--repeats 1]
   prepare         --cases FILE --config FILE --out NEW_DIRECTORY
   run             --plan FILE -- COMMAND [ARGUMENTS...]
@@ -115,6 +120,25 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
       case 'validate': {
         const cases = parseCases(await readRecords(required(values.cases, 'cases')));
         result = { valid: true, cases: cases.length, dataset_sha256: makePlan(cases).dataset_sha256 };
+        break;
+      }
+      case 'oracle-init': {
+        const out = required(values.out, 'out');
+        if (!out.endsWith('.json')) throw new Error('Oracle workspace must use a .json extension');
+        const workspace = await createOracleWorkspace(await readRecords(required(values.cases, 'cases')), values.title);
+        await writeJson(out, workspace, true);
+        result = { workspace: resolve(out), cases: workspace.entries.length, status: 'requires human review' };
+        break;
+      }
+      case 'oracle-export': {
+        const out = required(values.out, 'out');
+        if (!out.endsWith('.jsonl')) throw new Error('Oracle cases must use a .jsonl extension');
+        const workspace = await validateOracleWorkspace(await readJson(required(values.workspace, 'workspace')),
+          await readRecords(required(values.cases, 'cases')));
+        const cases = await exportOracleCases(workspace, { approvedOnly: values['approved-only'] ?? false });
+        await mkdir(dirname(resolve(out)), { recursive: true });
+        await writeFile(out, cases.map(item => JSON.stringify(item)).join('\n') + '\n', { encoding: 'utf8', flag: 'wx' });
+        result = { cases: cases.length, omitted: workspace.entries.length - cases.length, path: resolve(out), next: 'prepare a new evaluation plan' };
         break;
       }
       case 'plan': {
