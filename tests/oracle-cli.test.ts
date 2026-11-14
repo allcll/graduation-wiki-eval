@@ -71,3 +71,26 @@ test('oracle commands reject unrelated cases, altered approvals and existing out
   invoke(cwd, ['oracle-export', '--cases', sample, '--workspace', 'tampered.json', '--out', 'tampered.jsonl'], 2);
   await assert.rejects(readFile(join(cwd, 'tampered.jsonl')), /ENOENT/);
 });
+
+test('oracle-review generates a portable HTML file from new or resumed work', async t => {
+  const cwd = await mkdtemp(join(tmpdir(), 'grad-oracle-html-cli-'));
+  t.after(() => rm(cwd, { recursive: true, force: true }));
+  invoke(cwd, ['oracle-review', '--cases', sample, '--out', 'review.html', '--title', '가상 자료 검토']);
+  const html = await readFile(join(cwd, 'review.html'), 'utf8');
+  assert.match(html, /<title>가상 자료 검토<\/title>/);
+  assert.match(html, /id="oracle-data"/);
+  assert.match(html, /Content-Security-Policy/);
+  assert.doesNotMatch(html, /<script\s+src=/);
+  invoke(cwd, ['oracle-review', '--cases', sample, '--out', 'review.html'], 2);
+  assert.equal(await readFile(join(cwd, 'review.html'), 'utf8'), html);
+  invoke(cwd, ['oracle-init', '--cases', sample, '--out', 'saved.json']);
+  let workspace = await validateOracleWorkspace(await readJson(join(cwd, 'saved.json')));
+  const first = workspace.entries[0]; assert.ok(first);
+  workspace = await updateOracleEntry(workspace, first.source.id, { note: '원문 추가 확인', status: 'on_hold' });
+  await writeFile(join(cwd, 'saved.json'), JSON.stringify(workspace));
+  invoke(cwd, ['oracle-review', '--cases', sample, '--workspace', 'saved.json', '--out', 'resumed.html']);
+  const resumed = await readFile(join(cwd, 'resumed.html'), 'utf8');
+  assert.match(resumed, /원문 추가 확인/);
+  assert.match(resumed, /"status":"on_hold"/);
+  invoke(cwd, ['oracle-review', '--cases', sample, '--out', 'wrong.json'], 2);
+});

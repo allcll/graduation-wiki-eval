@@ -20,6 +20,7 @@ try {
   const packageInfo = packed[0];
   assert.ok(packageInfo.files.some(file => file.path === 'dist/index.d.ts'));
   assert.ok(packageInfo.files.some(file => file.path === 'sample/cases.jsonl'));
+  assert.ok(packageInfo.files.some(file => file.path === 'dist/oracle-ui.bundle.js'));
   assert.ok(packageInfo.files.every(file => !/\.(?:py|whl)$/.test(file.path)), 'Old Python artifacts must not ship');
   const installed = join(temporary, 'installed');
   await mkdir(installed);
@@ -29,6 +30,10 @@ try {
   const binary = join(installed, 'node_modules/.bin/grad-eval');
   assert.equal(run(binary, ['--version'], installed).trim(), '0.4.0');
   run(binary, ['demo', '--out', 'demo'], installed);
+  run(binary, ['oracle-review', '--cases', 'demo/cases.jsonl', '--out', 'oracle/review.html'], installed);
+  const oracleHtml = await readFile(join(installed, 'oracle/review.html'), 'utf8');
+  assert.match(oracleHtml, /id="oracle-data"/);
+  assert.doesNotMatch(oracleHtml, /<script\s+src=/);
   run(binary, ['report', '--cases', 'demo/cases.jsonl', '--runs', 'demo/experiment/runs.jsonl',
     '--plan', 'demo/experiment/plan.json', '--out', 'demo/rechecked.json'], installed);
   run(binary, ['review-template', '--cases', 'demo/cases.jsonl', '--runs', 'demo/experiment/runs.jsonl',
@@ -47,7 +52,7 @@ try {
     assert.equal(report.overall_counts.missing, 9);
     assert.equal(report.gates.C.gate, 'INCONCLUSIVE');
   `], installed);
-  console.log('Installed CLI, review guide, Claude entry point, library exports, and bundled demo passed.');
+  console.log('Installed CLI, oracle HTML, review guide, Claude entry point, library exports, and bundled demo passed.');
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }
