@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { parseArgs } from 'node:util';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir } from 'node:fs/promises';
 import { dirname, isAbsolute, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
@@ -13,6 +13,7 @@ import { prepare, runPlan, runnerPlanSchema } from './runner.js';
 import { writeJson, isMain, errorMessage } from './io.js';
 import { writeReport } from './reporting.js';
 import type { SavedReport } from './reporting.js';
+import { writeReviewBundle } from './review-guide.js';
 
 const commands = ['validate', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
 const commandSchema = z.enum(commands);
@@ -25,7 +26,7 @@ const flags = {
 } as const;
 const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flags)[]> = {
   validate: ['cases'], plan: ['cases', 'conditions', 'repeats', 'out'], prepare: ['cases', 'config', 'out'],
-  run: ['plan'], 'review-template': ['runs', 'out'], report: ['cases', 'runs', 'reviews', 'plan', 'out', 'check'],
+  run: ['plan'], 'review-template': ['cases', 'runs', 'plan', 'out'], report: ['cases', 'runs', 'reviews', 'plan', 'out', 'check'],
   compare: ['baseline', 'candidate', 'condition', 'split', 'out'], demo: ['out'],
 };
 const HELP = `grad-eval <command> [options]
@@ -34,7 +35,7 @@ const HELP = `grad-eval <command> [options]
   plan            --cases FILE --out FILE [--conditions A,B,C] [--repeats 1]
   prepare         --cases FILE --config FILE --out NEW_DIRECTORY
   run             --plan FILE -- COMMAND [ARGUMENTS...]
-  review-template --runs FILE --out NEW_FILE
+  review-template --cases FILE --runs FILE --plan FILE --out NEW_FILE.jsonl
   report          --cases FILE --runs FILE --plan FILE --out FILE [--reviews FILE] [--check]
   compare         --baseline FILE --candidate FILE --out FILE [--condition C] [--split holdout]
   demo            [--out NEW_DIRECTORY]
@@ -83,7 +84,7 @@ export async function demo(out: string): Promise<Report> {
 
 export async function main(argv = process.argv.slice(2)): Promise<number> {
   if (!argv.length || argv[0] === '--help' || argv[1] === '--help') { process.stdout.write(HELP); return 0; }
-  if (argv[0] === '--version') { process.stdout.write('0.2.0\n'); return 0; }
+  if (argv[0] === '--version') { process.stdout.write('0.3.0\n'); return 0; }
   let reportPath: string | undefined;
   let protectedPaths: string[] = [];
   try {
@@ -135,15 +136,14 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
         return errors ? 1 : 0;
       }
       case 'review-template': {
-        const runs = parseRuns(await readRecords(required(values.runs, 'runs')));
-        const reviews = runs.flatMap(run => run.status === 'error' ? [] : [{
-          run_id: run.run_id, case_sha256: run.case_sha256, output_sha256: run.output_sha256,
-          reviewer_kind: 'human', reviewer_id: '', reviewed_at: '', rationale: '', evidence_verdict: 'pending', answer_verdict: 'pending',
-        }]);
+        const casesPath = required(values.cases, 'cases');
+        const planPath = required(values.plan, 'plan');
         const out = required(values.out, 'out');
-        await mkdir(dirname(out), { recursive: true });
-        await writeFile(out, reviews.map(review => JSON.stringify(review)).join('\n') + (reviews.length ? '\n' : ''), { encoding: 'utf8', flag: 'wx' });
-        result = { templates: reviews.length, path: out, status: 'requires human review' };
+        if (!out.endsWith('.jsonl')) throw new Error('Review output must use a .jsonl extension');
+        if ([resolve(out), resolve(out.slice(0, -6) + '.md')].some(path => protectedPaths.includes(path))) throw new Error('Review output must not overwrite an input file');
+        const cases = parseCases(await readRecords(casesPath));
+        const runs = parseRuns(await readRecords(required(values.runs, 'runs')));
+        result = await writeReviewBundle(cases, runs, await loadPlan(planPath, runs), out);
         break;
       }
       case 'report': {

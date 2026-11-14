@@ -27,7 +27,7 @@ import {
 } from "./schema.js";
 import { MAX_TIMEOUT_MS, ProcessInterruptedError, runProcess, TERMINATION_GRACE_MS } from "./process.js";
 
-const RUNNER_SCHEMA = "graduation-wiki-eval/runner-v2";
+const RUNNER_SCHEMA = "graduation-wiki-eval/runner-v3";
 export const CONTEXT_GROUPS = ["sources", "wiki", "skills"] as const;
 type ContextGroup = (typeof CONTEXT_GROUPS)[number];
 const blockedParts = new Set([
@@ -39,6 +39,7 @@ const goldKeys = new Set([
   "expected", "expected_answer", "expected_facts", "expected_action", "gold",
   "gold_answer", "ground_truth", "oracle", "oracle_reviewer", "review", "reviews",
   "review_status", "sources", "source_excerpt", "source_excerpts", "answer_key", "answer_keys",
+  "rubric", "rubric_sha256", "criteria", "criterion_results", "review_guide",
 ]);
 
 export class RunnerError extends Error {

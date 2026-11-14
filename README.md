@@ -36,7 +36,7 @@ ALLCLL에서는 졸업요건 관련 문의가 들어오면 개발자가 문의 �
 별도 사례로 재검증 ← WIKI·Skill 개선 ← 실패 분석·사람 검토
 ```
 
-사실과 행동은 자동 검사하고, 인용의 적합성과 답변 전체의 해석은 사람이 검토합니다. 모델이 출력한 자신감이나 링크의 존재만으로 정답 처리하지 않습니다.
+사실과 행동은 자동 검사하고, 인용의 적합성과 답변 전체의 해석은 사람이 검토합니다. 사례마다 답변·근거의 판정 기준을 먼저 적고, 검토자는 각 항목의 판정과 이유를 남깁니다. 모델이 출력한 자신감이나 링크의 존재만으로 정답 처리하지 않습니다.
 
 개선에 사용하는 `dev`와 마지막에 확인하는 `holdout`은 규정·원인군 단위로 나눕니다. holdout 결과를 보고 수정했다면 해당 사례를 이후 독립 검증에 다시 사용하지 않습니다. 구체적인 기준은 [평가 설계](docs/design.md)에 정리했습니다.
 
@@ -64,9 +64,11 @@ node dist/cli.js demo --out artifacts/demo
 node dist/cli.js validate --cases local/cases.jsonl
 node dist/cli.js prepare --cases local/cases.jsonl --config local/run.json --out artifacts/baseline
 node dist/cli.js run --plan artifacts/baseline/plan.json -- node "$PWD/local/agent.mjs"
-node dist/cli.js review-template --runs artifacts/baseline/runs.jsonl --out local/reviews.jsonl
+node dist/cli.js review-template --cases local/cases.jsonl --runs artifacts/baseline/runs.jsonl \
+  --plan artifacts/baseline/plan.json --out local/reviews.jsonl
 
-# 원출력과 원출처를 확인한 뒤 검토자·근거·판정을 작성합니다.
+# local/reviews.md에서 정답·근거·원답변·판정 기준을 확인합니다.
+# local/reviews.jsonl에 검토자와 항목별 판정·이유를 작성합니다.
 node dist/cli.js report --cases local/cases.jsonl --runs artifacts/baseline/runs.jsonl \
   --reviews local/reviews.jsonl --plan artifacts/baseline/plan.json --out artifacts/baseline/report.json
 
@@ -75,7 +77,9 @@ node dist/cli.js compare --baseline artifacts/baseline/report.json \
   --candidate artifacts/candidate/report.json --condition C --split holdout --out artifacts/comparison.json
 ```
 
-패키지를 설치한 환경에서는 `node dist/cli.js` 대신 `grad-eval`을 사용할 수 있습니다. 평가 함수와 타입은 라이브러리 진입점에서도 제공합니다.
+패키지를 설치한 환경에서는 `node dist/cli.js` 대신 `grad-eval`을 사용할 수 있습니다. 평가 함수와 타입은 라이브러리 진입점에서도 제공합니다. 검토용 Markdown에는 정답이 포함되므로 모델 입력 자료에 넣지 않습니다.
+
+v0.3부터 사례별 `rubric`이 필수이며 검토는 항목별로 작성합니다. v0.2의 사례·계획·검토·보고서는 그대로 읽을 수 없습니다. [이전 버전에서 옮기기](docs/data-format.md#이전-버전에서-옮기기)를 참고하세요.
 
 ## 결과를 읽는 방법
 

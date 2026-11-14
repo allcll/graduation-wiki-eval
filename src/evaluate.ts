@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { digest } from './json.js';
+import { summarizeReview } from './review.js';
 import {
   HARNESS_VERSION, PLAN_SCHEMA, METRIC_KEYS, conditionSchema, planSchema, reportSchema,
   parseCases, parseRuns, parseReviews,
@@ -29,7 +30,7 @@ export function makePlan(cases: Case[], conditions: Condition[] = ['A', 'B', 'C'
   const selections = z.array(conditionSchema).min(1).parse(conditions);
   return parsePlan({ schema: PLAN_SCHEMA, dataset_sha256: datasetHash(checked),
     conditions: [...selections].sort(), repeats,
-    cases: sortedCases(checked).map(item => ({ case_id: item.id, case_sha256: digest(item), split: item.split })),
+    cases: sortedCases(checked).map(item => ({ case_id: item.id, case_sha256: digest(item), rubric_sha256: digest(item.rubric), split: item.split })),
   });
 }
 
@@ -142,6 +143,9 @@ export function evaluate(cases: Case[], runs: Run[], reviews: Review[] = [], sup
     ensure(run?.status === 'ok', 'Review must reference a known successful run');
     ensure(!byReview.has(review.run_id), `Duplicate review: ${review.run_id}`);
     ensure(review.case_sha256 === run.case_sha256 && review.output_sha256 === run.output_sha256, `Stale review: ${review.run_id}`);
+    const item = byCase.get(run.case_id);
+    ensure(item, `Unknown review case: ${run.case_id}`);
+    summarizeReview(item.rubric, review);
     byReview.set(review.run_id, review);
   }
   const rows: Row[] = [];
@@ -149,13 +153,15 @@ export function evaluate(cases: Case[], runs: Run[], reviews: Review[] = [], sup
     const run = slots.get(slot(item.id, condition, repeat));
     const completed = run?.status === 'ok' ? run : undefined;
     const review = completed ? byReview.get(completed.run_id) : undefined;
+    const reviewed = review ? summarizeReview(item.rubric, review) : undefined;
     const details = completed ? objectiveDetails(completed.output, item.expected) : [];
     rows.push({ case_id: item.id, case_sha256: digest(item), split: item.split, condition, repeat,
+      rubric: item.rubric, rubric_sha256: digest(item.rubric),
       run_id: run?.run_id ?? null, missing: run === undefined, error: run?.status === 'error',
-      unreviewed: completed !== undefined && (!review || review.answer_verdict === 'pending' || review.evidence_verdict === 'pending'),
+      unreviewed: completed !== undefined && (!reviewed || reviewed.pending),
       synthetic: item.origin === 'synthetic' || run?.execution === 'synthetic', oracle_ready: oracleReady(item),
       versions: run?.versions ?? null, objective: completed ? details.length === 0 : null, objective_details: details,
-      answer: review?.answer_verdict ?? 'pending', evidence: review?.evidence_verdict ?? 'pending',
+      answer: reviewed?.answer ?? 'pending', evidence: reviewed?.evidence ?? 'pending',
       output_sha256: completed?.output_sha256 ?? null, review: review ?? null,
       metrics: { elapsed_ms: run?.elapsed_ms ?? null, input_tokens: run?.input_tokens ?? null, output_tokens: run?.output_tokens ?? null },
     });
@@ -181,6 +187,7 @@ export function validateReport(value: unknown): Report {
   for (const row of report.rows) {
     const item = cases.get(row.case_id);
     ensure(item && row.case_sha256 === item.case_sha256 && row.split === item.split, 'Report case hash or split differs from plan');
+    ensure(row.rubric_sha256 === item.rubric_sha256 && digest(row.rubric) === item.rubric_sha256, 'Report rubric differs from plan');
     const key = slot(row.case_id, row.condition, row.repeat);
     ensure(planned.has(key) && !seen.has(key), 'Report has an unknown or duplicate planned slot'); seen.add(key);
     const priorReady = readiness.get(row.case_id);
@@ -196,12 +203,13 @@ export function validateReport(value: unknown): Report {
       ensure(row.objective === null && row.objective_details.length === 0 && !row.unreviewed && row.answer === 'pending' && row.evidence === 'pending' && row.review === null && row.output_sha256 === null, 'Missing/error run cannot carry completed judgments');
     } else {
       ensure(typeof row.objective === 'boolean' && row.objective === (row.objective_details.length === 0) && row.output_sha256 !== null, 'Objective verdict disagrees with diagnostics');
-      if (row.review === null) ensure(row.answer === 'pending' && row.evidence === 'pending', 'Verdict without human review');
+      if (row.review === null) ensure(row.answer === 'pending' && row.evidence === 'pending' && row.unreviewed, 'Verdict without human review');
       else {
         ensure(row.review.run_id === row.run_id && row.review.case_sha256 === row.case_sha256 && row.review.output_sha256 === row.output_sha256, 'Report has a stale review binding');
-        ensure(row.answer === row.review.answer_verdict && row.evidence === row.review.evidence_verdict, 'Report verdict differs from human review');
+        const reviewed = summarizeReview(row.rubric, row.review);
+        ensure(row.answer === reviewed.answer && row.evidence === reviewed.evidence, 'Report verdict differs from human review');
+        ensure(row.unreviewed === reviewed.pending, 'Review completeness is inconsistent');
       }
-      ensure(row.unreviewed === (row.answer === 'pending' || row.evidence === 'pending'), 'Review completeness is inconsistent');
     }
   }
   ensure(same(report.overall_counts, summarize(report.rows)), 'Report counts disagree with rows');
