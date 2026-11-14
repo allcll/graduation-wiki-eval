@@ -15,8 +15,9 @@ import { writeReport } from './reporting.js';
 import type { SavedReport } from './reporting.js';
 import { writeReviewBundle } from './review-guide.js';
 import { createOracleWorkspace, validateOracleWorkspace, exportOracleCases } from './oracle-review.js';
+import { writeOracleHtml } from './oracle-html.js';
 
-const commands = ['validate', 'oracle-init', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
+const commands = ['validate', 'oracle-init', 'oracle-review', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
 const commandSchema = z.enum(commands);
 const flags = {
   cases: { type: 'string' }, runs: { type: 'string' }, reviews: { type: 'string' },
@@ -25,17 +26,20 @@ const flags = {
   conditions: { type: 'string' }, repeats: { type: 'string' },
   condition: { type: 'string' }, split: { type: 'string' }, check: { type: 'boolean' },
   workspace: { type: 'string' }, title: { type: 'string' }, 'approved-only': { type: 'boolean' },
+  'source-links': { type: 'string' },
 } as const;
 const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flags)[]> = {
   validate: ['cases'], plan: ['cases', 'conditions', 'repeats', 'out'], prepare: ['cases', 'config', 'out'],
   run: ['plan'], 'review-template': ['cases', 'runs', 'plan', 'out'], report: ['cases', 'runs', 'reviews', 'plan', 'out', 'check', 'condition'],
   compare: ['baseline', 'candidate', 'condition', 'split', 'out'], demo: ['out'],
   'oracle-init': ['cases', 'out', 'title'], 'oracle-export': ['cases', 'workspace', 'out', 'approved-only'],
+  'oracle-review': ['cases', 'out', 'workspace', 'source-links', 'title'],
 };
 const HELP = `grad-eval <command> [options]
 
   validate        --cases FILE
   oracle-init     --cases FILE --out NEW_FILE.json [--title TEXT]
+  oracle-review   --cases FILE --out NEW_FILE.html [--workspace FILE] [--source-links FILE] [--title TEXT]
   oracle-export   --cases FILE --workspace FILE --out NEW_FILE.jsonl [--approved-only]
   plan            --cases FILE --out FILE [--conditions A,B,C] [--repeats 1]
   prepare         --cases FILE --config FILE --out NEW_DIRECTORY
@@ -139,6 +143,16 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
         await mkdir(dirname(resolve(out)), { recursive: true });
         await writeFile(out, cases.map(item => JSON.stringify(item)).join('\n') + '\n', { encoding: 'utf8', flag: 'wx' });
         result = { cases: cases.length, omitted: workspace.entries.length - cases.length, path: resolve(out), next: 'prepare a new evaluation plan' };
+        break;
+      }
+      case 'oracle-review': {
+        const linksPath = values['source-links'];
+        result = await writeOracleHtml(await readRecords(required(values.cases, 'cases')), {
+          out: required(values.out, 'out'),
+          ...(values.workspace ? { workspace: await readJson(values.workspace) } : {}),
+          ...(values.title ? { title: values.title } : {}),
+          ...(linksPath ? { sourceLinks: await readJson(linksPath), sourceLinksBase: dirname(resolve(linksPath)) } : {}),
+        });
         break;
       }
       case 'plan': {
