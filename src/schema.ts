@@ -1,7 +1,9 @@
 import { z } from 'zod';
 
-export const HARNESS_VERSION = 'graduation-wiki-eval/0.3';
-export const PLAN_SCHEMA = 'graduation-wiki-eval/plan-v3';
+export const HARNESS_VERSION = 'graduation-wiki-eval/0.4';
+export const PLAN_SCHEMA = 'graduation-wiki-eval/plan-v4';
+export const SEVERITIES = ['blocker', 'major', 'minor'] as const;
+export const severitySchema = z.enum(SEVERITIES);
 export const METRIC_KEYS = ['elapsed_ms', 'input_tokens', 'output_tokens'] as const;
 export const VERSION_KEYS = ['model', 'model_config', 'prompt', 'source', 'code', 'data', 'wiki', 'skill', 'dataset', 'tools', 'runtime', 'harness'] as const;
 
@@ -22,9 +24,11 @@ const hash = z.string().regex(/^sha256:[0-9a-f]{64}$/);
 const actionSchema = z.enum(['answer', 'clarify', 'escalate']);
 const verdictSchema = z.enum(['pass', 'fail', 'pending']);
 const metric = z.number().finite().nonnegative().nullable();
+const count = z.number().int().nonnegative();
+export const criterionFailureCountsSchema = z.strictObject({ blocker: count, major: count, minor: count });
 
 export const criterionSchema = z.strictObject({
-  id: nonempty, dimension: z.enum(['answer', 'evidence']), description: nonempty,
+  id: nonempty, dimension: z.enum(['answer', 'evidence']), severity: severitySchema, description: nonempty,
 });
 export const rubricSchema = z.strictObject({
   version: nonempty, criteria: z.array(criterionSchema).min(2),
@@ -93,12 +97,13 @@ export const rowSchema = z.strictObject({
   synthetic: z.boolean(), oracle_ready: z.boolean(), versions: versionsSchema.nullable(),
   objective: z.boolean().nullable(), objective_details: z.array(diagnosticSchema),
   answer: verdictSchema, evidence: verdictSchema, output_sha256: hash.nullable(),
+  criterion_failures: criterionFailureCountsSchema,
   review: reviewSchema.nullable(), metrics: metricsSchema,
 });
-const count = z.number().int().nonnegative();
 export const countsSchema = z.strictObject({
   expected: count, missing: count, error: count, unreviewed: count, objective_pass: count, objective_fail: count,
   evidence_fail: count, answer_fail: count, reviewed_success: count, synthetic: count,
+  required_fail: count, advisory_runs: count, criterion_failures: criterionFailureCountsSchema,
   reviewed_success_rate: z.number().min(0).max(1).nullable(),
 });
 const gateSchema = z.strictObject({ gate: z.enum(['PASS', 'FAIL', 'INCONCLUSIVE']), reasons: z.array(z.string()), holdout_counts: countsSchema });
@@ -128,6 +133,8 @@ export type Review = z.infer<typeof reviewSchema>;
 export type Rubric = z.infer<typeof rubricSchema>;
 export type Criterion = z.infer<typeof criterionSchema>;
 export type CriterionResult = z.infer<typeof criterionResultSchema>;
+export type Severity = z.infer<typeof severitySchema>;
+export type CriterionFailureCounts = z.infer<typeof criterionFailureCountsSchema>;
 export type EvaluationPlan = z.infer<typeof planSchema>;
 export type Diagnostic = z.infer<typeof diagnosticSchema>;
 export type Row = z.infer<typeof rowSchema>;

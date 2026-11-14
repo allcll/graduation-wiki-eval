@@ -5,9 +5,9 @@ import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readJson, readRecords, writeRecords } from '../src/json.js';
-import { validateReport } from '../src/evaluate.js';
-import { parseCases, parseRuns, parseReviews } from '../src/schema.js';
+import { digest, readJson, readRecords, writeRecords } from '../src/json.js';
+import { datasetHash, makePlan, validateReport } from '../src/evaluate.js';
+import { HARNESS_VERSION, VERSION_KEYS, parseCases, parseRuns, parseReviews, versionsSchema, type Review, type Run } from '../src/schema.js';
 
 const cli = fileURLToPath(new URL('../dist/cli.js', import.meta.url));
 const sample = fileURLToPath(new URL('../sample/cases.jsonl', import.meta.url));
@@ -139,5 +139,64 @@ test('adapter arguments after the delimiter do not trigger top-level CLI help', 
   invoke(cwd, ['run', '--plan', 'missing.json', '--', process.execPath, '--help'], 2);
   invoke(cwd, ['plan', '--cases', sample, '--conditions', 'A', 'B', '--out', 'invalid.json'], 2);
   assert.match(invoke(cwd, ['--help']), /grad-eval/);
-  assert.equal(invoke(cwd, ['--version']).trim(), '0.3.0');
+  assert.equal(invoke(cwd, ['--version']).trim(), '0.4.0');
+});
+
+test('report can check C without removing reference conditions or suppressing incomplete C', async t => {
+  const cwd = await mkdtemp(join(tmpdir(), 'grad-cli-condition-'));
+  t.after(() => rm(cwd, { recursive: true, force: true }));
+  // Manufactured actual-run declarations exercise gate behavior; no model was called.
+  const cases = parseCases(await readRecords(sample)).map(item => ({ ...item,
+    origin: 'real' as const, split: 'holdout' as const, review_status: 'verified' as const,
+    oracle_reviewer: 'software-test-only', independent_reference: true,
+    sources: item.sources.map(source => ({ ...source, authoritative: true })),
+  }));
+  const plan = makePlan(cases);
+  const versions = versionsSchema.parse({ ...Object.fromEntries(VERSION_KEYS.map(key => [key, 'test-v1'])), dataset: datasetHash(cases), harness: HARNESS_VERSION });
+  const runs: Run[] = [], reviews: Review[] = [];
+  for (const item of cases) for (const condition of plan.conditions) {
+    const output = { ...structuredClone(item.expected), answer_text: 'Software test response.', citations: [] };
+    if (condition === 'A' && item.id === cases[0]?.id) output.action = 'escalate';
+    const run = { run_id: `${item.id}-${condition}`, case_id: item.id, condition, repeat: 1, execution: 'real' as const,
+      status: 'ok' as const, started_at: 'software-test-only', case_sha256: digest(item), versions,
+      output, output_sha256: digest(output) };
+    runs.push(run);
+    reviews.push({ run_id: run.run_id, case_sha256: run.case_sha256, output_sha256: run.output_sha256,
+      rubric_sha256: digest(item.rubric), reviewer_kind: 'human', reviewer_id: 'software-test-only', reviewed_at: 'software-test-only',
+      criterion_results: item.rubric.criteria.map(criterion => ({ criterion_id: criterion.id,
+        verdict: condition === 'C' && criterion.severity === 'minor' ? 'fail' : 'pass', rationale: 'Manufactured test judgment.' })),
+    });
+  }
+  await writeRecords(join(cwd, 'cases.jsonl'), cases);
+  await writeRecords(join(cwd, 'runs.jsonl'), runs);
+  await writeRecords(join(cwd, 'reviews.jsonl'), reviews);
+  await writeFile(join(cwd, 'plan.json'), JSON.stringify(plan));
+  const args = ['report', '--cases', 'cases.jsonl', '--runs', 'runs.jsonl', '--reviews', 'reviews.jsonl', '--plan', 'plan.json', '--out', 'report.json'];
+  invoke(cwd, [...args, '--check'], 1);
+  const allConditions = validateReport(await readJson(join(cwd, 'report.json')));
+  assert.equal(allConditions.gates['A']?.gate, 'FAIL');
+  assert.equal(allConditions.gates['C']?.gate, 'PASS');
+  assert.ok((allConditions.gates['C']?.holdout_counts.advisory_runs ?? 0) > 0);
+  const selected = invoke(cwd, [...args, '--check', '--condition', 'C']);
+  assert.match(selected, /"checked_conditions": \[\s*"C"\s*\]/);
+  assert.deepEqual(validateReport(await readJson(join(cwd, 'report.json'))), allConditions);
+
+  const cReview = reviews.find(review => review.run_id.endsWith('-C')); assert.ok(cReview);
+  const criterion = cReview.criterion_results[0]; assert.ok(criterion);
+  criterion.verdict = 'pending'; criterion.rationale = '';
+  await writeRecords(join(cwd, 'reviews.jsonl'), reviews);
+  invoke(cwd, [...args, '--check', '--condition', 'C'], 1);
+  assert.equal(validateReport(await readJson(join(cwd, 'report.json'))).gates['C']?.gate, 'INCONCLUSIVE');
+
+  const beforeInvalidOption = await readFile(join(cwd, 'report.json'), 'utf8');
+  invoke(cwd, [...args, '--condition', 'C'], 2);
+  invoke(cwd, [...args, '--check', '--condition', 'D'], 2);
+  assert.equal(await readFile(join(cwd, 'report.json'), 'utf8'), beforeInvalidOption);
+
+  await writeFile(join(cwd, 'plan.json'), JSON.stringify(makePlan(cases, ['A'])));
+  const aRuns = runs.filter(run => run.condition === 'A');
+  await writeRecords(join(cwd, 'runs.jsonl'), aRuns);
+  await writeRecords(join(cwd, 'reviews.jsonl'), reviews.filter(review => aRuns.some(run => run.run_id === review.run_id)));
+  invoke(cwd, [...args, '--check', '--condition', 'C'], 2);
+  assert.match(await readFile(join(cwd, 'report.json'), 'utf8'), /not in the evaluation plan/);
 });

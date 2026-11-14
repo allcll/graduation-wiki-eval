@@ -2,13 +2,13 @@ import { z } from 'zod';
 import { digest } from './json.js';
 import { summarizeReview } from './review.js';
 import {
-  HARNESS_VERSION, PLAN_SCHEMA, METRIC_KEYS, conditionSchema, planSchema, reportSchema,
+  HARNESS_VERSION, PLAN_SCHEMA, METRIC_KEYS, SEVERITIES, conditionSchema, planSchema, reportSchema,
   parseCases, parseRuns, parseReviews,
   type Case, type Run, type Review, type Condition, type EvaluationPlan, type Report,
   type Row, type Counts, type Gate, type Diagnostic, type Output,
 } from './schema.js';
 
-const POLICY = 'Project-defined pilot gate; not enterprise certification or statistical proof.';
+const POLICY = 'Required: automatic action/facts checks and blocker/major criteria. Minor failures are advisory; every pending criterion remains incomplete. Project-defined pilot gate, not enterprise certification or statistical proof.';
 export function ensure(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
 }
@@ -57,13 +57,15 @@ function oracleReady(item: Case): boolean {
   return item.review_status === 'verified' && item.independent_reference && item.sources.every(source => source.authoritative);
 }
 export function rowSuccess(row: Row): boolean {
-  return !row.missing && !row.error && !row.unreviewed && row.oracle_ready && !row.synthetic && row.objective === true && row.evidence === 'pass' && row.answer === 'pass';
+  return !row.missing && !row.error && !row.unreviewed && row.oracle_ready && !row.synthetic && row.objective === true && !rowFailure(row);
 }
-export function rowFailure(row: Row): boolean { return row.objective === false || row.evidence === 'fail' || row.answer === 'fail'; }
+/** Required failures only; an advisory does not turn a successful run into a regression. */
+export function rowFailure(row: Row): boolean { return row.objective === false || row.criterion_failures.blocker > 0 || row.criterion_failures.major > 0; }
 
 export function summarize(rows: Row[]): Counts {
   const counts: Counts = { expected: rows.length, missing: 0, error: 0, unreviewed: 0, objective_pass: 0, objective_fail: 0,
-    evidence_fail: 0, answer_fail: 0, reviewed_success: 0, synthetic: 0, reviewed_success_rate: null };
+    evidence_fail: 0, answer_fail: 0, reviewed_success: 0, synthetic: 0, reviewed_success_rate: null,
+    required_fail: 0, advisory_runs: 0, criterion_failures: { blocker: 0, major: 0, minor: 0 } };
   for (const row of rows) {
     for (const field of ['missing', 'error', 'unreviewed', 'synthetic'] as const) counts[field] += Number(row[field]);
     counts.objective_pass += Number(row.objective === true);
@@ -71,6 +73,9 @@ export function summarize(rows: Row[]): Counts {
     counts.evidence_fail += Number(row.evidence === 'fail');
     counts.answer_fail += Number(row.answer === 'fail');
     counts.reviewed_success += Number(rowSuccess(row));
+    counts.required_fail += Number(rowFailure(row));
+    counts.advisory_runs += Number(row.criterion_failures.minor > 0);
+    for (const severity of SEVERITIES) counts.criterion_failures[severity] += row.criterion_failures[severity];
   }
   counts.reviewed_success_rate = rows.length ? counts.reviewed_success / rows.length : null;
   return counts;
@@ -162,12 +167,13 @@ export function evaluate(cases: Case[], runs: Run[], reviews: Review[] = [], sup
       synthetic: item.origin === 'synthetic' || run?.execution === 'synthetic', oracle_ready: oracleReady(item),
       versions: run?.versions ?? null, objective: completed ? details.length === 0 : null, objective_details: details,
       answer: reviewed?.answer ?? 'pending', evidence: reviewed?.evidence ?? 'pending',
+      criterion_failures: reviewed?.criterion_failures ?? { blocker: 0, major: 0, minor: 0 },
       output_sha256: completed?.output_sha256 ?? null, review: review ?? null,
       metrics: { elapsed_ms: run?.elapsed_ms ?? null, input_tokens: run?.input_tokens ?? null, output_tokens: run?.output_tokens ?? null },
     });
   }
   return structuredClone({ harness: HARNESS_VERSION, dataset_sha256: plan.dataset_sha256, policy: POLICY,
-    plan, plan_sha256: digest(plan), label: label(rows), gate_scope: 'holdout only, per condition; not evidence of comparative improvement',
+    plan, plan_sha256: digest(plan), label: label(rows), gate_scope: 'required criteria on holdout only, per condition; minor failures are advisory, not evidence of comparative improvement',
     overall_counts: summarize(rows), condition_counts: Object.fromEntries(plan.conditions.map(condition => [condition, summarize(rows.filter(row => row.condition === condition))])),
     gates: gates(rows, plan.conditions), metrics: metrics(rows, plan.conditions), rows,
   });
@@ -201,14 +207,16 @@ export function validateReport(value: unknown): Report {
     }
     if (row.missing || row.error) {
       ensure(row.objective === null && row.objective_details.length === 0 && !row.unreviewed && row.answer === 'pending' && row.evidence === 'pending' && row.review === null && row.output_sha256 === null, 'Missing/error run cannot carry completed judgments');
+      ensure(SEVERITIES.every(severity => row.criterion_failures[severity] === 0), 'Missing/error run cannot carry criterion failures');
     } else {
       ensure(typeof row.objective === 'boolean' && row.objective === (row.objective_details.length === 0) && row.output_sha256 !== null, 'Objective verdict disagrees with diagnostics');
-      if (row.review === null) ensure(row.answer === 'pending' && row.evidence === 'pending' && row.unreviewed, 'Verdict without human review');
+      if (row.review === null) ensure(row.answer === 'pending' && row.evidence === 'pending' && row.unreviewed && SEVERITIES.every(severity => row.criterion_failures[severity] === 0), 'Verdict without human review');
       else {
         ensure(row.review.run_id === row.run_id && row.review.case_sha256 === row.case_sha256 && row.review.output_sha256 === row.output_sha256, 'Report has a stale review binding');
         const reviewed = summarizeReview(row.rubric, row.review);
         ensure(row.answer === reviewed.answer && row.evidence === reviewed.evidence, 'Report verdict differs from human review');
         ensure(row.unreviewed === reviewed.pending, 'Review completeness is inconsistent');
+        ensure(same(row.criterion_failures, reviewed.criterion_failures), 'Criterion failure counts differ from human review');
       }
     }
   }

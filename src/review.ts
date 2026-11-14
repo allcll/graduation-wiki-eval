@@ -1,8 +1,8 @@
 import { digest } from './json.js';
-import { rubricSchema, reviewSchema, type Review, type Rubric, type CriterionResult } from './schema.js';
+import { rubricSchema, reviewSchema, type Review, type Rubric, type CriterionResult, type CriterionFailureCounts } from './schema.js';
 
 type Verdict = CriterionResult['verdict'];
-export interface ReviewSummary { answer: Verdict; evidence: Verdict; pending: boolean }
+export interface ReviewSummary { answer: Verdict; evidence: Verdict; pending: boolean; criterion_failures: CriterionFailureCounts }
 
 /** Derive dimension verdicts without hiding unfinished criteria behind a failure. */
 export function summarizeReview(rubricInput: Rubric, reviewInput: Review): ReviewSummary {
@@ -17,5 +17,9 @@ export function summarizeReview(rubricInput: Rubric, reviewInput: Review): Revie
     const verdicts = rubric.criteria.filter(item => item.dimension === dimension).map(item => results.get(item.id)?.verdict);
     return verdicts.includes('fail') ? 'fail' : verdicts.includes('pending') ? 'pending' : 'pass';
   };
-  return { answer: aggregate('answer'), evidence: aggregate('evidence'), pending: review.criterion_results.some(item => item.verdict === 'pending') };
+  const failures: CriterionFailureCounts = { blocker: 0, major: 0, minor: 0 };
+  for (const criterion of rubric.criteria) {
+    if (results.get(criterion.id)?.verdict === 'fail') failures[criterion.severity]++;
+  }
+  return { answer: aggregate('answer'), evidence: aggregate('evidence'), pending: review.criterion_results.some(item => item.verdict === 'pending'), criterion_failures: failures };
 }

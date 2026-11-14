@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { digest, parseJson, readRecords, writeRecords } from '../src/json.js';
 import { HARNESS_VERSION, VERSION_KEYS, parseCases, parseRuns, parseReviews, versionsSchema, type Case, type Run, type Review } from '../src/schema.js';
-import { datasetHash, evaluate, makePlan, objectiveDetails, validatePlan, validateReport } from '../src/evaluate.js';
+import { datasetHash, evaluate, makePlan, objectiveDetails, rowFailure, rowSuccess, validatePlan, validateReport } from '../src/evaluate.js';
 import { compareReports } from '../src/compare.js';
 import { summarizeReview } from '../src/review.js';
 import { jsonBlock, markdown } from '../src/reporting.js';
@@ -26,8 +26,8 @@ function fixtures(): { cases: Case[]; runs: Run[]; reviews: Review[] } {
     id: `test-${index}`, family: `family-${index}`, split: 'holdout', origin: 'real',
     review_status: 'verified', independent_reference: true, oracle_reviewer: 'unit-test-only',
     rubric: { version: 'test-v1', criteria: [
-      { id: 'answer-scope', dimension: 'answer', description: 'The answer applies the test rule.' },
-      { id: 'source-scope', dimension: 'evidence', description: 'The answer cites the applicable test source.' },
+      { id: 'answer-scope', dimension: 'answer', severity: 'major', description: 'The answer applies the test rule.' },
+      { id: 'source-scope', dimension: 'evidence', severity: 'major', description: 'The answer cites the applicable test source.' },
     ] },
     question: 'Fictional question for software testing', expected: { action: 'answer', facts: { credits: index + 1 } },
     sources: [{ id: 'test-source', version: 'test-v1', locator: 'test clause', excerpt: 'Invented source', authoritative: true }],
@@ -317,11 +317,11 @@ test('criterion coverage is exact and completed judgments need a reason', () => 
 
 test('failed criteria do not hide pending criteria in the same dimension', () => {
   const fixture = fixtures(), item = at(fixture.cases), review = at(fixture.reviews);
-  item.rubric.criteria.push({ id: 'exception', dimension: 'answer', description: 'Explain the exception.' });
+  item.rubric.criteria.push({ id: 'exception', dimension: 'answer', severity: 'major', description: 'Explain the exception.' });
   review.criterion_results.push({ criterion_id: 'exception', verdict: 'pending', rationale: '' });
   at(review.criterion_results).verdict = 'fail';
   refresh(fixture);
-  assert.deepEqual(summarizeReview(item.rubric, review), { answer: 'fail', evidence: 'pass', pending: true });
+  assert.deepEqual(summarizeReview(item.rubric, review), { answer: 'fail', evidence: 'pass', pending: true, criterion_failures: { blocker: 0, major: 1, minor: 0 } });
   const result = report(fixture);
   assert.equal(at(result.rows).unreviewed, true);
   assert.equal(result.gates['C']?.gate, 'FAIL');
@@ -373,4 +373,137 @@ test('Markdown fencing handles many backtick runs without an argument-limit erro
   assert.ok(rendered.startsWith('```json\n'));
   assert.ok(rendered.endsWith('\n```'));
   assert.deepEqual(JSON.parse(rendered.slice('```json\n'.length, -'\n```'.length)), value);
+});
+
+test('criterion severity is explicit and older criteria cannot silently inherit a policy', () => {
+  const item = at(fixtures().cases);
+  const { severity: _severity, ...oldCriterion } = at(item.rubric.criteria);
+  for (const criterion of [oldCriterion, { ...oldCriterion, severity: 'critical' }]) {
+    assert.throws(() => parseCases([{ ...item, rubric: { ...item.rubric, criteria: [criterion, at(item.rubric.criteria, 1)] } }]));
+  }
+  assert.throws(() => parseRuns([{ ...at(fixtures().runs), versions: { ...at(fixtures().runs).versions, harness: 'graduation-wiki-eval/0.3' } }]));
+  assert.throws(() => validatePlan({ ...makePlan([item]), schema: 'graduation-wiki-eval/plan-v3' }, [item]));
+});
+
+test('blocker and major failures block the required gate while minor failures remain visible advisories', () => {
+  for (const severity of ['blocker', 'major', 'minor'] as const) {
+    const fixture = fixtures();
+    at(at(fixture.cases).rubric.criteria).severity = severity;
+    at(at(fixture.reviews).criterion_results).verdict = 'fail';
+    refresh(fixture);
+    const result = report(fixture), row = at(result.rows), advisory = severity === 'minor';
+    assert.equal(result.gates['C']?.gate, advisory ? 'PASS' : 'FAIL', severity);
+    assert.equal(rowFailure(row), !advisory);
+    assert.equal(rowSuccess(row), advisory);
+    assert.equal(row.answer, 'fail');
+    assert.equal(result.overall_counts.reviewed_success, advisory ? 3 : 2);
+    assert.equal(result.overall_counts.required_fail, advisory ? 0 : 1);
+    assert.equal(result.overall_counts.advisory_runs, advisory ? 1 : 0);
+    assert.equal(result.overall_counts.criterion_failures[severity], 1);
+    assert.deepEqual(validateReport(result), result);
+    assert.match(markdown(result), /개선 권고/);
+    assert.match(markdown(result), new RegExp(`"severity": "${severity}"`));
+  }
+});
+
+test('pending criteria remain incomplete at every severity and required failures coexist with pending minor review', () => {
+  for (const severity of ['blocker', 'major', 'minor'] as const) {
+    const fixture = fixtures();
+    at(at(fixture.cases).rubric.criteria).severity = severity;
+    at(at(fixture.reviews).criterion_results).verdict = 'pending';
+    refresh(fixture);
+    assert.equal(report(fixture).gates['C']?.gate, 'INCONCLUSIVE');
+    assert.equal(report(fixture).overall_counts.unreviewed, 1);
+  }
+  const fixture = fixtures(), item = at(fixture.cases), review = at(fixture.reviews);
+  item.rubric.criteria.push({ id: 'clarity', dimension: 'answer', severity: 'minor', description: 'Avoid unnecessary repetition.' });
+  review.criterion_results.push({ criterion_id: 'clarity', verdict: 'pending', rationale: '' });
+  at(review.criterion_results).verdict = 'fail';
+  refresh(fixture);
+  const result = report(fixture);
+  assert.equal(result.gates['C']?.gate, 'FAIL');
+  assert.equal(result.overall_counts.required_fail, 1);
+  assert.equal(result.overall_counts.unreviewed, 1);
+  assert.ok(result.gates['C']?.reasons.includes('unreviewed'));
+  assert.ok(result.gates['C']?.reasons.includes('confirmed_failure'));
+  assert.deepEqual(validateReport(result), result);
+});
+
+test('automatic action and fact mismatches are required even if every human criterion is minor', () => {
+  for (const failure of ['action', 'facts'] as const) {
+    const fixture = fixtures();
+    at(fixture.cases).rubric.criteria.forEach(item => { item.severity = 'minor'; });
+    if (failure === 'action') success(fixture.runs).output.action = 'clarify';
+    else success(fixture.runs).output.facts['credits'] = 999;
+    refresh(fixture);
+    const result = report(fixture);
+    assert.equal(result.gates['C']?.gate, 'FAIL');
+    assert.equal(result.overall_counts.required_fail, 1);
+    assert.equal(result.overall_counts.objective_fail, 1);
+    assert.deepEqual(result.overall_counts.criterion_failures, { blocker: 0, major: 0, minor: 0 });
+  }
+});
+
+test('severity counts count failed criterion occurrences while required failures count runs', () => {
+  const fixture = fixtures(), item = at(fixture.cases), review = at(fixture.reviews);
+  item.rubric.criteria.push({ id: 'clarity', dimension: 'answer', severity: 'minor', description: 'Avoid unnecessary repetition.' });
+  review.criterion_results.forEach(result => { result.verdict = 'fail'; });
+  review.criterion_results.push({ criterion_id: 'clarity', verdict: 'fail', rationale: 'Repeated explanation.' });
+  refresh(fixture);
+  const repeatedRuns = fixture.runs.map(run => ({ ...structuredClone(run), run_id: `${run.run_id}-repeat2`, repeat: 2 }));
+  const repeatedReviews = fixture.reviews.map(value => ({ ...structuredClone(value), run_id: `${value.run_id}-repeat2` }));
+  const result = evaluate(fixture.cases, [...fixture.runs, ...repeatedRuns], [...fixture.reviews, ...repeatedReviews], makePlan(fixture.cases, ['C'], 2));
+  assert.equal(result.overall_counts.expected, 6);
+  assert.equal(result.overall_counts.required_fail, 2);
+  assert.equal(result.overall_counts.advisory_runs, 2);
+  assert.deepEqual(result.overall_counts.criterion_failures, { blocker: 0, major: 4, minor: 2 });
+  assert.deepEqual(validateReport(result), result);
+});
+
+test('advisories do not bypass draft or synthetic oracle restrictions', () => {
+  for (const variant of ['draft', 'synthetic'] as const) {
+    const fixture = fixtures();
+    at(at(fixture.cases).rubric.criteria).severity = 'minor';
+    at(at(fixture.reviews).criterion_results).verdict = 'fail';
+    if (variant === 'draft') at(fixture.cases).review_status = 'draft';
+    else at(fixture.cases).origin = 'synthetic';
+    refresh(fixture);
+    const result = report(fixture);
+    assert.equal(result.gates['C']?.gate, 'INCONCLUSIVE');
+    assert.equal(result.overall_counts.reviewed_success, 2);
+    assert.equal(result.overall_counts.advisory_runs, 1);
+  }
+});
+
+test('version comparisons use the same required policy and leave minor findings in the reports', () => {
+  const fixture = fixtures();
+  at(at(fixture.cases).rubric.criteria).severity = 'minor'; refresh(fixture);
+  const baseline = report(fixture);
+  at(at(fixture.reviews).criterion_results).verdict = 'fail';
+  fixture.runs.forEach(run => { run.versions.skill = 'skill-v2'; });
+  const candidate = report(fixture), comparison = compareReports(baseline, candidate);
+  assert.equal(comparison.status, 'COMPARABLE');
+  assert.equal(comparison.counts.unchanged_pass, 3);
+  assert.equal(comparison.counts.regressed, 0);
+  assert.equal(candidate.overall_counts.advisory_runs, 1);
+  at(at(fixture.reviews, 1).criterion_results).verdict = 'fail';
+  assert.equal(compareReports(baseline, report(fixture)).counts.regressed, 1);
+  at(at(fixture.cases).rubric.criteria).severity = 'major'; refresh(fixture);
+  assert.equal(compareReports(baseline, report(fixture)).status, 'INCONCLUSIVE');
+});
+
+test('edited row or summary severity counts cannot hide a required failure', () => {
+  const fixture = fixtures(); at(at(fixture.reviews).criterion_results).verdict = 'fail';
+  for (const mutate of [
+    (value: ReturnType<typeof report>) => { at(value.rows).criterion_failures.major = 0; },
+    (value: ReturnType<typeof report>) => { value.overall_counts.required_fail = 0; },
+    (value: ReturnType<typeof report>) => { value.overall_counts.criterion_failures.major = 0; },
+    (value: ReturnType<typeof report>) => { value.overall_counts.advisory_runs = 1; },
+  ]) {
+    const result = report(fixture); mutate(result);
+    assert.throws(() => validateReport(result));
+  }
+  const unreviewed = evaluate(fixture.cases, fixture.runs, [], makePlan(fixture.cases, ['C']));
+  at(unreviewed.rows).criterion_failures.minor = 1;
+  assert.throws(() => validateReport(unreviewed), /without human review/);
 });
