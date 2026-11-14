@@ -78,3 +78,38 @@ test('changed bytes, stale exports, broken links and escaping symlinks are rejec
   await assert.rejects(loadDataset(root, 'manifest.json'), /inside the repository/);
   await assert.rejects(loadDataset(root, '../manifest.json'), /relative/);
 });
+
+test('metadata-only is explicit; it never creates a review without the pinned source', async t => {
+  const root = await mkdtemp(join(tmpdir(), 'dataset-metadata-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await fixture(root);
+  await rm(join(root, 'book.pdf'));
+  const metadata = await loadDataset(root, 'manifest.json', { metadataOnly: true });
+  assert.equal(metadata.source_assets_verified, false);
+  await assert.rejects(loadDataset(root, 'manifest.json'), /ENOENT/);
+  await assert.rejects(writeDatasetReview(root, 'manifest.json', join(root, 'review')), /ENOENT/);
+  await assert.rejects(readFile(join(root, 'review/review.html')), /ENOENT/);
+  await writeFile(join(root, 'cases.jsonl'), 'changed');
+  await assert.rejects(loadDataset(root, 'manifest.json', { metadataOnly: true }), /checksum mismatch/);
+});
+
+test('published 112-case release keeps review bindings, counts and all 82 source links', async () => {
+  const dataset = await loadDataset('.', 'datasets/graduation-2026-2/v1/manifest.json', { metadataOnly: true });
+  assert.equal(dataset.cases.length, 112);
+  assert.equal(dataset.dataset_sha256, 'sha256:8141cfaaad4e275949eb4ba95205b72192f7cbbbc9fb7f49430aef37555861fe');
+  assert.equal(dataset.cases.filter(item => item.id.startsWith('CS-')).length, 20);
+  assert.equal(dataset.cases.filter(item => item.id.startsWith('OPS-')).length, 5);
+  assert.equal(dataset.cases.filter(item => item.origin === 'synthetic').length, 87);
+  assert.ok(dataset.cases.every(item => item.split === 'dev'));
+  assert.equal(Object.keys(dataset.links).length, 82);
+  const { manifest } = dataset;
+  for (const file of [manifest.cases, manifest.drafts, manifest.workspace, manifest.source_links, ...manifest.provenance]) {
+    const content = await readFile(file.path, 'utf8');
+    // Regression guards for known publication exclusions, not a general anonymization proof.
+    assert.doesNotMatch(content, /(?:file:\/\/\/|\/Users\/|\/home\/|\/var\/folders\/)/);
+    assert.doesNotMatch(content, /github\.com\/allcll\/allcll-graduation-wiki/);
+    assert.doesNotMatch(content, /reports\/(?:qa|audits)|cases\.csv#L\d+|triage\.md#L\d+/);
+    assert.doesNotMatch(content, /[\w.+-]+@[\w.-]+\.[a-zA-Z]+/);
+    assert.doesNotMatch(content, /"(?:student_id|student_number|user_id|email|phone|access_token|api_key)"\s*:/i);
+  }
+});

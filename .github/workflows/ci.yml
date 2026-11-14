@@ -24,5 +24,7 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npm run check
+      - name: Verify the versioned dataset without source downloads or model calls
+        run: npm run check:dataset
       - name: Verify the installed package without a model
         run: npm run check:package

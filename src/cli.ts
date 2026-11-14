@@ -28,10 +28,10 @@ const flags = {
   conditions: { type: 'string' }, repeats: { type: 'string' },
   condition: { type: 'string' }, split: { type: 'string' }, check: { type: 'boolean' },
   workspace: { type: 'string' }, title: { type: 'string' }, 'approved-only': { type: 'boolean' },
-  'source-links': { type: 'string' },
+  'source-links': { type: 'string' }, 'metadata-only': { type: 'boolean' },
 } as const;
 const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flags)[]> = {
-  'dataset-check': ['root', 'manifest'], 'dataset-review': ['root', 'manifest', 'out'],
+  'dataset-check': ['root', 'manifest', 'metadata-only'], 'dataset-review': ['root', 'manifest', 'out'],
   validate: ['cases'], plan: ['cases', 'conditions', 'repeats', 'out'], prepare: ['cases', 'config', 'out'],
   run: ['plan'], 'review-template': ['cases', 'runs', 'plan', 'out'], report: ['cases', 'runs', 'reviews', 'plan', 'out', 'check', 'condition'],
   compare: ['baseline', 'candidate', 'condition', 'split', 'out'], demo: ['out'],
@@ -40,7 +40,7 @@ const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flag
 };
 const HELP = `grad-eval <command> [options]
 
-  dataset-check   --root DATA_REPO --manifest RELATIVE_MANIFEST
+  dataset-check   --root DATA_REPO --manifest RELATIVE_MANIFEST [--metadata-only]
   dataset-review  --root DATA_REPO --manifest RELATIVE_MANIFEST --out NEW_DIRECTORY
   validate        --cases FILE
   oracle-init     --cases FILE --out NEW_FILE.json [--title TEXT]
@@ -127,8 +127,8 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     let result: unknown;
     switch (command) {
       case 'dataset-check': {
-        const dataset = await loadDataset(required(values.root, 'root'), required(values.manifest, 'manifest'));
-        result = { valid: true, id: dataset.manifest.id, version: dataset.manifest.version, cases: dataset.cases.length, dataset_sha256: dataset.dataset_sha256 };
+        const dataset = await loadDataset(required(values.root, 'root'), required(values.manifest, 'manifest'), { metadataOnly: values['metadata-only'] ?? false });
+        result = { valid: true, id: dataset.manifest.id, version: dataset.manifest.version, cases: dataset.cases.length, dataset_sha256: dataset.dataset_sha256, source_assets_verified: dataset.source_assets_verified };
         break;
       }
       case 'dataset-review': {

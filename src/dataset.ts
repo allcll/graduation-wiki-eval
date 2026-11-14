@@ -31,12 +31,13 @@ async function resolveFile(root: string, name: string): Promise<string> {
 }
 
 /** Verify bytes, review bindings and the exported oracle before using a shared release. */
-export async function loadDataset(rootPath: string, manifestPath: string) {
+export async function loadDataset(rootPath: string, manifestPath: string, options: { metadataOnly?: boolean } = {}) {
   const root = await realpath(rootPath);
   const manifest = datasetManifestSchema.parse(parseJson(await readFile(await resolveFile(root, manifestPath), 'utf8')));
   const files = [manifest.cases, manifest.drafts, manifest.workspace, manifest.source_links, ...manifest.assets, ...manifest.provenance];
   if (new Set(files.map(file => file.path)).size !== files.length) throw new Error('Duplicate manifest paths');
   for (const file of files) {
+    if (options.metadataOnly && manifest.assets.some(asset => asset.path === file.path)) continue;
     const bytes = await readFile(await resolveFile(root, file.path));
     if (`sha256:${createHash('sha256').update(bytes).digest('hex')}` !== file.sha256) throw new Error(`Dataset checksum mismatch: ${file.path}`);
   }
@@ -54,7 +55,7 @@ export async function loadDataset(rootPath: string, manifestPath: string) {
     }
   }
   if ([...sourceIds].some(id => !Object.hasOwn(links, id))) throw new Error('Source links are missing from the dataset');
-  return { root, manifest, cases, drafts, workspace, links, dataset_sha256: makePlan(cases).dataset_sha256 };
+  return { root, manifest, cases, drafts, workspace, links, dataset_sha256: makePlan(cases).dataset_sha256, source_assets_verified: !options.metadataOnly };
 }
 
 /** A movable review folder; no user-specific paths are written into HTML or JSON. */

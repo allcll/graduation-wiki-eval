@@ -21,6 +21,8 @@ try {
   assert.ok(packageInfo.files.some(file => file.path === 'dist/index.d.ts'));
   assert.ok(packageInfo.files.some(file => file.path === 'sample/cases.jsonl'));
   assert.ok(packageInfo.files.some(file => file.path === 'dist/oracle-ui.bundle.js'));
+  assert.ok(packageInfo.files.some(file => file.path === 'datasets/graduation-2026-2/v1/manifest.json'));
+  assert.ok(packageInfo.files.every(file => !file.path.endsWith('.pdf')), 'Downloaded handbooks must not ship');
   assert.ok(packageInfo.files.every(file => !/\.(?:py|whl)$/.test(file.path)), 'Old Python artifacts must not ship');
   const installed = join(temporary, 'installed');
   await mkdir(installed);
@@ -28,6 +30,10 @@ try {
   run('npm', ['install', '--prefer-offline', '--ignore-scripts', '--no-audit', '--no-fund',
     '--prefix', installed, join(temporary, packageInfo.filename)], temporary);
   const binary = join(installed, 'node_modules/.bin/grad-eval');
+  const shared = JSON.parse(run(binary, ['dataset-check', '--root', join(installed, 'node_modules/graduation-wiki-eval'),
+    '--manifest', 'datasets/graduation-2026-2/v1/manifest.json', '--metadata-only'], installed));
+  assert.equal(shared.cases, 112);
+  assert.equal(shared.source_assets_verified, false);
   assert.equal(run(binary, ['--version'], installed).trim(), '0.4.0');
   run(binary, ['demo', '--out', 'demo'], installed);
   run(binary, ['oracle-review', '--cases', 'demo/cases.jsonl', '--out', 'oracle/review.html'], installed);
