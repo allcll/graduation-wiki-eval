@@ -23,3 +23,6 @@ reports/
 demo-output/
 *.local.json
 *.local.jsonl
+
+# Obtain the pinned handbook from its publisher; keep the downloaded copy local.
+/datasets/**/sources/*.pdf

@@ -21,7 +21,10 @@
     "dist",
     "sample",
     "README.md",
-    "docs"
+    "docs",
+    "datasets/**/*.md",
+    "datasets/**/*.json",
+    "datasets/**/*.jsonl"
   ],
   "scripts": {
     "build": "node scripts/clean.mjs && tsc -p tsconfig.build.json && node scripts/build-review-ui.mjs",
@@ -31,7 +34,8 @@
     "check:package": "node scripts/check-package.mjs",
     "dev": "node --import tsx src/cli.ts",
     "demo": "npm run build && node dist/cli.js demo",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "check:dataset": "node dist/cli.js dataset-check --root . --manifest datasets/graduation-2026-2/v1/manifest.json --metadata-only"
   },
   "repository": {
     "type": "git",

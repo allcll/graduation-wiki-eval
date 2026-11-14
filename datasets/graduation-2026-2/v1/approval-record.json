@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-11-14T16:39:18.939Z",
+  "reviewer": "안금서",
+  "approval_basis": "대화에서 사용자가 현재 112건 정답 초안의 일괄 확정과 검토자 이름 입력을 요청함.",
+  "approval_scope": "평가용 정답 초안의 사용자 승인",
+  "independent_manual_source_review_attested": false,
+  "review_note_style": "문항별 판정 기준·적용 범위. 특정인이 원문 대조를 수행했다는 진술은 넣지 않음.",
+  "base_dataset_sha256": "sha256:299eba80b107dd9d68d6cb0596a1c83f2d7af048e74c3d6cdcf1b72f8c3b42a9",
+  "original_workspace_sha256": "ea73fb34694ac58c6fb72c0cab3158e9af68333e866905f640f7dcae3167226a",
+  "original_html_sha256": "5419c899b0b0b1fd4e3600d77a251fa78d43a201a73b62a7b0ffb83067da9b1e",
+  "approved_cases": 112,
+  "pilot_cases": [
+    "CS-2026-2-001",
+    "CS-2026-2-003",
+    "CS-2026-2-013"
+  ],
+  "conditions_planned": [
+    "A",
+    "B",
+    "C"
+  ],
+  "repeats_planned": 1,
+  "pilot_jobs_planned": 9,
+  "model_evaluation_executed": false,
+  "external_notification_sent": false,
+  "existing_authorship_provenance_changed": false
+}

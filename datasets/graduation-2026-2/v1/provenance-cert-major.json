@@ -1,0 +1,514 @@
+{
+  "created_on": "2026-11-15",
+  "author": "AI (Codex)",
+  "method": "2026-2 편람의 표·각주와 기존 82건을 읽은 LLM(Codex)이 의미적 실패 유형과 정답 초안을 작성. 스크립트는 형식화·검사·HTML 생성에 사용.",
+  "separate_model_api_called": false,
+  "human_reviewed": false,
+  "source_pdf": "datasets/graduation-2026-2/v1/sources/handbook-2026-2.pdf",
+  "pdf_sha256": "1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+  "source_url_confirmation": "기존 WIKI에서 확보한 2026-2 PDF이며 공식 배포 URL 확인 필요 상태 유지.",
+  "source_pages_visually_checked": [
+    15,
+    16,
+    17,
+    18,
+    31,
+    32,
+    127,
+    128,
+    129
+  ],
+  "source_excerpts": "원문 표·각주의 AI 요약임을 명시하고 실제 PDF 페이지를 연결함.",
+  "base_cases": 82,
+  "added_cases": 30,
+  "total_cases": 112,
+  "added_by_domain": {
+    "영어인증": 6,
+    "고전독서": 7,
+    "코딩인증": 6,
+    "전공요건": 11
+  },
+  "base_cases_sha256": "e440f8fe90577c9bac67e45a9a9f8246e413876ec6f87808a23ee5872aa5b58c",
+  "base_html_sha256": "460bf848666064ad421c19bcd1e8b09bdd88ca375b7ae05cdde04c133ee507dc",
+  "base_workspace_sha256": "c767d6409163ad748445a7e7c978f48818e7fc30a5c24e2394a34add5550fb2f",
+  "selection": [
+    {
+      "id": "EXP-EN-2026-2-001",
+      "domain": "영어인증",
+      "title": "같은 TOEIC 점수도 입학 연도에 따라 결과가 달라짐",
+      "related_existing_ids": [
+        "SEJ-2026-2-EN-01"
+      ],
+      "novelty": "기존 2023학번 기준 조회를 넘어 동일 점수에서 학번 경계가 판정을 바꾸는지 비교한다.",
+      "reviewer_focus": "2022학번은 700점, 2023학번은 800점 기준이다. 같은 750점을 두 학번에 일괄 적용하지 않고, 점수 조건 충족을 신청·인증 완료로 바꾸지 않는다.",
+      "source_keys": [
+        "english-score"
+      ]
+    },
+    {
+      "id": "EXP-EN-2026-2-002",
+      "domain": "영어인증",
+      "title": "TOEIC 미달이어도 다른 공인시험으로 충족 가능",
+      "related_existing_ids": [
+        "SEJ-2026-2-EN-01",
+        "SEJ-2026-2-EN-02"
+      ],
+      "novelty": "단일 시험 기준만 비교하던 기존 문항에 시험 간 대체 경로와 신청 절차를 함께 적용한다.",
+      "reviewer_focus": "TOEIC은 미달이지만 TOEFL iBT 80점이 기준을 충족한다. 서로 다른 시험의 기준을 모두 충족해야 하는 것으로 처리하지 않는다. 본인 신청·증빙 제출은 별도다.",
+      "source_keys": [
+        "english-score"
+      ]
+    },
+    {
+      "id": "EXP-EN-2026-2-003",
+      "domain": "영어인증",
+      "title": "영어 면제 대상이면 Intensive English 수강 불가",
+      "related_existing_ids": [
+        "SEJ-2026-2-EN-03"
+      ],
+      "novelty": "기존에는 수강 중 영어인증 신청을 막는 규칙을 다뤘다. 이번에는 면제 규정과 대체 과목의 신청 제한을 연결한다.",
+      "reviewer_focus": "경제학과의 10학기 이상 이수 조건으로 영어 면제 대상이며, 면제 대상자는 Intensive English를 신청할 수 없다. 초과학기 수강 가능 문구만 적용해 면제자 제한을 무시하지 않는다.",
+      "source_keys": [
+        "english-exemption",
+        "intensive"
+      ]
+    },
+    {
+      "id": "EXP-EN-2026-2-004",
+      "domain": "영어인증",
+      "title": "영어의 수료 후 면제가 고전독서 면제를 뜻하지 않음",
+      "related_existing_ids": [
+        "SEJ-2026-2-INFO-01",
+        "HBX-TRANSFER-CERTIFICATION"
+      ],
+      "novelty": "인증제 전체 면제였던 편입생 사례와 달리 특정 인증의 면제가 다른 인증으로 전파되는 오류를 확인한다.",
+      "reviewer_focus": "영어 면제 조항의 수료 후 2학기 경과 조건을 적용하되, 이를 고전독서까지 면제하는 것으로 확대하지 않는다. 2012~2022학번 일반 학생의 영어·고전독서 요구와 인증제 전체 면제 사유를 구분한다.",
+      "source_keys": [
+        "certification-combination",
+        "english-exemption",
+        "classics-rules"
+      ]
+    },
+    {
+      "id": "EXP-EN-2026-2-005",
+      "domain": "영어인증",
+      "title": "G-TELP의 레벨과 점수를 함께 확인",
+      "related_existing_ids": [
+        "SEJ-2026-2-EN-01"
+      ],
+      "novelty": "단순 점수 대소 비교가 아니라 시험 레벨과 점수의 결합 조건을 평가한다.",
+      "reviewer_focus": "일반 2023학번의 표는 Level 2의 77점이다. Level 3 점수를 Level 2 점수로 바꾸거나 레벨 간 환산을 만들어 인정하지 않는다. 편람 밖 별도 인정 가능성까지 단정하지 않는다.",
+      "source_keys": [
+        "english-score"
+      ]
+    },
+    {
+      "id": "EXP-EN-2026-2-006",
+      "domain": "영어인증",
+      "title": "학과를 모르면 TOEIC 850점의 충족 여부를 확정할 수 없음",
+      "related_existing_ids": [
+        "SEJ-2026-2-EN-01",
+        "SEJ-2026-2-EN-02"
+      ],
+      "novelty": "기존 문항은 학과를 지정했다. 이번에는 특례 적용에 필요한 입력이 빠졌을 때 추가 질문을 하는지 확인한다.",
+      "reviewer_focus": "일반 전공 800점과 영어데이터융합 전공 900점 사이의 점수다. 학과·전공을 요청하고 어느 기준도 임의로 확정하지 않는다.",
+      "source_keys": [
+        "english-score"
+      ]
+    },
+    {
+      "id": "EXP-CL-2026-2-001",
+      "domain": "고전독서",
+      "title": "시험 5권 통과가 고전특강의 인정 5권을 뜻하지 않음",
+      "related_existing_ids": [
+        "SEJ-2026-2-CL-01",
+        "CS-2026-2-019"
+      ],
+      "novelty": "기존 총 10권 인증 사례의 영역 상한을 고전특강 신청의 5권 선행 조건에 적용한다.",
+      "reviewer_focus": "서양 영역은 4권까지만 인정된다. 개강 전 영역별 권수에 맞는 5권 조건에 대해 실제 시험 통과 수 5를 그대로 사용하지 않는다.",
+      "source_keys": [
+        "classics-rules"
+      ]
+    },
+    {
+      "id": "EXP-CL-2026-2-002",
+      "domain": "고전독서",
+      "title": "독서토론 성적 경계에 따른 영역별 인증 차이",
+      "related_existing_ids": [
+        "SEJ-2026-2-CL-02"
+      ],
+      "novelty": "기존 강독 과목의 영역 배분과 달리 성적 조건에 따라 동일 도서가 인증되는지를 비교한다.",
+      "reviewer_focus": "독서토론 수업대체 인증은 B0 이상이 필요하다. A만 문학 2권이 추가되어 4·2·3·1을 충족하며, 단순 과목 이수인 C+를 같은 조건으로 취급하지 않는다. 학적 반영 완료 여부는 별도다.",
+      "source_keys": [
+        "classics-rules",
+        "classics-course"
+      ]
+    },
+    {
+      "id": "EXP-CL-2026-2-003",
+      "domain": "고전독서",
+      "title": "공통필수 이수와 교과 연계 고전 인증은 구분",
+      "related_existing_ids": [
+        "CS-2026-2-019",
+        "SEJ-2026-2-CL-02"
+      ],
+      "novelty": "수업대체라는 공통 이름 아래 서로 다른 과목의 추가 요건을 섞지 않는지 확인한다.",
+      "reviewer_focus": "이 과목은 교과 연계 고전 인증자에 한해 1~2권을 인증한다. 독서토론의 B0 조건이나 강독 과목의 P 이수 규칙을 대신 적용하지 않는다.",
+      "source_keys": [
+        "classics-course"
+      ]
+    },
+    {
+      "id": "EXP-CL-2026-2-004",
+      "domain": "고전독서",
+      "title": "해외 경험이 있어도 인증 기간은 자동 연장되지 않음",
+      "related_existing_ids": [],
+      "novelty": "기존에 없던 기간 연장의 프로그램 종류·참여 시점·신청 절차를 함께 적용한다.",
+      "reviewer_focus": "1~6학기 공식 해외 파견 참여는 대상이지만 연장은 신청서 제출자에 한하며 최대 2학기다. 방학 단기 연수·인턴십은 제외한다. 대상 여부를 실제 연장 승인이나 정확히 2학기 부여로 바꾸지 않는다.",
+      "source_keys": [
+        "classics-extension"
+      ]
+    },
+    {
+      "id": "EXP-CL-2026-2-005",
+      "domain": "고전독서",
+      "title": "휴학 중 권수 완료와 학적 인증 반영 시점을 구분",
+      "related_existing_ids": [
+        "SEJ-2026-2-CL-01"
+      ],
+      "novelty": "권수 판정에 머물던 기존 사례와 달리 학적 상태에 따른 인증 반영 시점을 구분한다.",
+      "reviewer_focus": "영역별 권수는 충족하지만 휴학 중 인증 완료자는 복학한 학기 말에 처리한다. 운영 시스템의 실제 반영 상태를 조회한 것처럼 답하지 않는다.",
+      "source_keys": [
+        "classics-rules",
+        "classics-processing"
+      ]
+    },
+    {
+      "id": "EXP-CL-2026-2-006",
+      "domain": "고전독서",
+      "title": "고전독서 인증과 학점 부여의 학번 경계",
+      "related_existing_ids": [
+        "SEJ-2026-2-CL-01"
+      ],
+      "novelty": "같은 인증 실적을 학점 취득으로 변환할 때의 학번 경계를 평가한다.",
+      "reviewer_focus": "2012~2014학번은 7학기 시작 전 10권 완료 시 고전독서1 1학점 부여, 2015학번부터는 인증제로 전환되어 학점을 부여하지 않는다. 0학점을 인증 실패로 해석하지 않는다.",
+      "source_keys": [
+        "classics-rules",
+        "classics-credit"
+      ]
+    },
+    {
+      "id": "EXP-CL-2026-2-007",
+      "domain": "고전독서",
+      "title": "예체능 수료생은 고전특강 대신 코딩 인증 경로 확인",
+      "related_existing_ids": [
+        "HBX-ART-CERTIFICATION",
+        "CS-2026-2-019"
+      ],
+      "novelty": "기존 예체능 사례는 인증이 있지만 졸업작품이 없는 경우였다. 이번에는 졸업작품만 이수한 수료 상태와 대체 과목 제한을 연결한다.",
+      "reviewer_focus": "2023학번부터 예체능대학의 졸업작품만 이수한 수료 상태에는 코딩 인증 통과가 필요하며 고전특강 수강 불가가 명시되어 있다. 일반 고전특강의 5권·학년 조건만으로 특례를 덮어쓰지 않는다.",
+      "source_keys": [
+        "certification-combination",
+        "classics-rules"
+      ]
+    },
+    {
+      "id": "EXP-SW-2026-2-001",
+      "domain": "코딩인증",
+      "title": "TOSC 미달을 보완하는 고급C 성적의 경계",
+      "related_existing_ids": [
+        "SEJ-2026-2-SW-01"
+      ],
+      "novelty": "기존 TOSC 4급·K-MOOC 사례와 달리 전공자에게 유효한 대체 과목과 성적 경계를 확인한다.",
+      "reviewer_focus": "전공자는 TOSC 3급 이상 또는 고급C B0 이상이다. A는 대체 과목으로 충족하고 B는 시험과 과목 모두 미달이다. 두 경로를 모두 요구하거나 과목의 단순 이수를 B0 이상으로 취급하지 않는다.",
+      "source_keys": [
+        "coding"
+      ]
+    },
+    {
+      "id": "EXP-SW-2026-2-002",
+      "domain": "코딩인증",
+      "title": "같은 K-MOOC P도 소속에 따라 인정 경로가 다름",
+      "related_existing_ids": [
+        "SEJ-2026-2-SW-01",
+        "SEJ-2026-2-SW-02"
+      ],
+      "novelty": "기존 문항은 TOSC 급수를 평가했다. 이번에는 시험 없이 동일한 K-MOOC 실적만 있을 때 대체 경로의 소속별 차이를 비교한다.",
+      "reviewer_focus": "컴퓨터공학 전공자 경로에는 K-MOOC P가 없고, 비전공자로 분류된 AI융합전자공학에는 있다. 공학이라는 대학 계열만으로 전공자 여부를 정하지 않는다.",
+      "source_keys": [
+        "coding"
+      ]
+    },
+    {
+      "id": "EXP-SW-2026-2-003",
+      "domain": "코딩인증",
+      "title": "TOSC 급수의 숫자 크기와 등급 순서를 구분",
+      "related_existing_ids": [
+        "SEJ-2026-2-SW-01"
+      ],
+      "novelty": "기존 4급 미달 사례로 드러나지 않는 급수 순서의 방향 오류를 확인한다.",
+      "reviewer_focus": "참고 표에서 전공자에게 1·2·3급이 인정된다. 숫자 비교를 뒤집지 않고 시험과 대체 과목을 동시에 요구하지 않는다.",
+      "source_keys": [
+        "coding"
+      ]
+    },
+    {
+      "id": "EXP-SW-2026-2-004",
+      "domain": "코딩인증",
+      "title": "2022학번에게 2023학번의 인증 두 개 선택 규칙을 적용하지 않기",
+      "related_existing_ids": [
+        "SEJ-2026-2-INFO-01"
+      ],
+      "novelty": "기존에는 2023학번에서 인증 두 개와 전체 졸업을 구분했다. 이번에는 코딩 실적이 있어도 다른 학번의 조합을 대신하지 못함을 확인한다.",
+      "reviewer_focus": "2012~2022학번 일반 학생은 영어와 고전독서가 요구된다. 2023학번부터의 두 개 선택 규칙을 소급 적용하지 않으며 TOSC 실적을 고전독서 대체로 처리하지 않는다.",
+      "source_keys": [
+        "certification-combination",
+        "coding"
+      ]
+    },
+    {
+      "id": "EXP-SW-2026-2-005",
+      "domain": "코딩인증",
+      "title": "TOSC 4급 판정에 필요한 소속 정보가 빠진 문의",
+      "related_existing_ids": [
+        "SEJ-2026-2-SW-01",
+        "SEJ-2026-2-SW-02"
+      ],
+      "novelty": "이미 소속이 주어진 기존 사례와 달리 분류 입력 누락에 대한 추가 질문을 평가한다.",
+      "reviewer_focus": "TOSC 4급은 전공자에게 미달이고 비전공자에게 충족이다. 학과·전공 정보를 요청하고 임의로 비전공자로 가정하지 않는다.",
+      "source_keys": [
+        "coding"
+      ]
+    },
+    {
+      "id": "EXP-SW-2026-2-006",
+      "domain": "코딩인증",
+      "title": "외부 동명 강좌를 본교 K-MOOC로 자동 인정하지 않기",
+      "related_existing_ids": [
+        "SEJ-2026-2-SW-02"
+      ],
+      "novelty": "시험 점수·소속 판정을 넘어 대체 과목의 기관·성적·승인 근거가 다른 경우를 다룬다.",
+      "reviewer_focus": "편람은 본교 e-러닝 K-MOOC:코딩과스토리텔링의 P를 명시한다. 동명 외부 강좌의 등가성을 만들어내지 말고 공식 대체 인정 확인을 요청한다. 별도 승인 가능성 자체를 영구 불가로 단정하지 않는다.",
+      "source_keys": [
+        "coding"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-001",
+      "domain": "전공요건",
+      "title": "법학 복수전공은 합계가 같아도 전필 구성에서 학번 차이 발생",
+      "related_existing_ids": [
+        "HBX-DUAL-LAW-2024"
+      ],
+      "novelty": "기존 기준값 조회에 실제 동일 이수 내역을 넣어 학번 경계와 학점 구분의 동시 적용을 확인한다.",
+      "reviewer_focus": "2023학번은 전필24·전선15, 2024학번부터 전필21·전선18이다. 전선 초과 3학점을 전필 부족에 임의로 전환하지 않는다.",
+      "source_keys": [
+        "dual-credits",
+        "major-required"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-002",
+      "domain": "전공요건",
+      "title": "복수전공 학점을 부전공으로 바꾸려면 신청 절차가 필요",
+      "related_existing_ids": [
+        "HBX-MINOR-ARCH"
+      ],
+      "novelty": "기존 부전공 학점 조회와 달리 학점 충족과 행정 전환을 구분한다.",
+      "reviewer_focus": "경제학 부전공의 21학점 조건은 넘지만 복수전공 포기 후 부전공을 신청해야 한다. 최종학기 등록자는 복수전공 이수포기 및 부전공 신청서를 제출한다.",
+      "source_keys": [
+        "major-process",
+        "minor"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-003",
+      "domain": "전공요건",
+      "title": "복수전공 신청과 선발 완료를 구분",
+      "related_existing_ids": [
+        "HBX-DUAL-ARCH",
+        "HBX-DUAL-LAW-2024"
+      ],
+      "novelty": "기존 문항의 승인 완료 전제를 제거해 학적 상태가 미확정일 때 기준을 성급히 바꾸지 않는지 확인한다.",
+      "reviewer_focus": "학과 승인기준에 따라 선발하며 이수 시기는 선발 이후 학기다. 선발 결과와 적용 학기를 요청하고 신청을 승인으로 간주하지 않는다. 현재 단일전공 최소학점을 임의로 만들지 않는다.",
+      "source_keys": [
+        "major-process",
+        "dual-credits"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-004",
+      "domain": "전공요건",
+      "title": "서로 다른 전필의 시간 충돌은 자의적인 대체를 허용하지 않음",
+      "related_existing_ids": [
+        "HBX-DUAL-REQUIRED-OVERLAP"
+      ],
+      "novelty": "기존 문항은 같은 과목의 중복 인정 문제였다. 이번에는 서로 다른 과목의 강의시간 충돌에 대한 별도 조항을 확인한다.",
+      "reviewer_focus": "4학년의 주·복수전공 전필 시간 중복은 복수전공 학과장 상담 후 전선 대체과목 지정을 받는 경로가 있다. 교과과정상 동일 과목 중복과 시간표 충돌을 구별하고 절차를 생략하지 않는다.",
+      "source_keys": [
+        "major-timetable"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-005",
+      "domain": "전공요건",
+      "title": "전필 교육과정 경과조치의 2025학번 한계",
+      "related_existing_ids": [
+        "HBX-SUBTRACK-REQUIRED",
+        "HBX-REQUIRED-CREDIT-CHANGE"
+      ],
+      "novelty": "기존 필수교양 학점 변경 사례와 다른 전필 경과조치의 원인 조건·대상 학번을 함께 확인한다.",
+      "reviewer_focus": "해당 인정 조항은 2025학년도 입학생까지만 적용한다. 현재 전필을 충족할 수 없다는 사유만으로 2026학번까지 확장하지 않는다. 다른 승인 절차나 모든 전필 인정 가능성까지 부정하지 않는다.",
+      "source_keys": [
+        "major-transition"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-006",
+      "domain": "전공요건",
+      "title": "대학원 과목 인정은 학기 한도와 누적 한도를 함께 적용",
+      "related_existing_ids": [],
+      "novelty": "기존에 없던 학기 한도와 누적 한도의 동시 충족 문제를 추가한다.",
+      "reviewer_focus": "학기별 6학점 이내이면서 총 12학점까지다. 기존 9학점에 계획 6학점을 더하면 누적 한도를 넘는다. 이 한도만으로 어떤 특정 과목을 인정할지나 수강허가 자체를 결정하지 않는다.",
+      "source_keys": [
+        "graduate-courses"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-007",
+      "domain": "전공요건",
+      "title": "만화애니메이션텍 졸업작품 대체는 지정 과목이어야 함",
+      "related_existing_ids": [
+        "HBX-DUAL-ART-THESIS",
+        "HBX-DUAL-DESIGN-THESIS"
+      ],
+      "novelty": "기존 예체능 간 대체와 디자인 복수전공 면제에 없던 만화애니메이션텍의 조건부 대체를 확인한다.",
+      "reviewer_focus": "졸업작품 중복 이수가 불가능한 경우 해당 전공에서 지정한 전선 3학점으로 대체할 수 있다. 3학점이라는 수치만 맞으면 되는 것으로 해석하거나 디자인이노베이션의 면제를 그대로 적용하지 않는다.",
+      "source_keys": [
+        "animation-thesis"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-008",
+      "domain": "전공요건",
+      "title": "디자인 복수전공의 졸업작품 면제와 전필 대체 지정은 별개",
+      "related_existing_ids": [
+        "HBX-DUAL-DESIGN-THESIS"
+      ],
+      "novelty": "기존 졸업작품 면제 답변을 전필 이수조건 전체 면제로 확대하는 오류를 검증한다.",
+      "reviewer_focus": "디자인이노베이션 복수전공은 졸업작품을 이수하지 않아도 되지만, 전필 이수조건은 주임교수 상담 후 전선 대체과목 지정을 받아 충족하도록 되어 있다. 서로 다른 의무를 합쳐 면제하지 않는다.",
+      "source_keys": [
+        "design-substitute"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-009",
+      "domain": "전공요건",
+      "title": "중국통상 복수전공의 어학 기준은 학과 확인이 필요",
+      "related_existing_ids": [
+        "HBX-MINOR-CHINESE"
+      ],
+      "novelty": "기존 부전공 면제에 복수전공이라는 적용 범위와 편람에 없는 학과별 점수 기준을 결합한다.",
+      "reviewer_focus": "복수전공은 학과의 어학 기준과 중국어능력시험 교과목 이수가 요구된다. 입학년도별 점수 기준은 학과 확인이 필수이므로 HSK 급수 기준을 만들어내지 않는다. 부전공 면제를 복수전공으로 확대하지 않는다.",
+      "source_keys": [
+        "dual-language",
+        "minor"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-010",
+      "domain": "전공요건",
+      "title": "IoT 마이크로디그리 완료가 부전공 총학점 완료는 아님",
+      "related_existing_ids": [
+        "HBX-IOT-MINOR",
+        "HBX-IOT-DUAL"
+      ],
+      "novelty": "기존 사례는 마이크로디그리 조건만 물었다. 이번에는 같은 조건을 부전공 총학점과 함께 판정한다.",
+      "reviewer_focus": "공유형 12학점 이수는 마이크로디그리 조건에 맞지만 일반 부전공의 21학점 조건은 별도다. 두 조건을 하나로 합쳐 12학점으로 전체 부전공 완료라고 하지 않는다.",
+      "source_keys": [
+        "minor"
+      ]
+    },
+    {
+      "id": "EXP-MA-2026-2-011",
+      "domain": "전공요건",
+      "title": "학석사 연계 선발만으로 예체능 졸업작품 면제 확정 불가",
+      "related_existing_ids": [
+        "HBX-ART-CERTIFICATION"
+      ],
+      "novelty": "기존 예체능 필수 여부에 없는 재량적 면제 조항과 실제 승인 여부의 차이를 다룬다.",
+      "reviewer_focus": "예체능 졸업작품은 필수이나 학·석사 연계 선발자는 면제할 수 있다는 예외가 있다. 가능 규정을 자동 면제 완료로 바꾸지 말고 담당 학과에 적용 여부를 확인하도록 한다.",
+      "source_keys": [
+        "arts-masters"
+      ]
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "candidate": "TOEIC 800점 통과 문항의 숫자·말투만 바꾸기",
+      "related_existing_ids": [
+        "SEJ-2026-2-EN-01"
+      ],
+      "reason": "같은 학번·전공·단일 시험 판정의 단순 변형이므로 제외"
+    },
+    {
+      "candidate": "Intensive English 수강 중 공인점수로 신청하기",
+      "related_existing_ids": [
+        "SEJ-2026-2-EN-03"
+      ],
+      "reason": "이미 동일한 행동과 근거를 평가하므로 제외"
+    },
+    {
+      "candidate": "서양 영역 초과분으로 문학 부족을 채우기",
+      "related_existing_ids": [
+        "SEJ-2026-2-CL-01"
+      ],
+      "reason": "영역 상한만 다시 묻는 후보는 제외하고 고전특강 선행 조건과 결합한 경우만 채택"
+    },
+    {
+      "candidate": "서양고전강독4로 과학 1권을 채우기",
+      "related_existing_ids": [
+        "SEJ-2026-2-CL-02"
+      ],
+      "reason": "기존 수업대체·영역 배분 사례와 중복"
+    },
+    {
+      "candidate": "건축학과 10학기 재학만으로 코딩 면제",
+      "related_existing_ids": [
+        "HBX-CODING-ARCH-EXEMPT"
+      ],
+      "reason": "기존에 동일한 특례·기대값이 있음"
+    },
+    {
+      "candidate": "법학 복수전공의 2024학번 전필·전선 기준 숫자만 묻기",
+      "related_existing_ids": [
+        "HBX-DUAL-LAW-2024"
+      ],
+      "reason": "기존 조회와 중복. 실제 이수 내역·다른 학번을 비교하는 사례만 채택"
+    },
+    {
+      "candidate": "건축학 부전공의 51학점 최소 조건만 확인하기",
+      "related_existing_ids": [
+        "HBX-MINOR-ARCH"
+      ],
+      "reason": "기존 사례와 같은 최소학점 판정"
+    },
+    {
+      "candidate": "편람에 없는 HSK 통과 급수나 외부 MOOC 등가성 확정",
+      "related_existing_ids": [],
+      "reason": "정답을 추측하는 후보는 제외. 관련 채택 문항은 담당 부서 확인을 기대 행동으로 지정"
+    }
+  ],
+  "deduplication": {
+    "exact": "전체 112건의 정규화 질문 및 신규 30건의 입력 중복 검사",
+    "semantic": "기존 문항과 적용 조건·실패 원인·기대 행동을 LLM이 대조. 가까운 기존 문항과 차이를 기록했으며 완전한 의미 중복 탐지 보장은 아님."
+  },
+  "limitations": [
+    "추가 30건은 모두 synthetic/dev 초안. 사람 검토·독립 holdout·실제 CS로 집계하지 않음.",
+    "여러 학생을 비교하는 하나의 문항은 한 건으로 집계. 문항 수를 규정 커버리지 비율로 해석하지 않음.",
+    "2026-2 편람의 제시된 조건을 평가하며 실제 학적·승인·인증 시스템 상태는 확인하지 않음.",
+    "기존 82건 파일과 화면을 보존. 이전 화면에서 별도로 저장한 검토 JSON의 승인·수정은 자동 이관하지 않음.",
+    "실제 Claude 평가와 성능 측정은 수행하지 않음."
+  ],
+  "shared_copy_note": "공개본에서는 출처 파일 경로를 평가 레포 기준 상대 경로로 변경하고, 비공개 운영 기록으로 연결되는 원본 추적 정보는 제외했다. 문항·정답·근거·기준·승인 기록은 바꾸지 않았다. 공식 배포처의 후속 확인은 source-verification.json 참조."
+}

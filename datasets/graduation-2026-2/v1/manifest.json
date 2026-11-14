@@ -1,0 +1,54 @@
+{
+  "schema": "graduation-wiki-eval/dataset-v1",
+  "id": "allcll-graduation-2026-2",
+  "version": "1.0.0",
+  "cases": {
+    "path": "datasets/graduation-2026-2/v1/cases.jsonl",
+    "sha256": "sha256:397fd194792abb93695cebed9ae8fc3bd0287d3838509804dcafe70f2f9ee67d"
+  },
+  "drafts": {
+    "path": "datasets/graduation-2026-2/v1/drafts.jsonl",
+    "sha256": "sha256:7e51a1e5df413e543fbaa081cd22cf224664461a4044fdc6c3255c4ab73b4869"
+  },
+  "workspace": {
+    "path": "datasets/graduation-2026-2/v1/review.workspace.json",
+    "sha256": "sha256:14fbe6f8c77445c4a5f7f3e56eadc1d05f834ed3a9a80728bf317db7d86cbf73"
+  },
+  "source_links": {
+    "path": "datasets/graduation-2026-2/v1/source-links.json",
+    "sha256": "sha256:ca3536fc480b621eff85b1b3785d1c52752a12975b498f0784272a616b46efd6"
+  },
+  "assets": [
+    {
+      "path": "datasets/graduation-2026-2/v1/sources/handbook-2026-2.pdf",
+      "sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10"
+    }
+  ],
+  "provenance": [
+    {
+      "path": "datasets/graduation-2026-2/v1/approval-record.json",
+      "sha256": "sha256:1dfecbe19091b0fe99dffccfb6b2e65f806cde26b89d10a0474bc771bc940590"
+    },
+    {
+      "path": "datasets/graduation-2026-2/v1/provenance-initial.json",
+      "sha256": "sha256:6fd98224238b6af28612156c4011888e5c6912b767db2f3211ff0d3ae5d4ec3d"
+    },
+    {
+      "path": "datasets/graduation-2026-2/v1/provenance-balance.json",
+      "sha256": "sha256:b7c71476a60ebcd08ea83e5e5aef9649343a242d1df07fbcfbfead3e2ce27974"
+    },
+    {
+      "path": "datasets/graduation-2026-2/v1/provenance-cert-major.json",
+      "sha256": "sha256:80b02e550d3b81478deab402a8bef6440c9fef8028ffdf1e41eab6d83dd1b581"
+    },
+    {
+      "path": "datasets/graduation-2026-2/v1/source-verification.json",
+      "sha256": "sha256:f64c9bdc08f715e19bf5d51be3d8d2c504352582a0f4912b51559c6b71b15f0b"
+    }
+  ],
+  "pilot_ids": [
+    "CS-2026-2-001",
+    "CS-2026-2-003",
+    "CS-2026-2-013"
+  ]
+}
