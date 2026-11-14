@@ -44,6 +44,7 @@ try {
     review.criterion_results.every(criterion => criterion.verdict === 'pending')));
   assert.match(await readFile(join(installed, 'reviews/demo.md'), 'utf8'), /평가자용 정답/);
   run(join(installed, 'node_modules/.bin/grad-eval-claude'), ['--help'], installed);
+  run(join(installed, 'node_modules/.bin/grad-eval-openai'), ['--help'], installed);
   run(process.execPath, ['--input-type=module', '-e', `
     import assert from 'node:assert/strict';
     import { evaluate, parseCases, readRecords, makePlan } from 'graduation-wiki-eval';

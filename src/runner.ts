@@ -27,6 +27,8 @@ import {
 } from "./schema.js";
 import { MAX_TIMEOUT_MS, ProcessInterruptedError, runProcess, TERMINATION_GRACE_MS } from "./process.js";
 
+import { adapterResultSchema } from './adapters/protocol.js';
+
 const RUNNER_SCHEMA = "graduation-wiki-eval/runner-v4";
 export const CONTEXT_GROUPS = ["sources", "wiki", "skills"] as const;
 type ContextGroup = (typeof CONTEXT_GROUPS)[number];
@@ -387,7 +389,7 @@ export async function runPlan(planPath: string, command: readonly string[]): Pro
       const base = {
         run_id: job.job_id, case_id: job.case_id, condition: job.condition, repeat: job.repeat,
         case_sha256: job.case_sha256, versions, execution: plan.execution,
-        started_at: new Date().toISOString(), input_tokens: null, output_tokens: null,
+        started_at: new Date().toISOString(), input_tokens: null as number | null, output_tokens: null as number | null,
         plan_sha256: plan.plan_sha256,
       };
       const start = performance.now();
@@ -404,7 +406,18 @@ export async function runPlan(planPath: string, command: readonly string[]): Pro
         requireCondition(!completed.timedOut, "adapter_timeout");
         requireCondition(!completed.outputLimitExceeded, "adapter_output_limit");
         requireCondition(completed.exitCode === 0, `adapter_exit_${completed.exitCode ?? completed.signal ?? "unknown"}`);
-        const output = outputSchema.parse(parseJson(stdout));
+        const raw: unknown = parseJson(stdout);
+        const envelope = raw && typeof raw === 'object' && !Array.isArray(raw) && 'schema' in raw && raw.schema === 'graduation-wiki-eval/adapter-v1'
+          ? adapterResultSchema.parse(raw) : undefined;
+        const output = envelope ? envelope.output : outputSchema.parse(raw);
+        if (envelope) {
+          base.input_tokens = envelope.usage.input_tokens;
+          base.output_tokens = envelope.usage.output_tokens;
+          const runtime = envelope.runtime;
+          Object.assign(versions, { provider: runtime.provider, model: runtime.model,
+            requested_model: runtime.requested_model, model_config: runtime.model_config,
+            tools: runtime.tools, runtime: runtime.runtime });
+        }
         requireCondition(Array.isArray(output.citations), "Adapter citations must be a string array");
         result = { status: "ok", output, output_sha256: digest(output) };
       } catch (error: unknown) {

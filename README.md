@@ -26,7 +26,7 @@ WIKI에 규정이 적혀 있어도 LLM이 이를 올바르게 적용한다고 �
 ```text
 [사람] 질문·정답·근거·채점 기준 확정
    ↓
-[코드] 사례 검사 → 조건별 자료 준비 → Claude Code 실행
+[코드] 사례 검사 → 조건별 자료 준비 → 선택한 모델 어댑터 실행
    ↓
 [LLM] 자료를 읽고 답변·판단 결과·인용 근거 작성
    ↓
@@ -39,7 +39,7 @@ WIKI에 규정이 적혀 있어도 LLM이 이를 올바르게 적용한다고 �
 [사람] WIKI·Skill 수정과 다음 작업 결정
 ```
 
-평가 실행기는 자료와 호출 순서를 관리하고, Claude Code는 파일 검색·읽기 도구로 필요한 자료를 확인합니다. LLM은 답변을 작성하는 역할이며, 현재 채점은 코드와 사람이 나누어 담당합니다. 정답과 사람 검토 기록은 모델 요청에 넣지 않습니다.
+평가 실행기는 자료와 호출 순서를 관리합니다. Claude Code 경로는 파일 검색·읽기 도구로 필요한 자료를 확인하고, OpenAI API 경로는 허용된 텍스트를 한 요청에 담습니다. LLM은 답변을 작성하는 역할이며, 현재 채점은 코드와 사람이 나누어 담당합니다. 정답과 사람 검토 기록은 모델 요청에 넣지 않습니다.
 
 사람이 하는 검토는 두 가지입니다.
 
@@ -180,9 +180,9 @@ node dist/cli.js oracle-review --cases local/cases.draft.jsonl --out local/oracl
 
 `local/cases.draft.jsonl`은 준비한 사례 파일입니다. 브라우저에서 원문과 대조한 뒤 검토 파일을 저장하고, 확인한 정답을 평가용 파일로 내보냅니다. 이후 `validate → prepare → run → review-template → 사람 검토 → report → compare` 순서로 진행합니다. 변경 전후를 비교할 때는 두 버전을 각각 실행해야 합니다.
 
-실제 호출은 `평가 실행기 → TypeScript 어댑터 → Claude Code CLI → Anthropic 모델 API`로 이어집니다. 현재는 로컬에서도 `ANTHROPIC_API_KEY`가 필요하며, 구독 로그인 모드와 API 직접 호출 어댑터는 없습니다. MCP 서버는 필요하지 않습니다. 설치·인증·실행 제한은 [모델 연결](docs/adapters.md)에 설명했습니다.
+실제 호출은 Claude Code CLI를 거치거나 [OpenAI API를 직접 호출](docs/openai.md)하도록 선택할 수 있습니다. 각각 `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`가 필요하며 MCP 서버는 필요하지 않습니다. 모델과 자료를 읽는 방식이 달라지므로 비교 실험에서는 한 경로를 고정합니다. 설치·인증·실행 제한은 [모델 연결](docs/adapters.md)에 설명했습니다.
 
-패키지를 설치하면 `grad-eval`과 `grad-eval-claude` 명령을 사용할 수 있습니다. `report --check`는 모든 조건의 holdout 판정을 검사하며, C만 통과 기준으로 정했다면 `--check --condition C`를 사용합니다. A/B 결과는 보고서에 유지합니다. [입력 형식·종료 코드·버전 변경](docs/data-format.md)에 세부 사용법이 있습니다. v0.3 이하의 기록은 현재 v0.4 형식으로 변환해야 합니다.
+패키지를 설치하면 `grad-eval`, `grad-eval-claude`, `grad-eval-openai` 명령을 사용할 수 있습니다. `report --check`는 모든 조건의 holdout 판정을 검사하며, C만 통과 기준으로 정했다면 `--check --condition C`를 사용합니다. A/B 결과는 보고서에 유지합니다. [입력 형식·종료 코드·버전 변경](docs/data-format.md)에 세부 사용법이 있습니다. v0.3 이하의 기록은 현재 v0.4 형식으로 변환해야 합니다.
 
 ## 기록과 결과 공유
 
@@ -206,7 +206,7 @@ node dist/cli.js oracle-review --cases local/cases.draft.jsonl --out local/oracl
 | CLI·자료 준비·응답과 오류 기록 | 구현 |
 | 자동 검사·사람 검토 연결·보고서·변경 전후 비교 | 구현 |
 | 정답지 HTML 검토·저장·이어 하기 | 구현 |
-| Claude Code 연결 코드 | 구현, 실제 모델 호출 검증 전 |
+| Claude Code·OpenAI API 연결 코드 | 구현, 모의 응답 검사 완료·실제 모델 호출 검증 전 |
 | 도구 CI·고정 응답 예제·PR 댓글 갱신 | 구현 및 실행 확인 |
 | 실제 ALLCLL 정답셋 검토·모델 성능 측정 | 진행 전 |
 | 디스코드 웹훅·실제 WIKI 변경 PR 평가 | 후속 구현·연결 예정 |
