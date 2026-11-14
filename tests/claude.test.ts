@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { access, chmod, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/promises';
+import { access, chmod, mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { test, type TestContext } from 'node:test';
@@ -11,6 +11,7 @@ import {
   type ClaudeRequest,
 } from '../src/adapters/claude.js';
 import { type ProcessResult, runProcess } from '../src/process.js';
+import { assertStopped, cleanupProcesses, controlledDeadline, isRunning, waitForPid, within } from './helpers/processes.js';
 
 function request(): ClaudeRequest {
   return {
@@ -159,14 +160,14 @@ test('a symlinked CLI entry prints help without credentials', async (t) => {
   assert.match(stdout, /^Usage: grad-eval-claude/u);
 });
 
-test('an outer timeout kills a nested Claude process group that ignores SIGTERM', { timeout: 10_000 }, async (t) => {
+test('an outer timeout kills a nested Claude process group that ignores SIGTERM', { timeout: 30_000 }, async (t) => {
   const cwd = await fixture(t);
   const binDir = path.join(cwd, 'bin');
   await mkdir(binDir);
-  const started = path.join(cwd, 'started');
-  const survived = path.join(cwd, 'survived');
+  const claudePid = path.join(cwd, 'claude-pid');
+  const childPid = path.join(cwd, 'child-pid');
   const fakeClaude = path.join(binDir, 'claude');
-  const grandchild = `process.on('SIGTERM', () => {}); setTimeout(() => require('node:fs').writeFileSync(${JSON.stringify(survived)}, 'alive'), 2800)`;
+  const grandchild = `process.on('SIGTERM', () => {});require('node:fs').writeFileSync(${JSON.stringify(childPid)},String(process.pid));setInterval(()=>{},1000);`;
   await writeFile(fakeClaude, `#!/usr/bin/env node
 const { spawn } = require('node:child_process');
 const { writeFileSync } = require('node:fs');
@@ -174,19 +175,28 @@ if (process.argv.includes('--version')) {
   console.log('2.1.322');
 } else {
   process.on('SIGTERM', () => {});
-  writeFileSync(${JSON.stringify(started)}, 'started');
+  writeFileSync(${JSON.stringify(claudePid)}, String(process.pid));
   spawn(process.execPath, ['-e', ${JSON.stringify(grandchild)}], { stdio: 'inherit' });
-  setTimeout(() => {}, 20000);
+  setInterval(() => {}, 1000);
 }
 `);
   await chmod(fakeClaude, 0o755);
   const command = [process.execPath, '--import', import.meta.resolve('tsx'),
     fileURLToPath(new URL('../src/adapters/claude.ts', import.meta.url)), '--model', 'test-pinned-model',
-    '--max-budget-usd', '0.1', '--timeout', '10'];
-  const actual = await runProcess(command, { cwd, input: JSON.stringify(request()), timeoutMs: 2000,
+    '--max-budget-usd', '0.1', '--timeout', '30'];
+  const deadline = controlledDeadline(t, 2000);
+  const execution = runProcess(command, { cwd, input: JSON.stringify(request()), timeoutMs: 2000,
     env: { ...process.env, ANTHROPIC_API_KEY: 'unit-test-only', PATH: `${binDir}${path.delimiter}${process.env['PATH'] ?? ''}` } });
-  assert.equal(actual.timedOut, true, JSON.stringify(actual));
-  assert.equal(await readFile(started, 'utf8'), 'started');
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  await assert.rejects(access(survived));
+  try {
+    const pid = await waitForPid(childPid);
+    assert.ok(isRunning(pid));
+    deadline.expire();
+    const actual = await within(execution, 'Claude adapter did not finish after timeout');
+    assert.equal(actual.timedOut, true, JSON.stringify(actual));
+    await assertStopped([pid, await waitForPid(claudePid)]);
+  } finally {
+    deadline.expire();
+    await cleanupProcesses([claudePid, childPid]);
+    await within(execution, 'Claude adapter cleanup did not finish');
+  }
 });
