@@ -58,7 +58,7 @@ node dist/cli.js demo --out artifacts/demo
 
 ### 실제 자료 연결
 
-사례·정답·설정은 로컬에 두고, 실행할 때 조건별 파일 목록을 지정합니다. [입력 형식](docs/data-format.md)과 [모델 연결](docs/adapters.md)에 작성 예시가 있습니다.
+처음 실행한다면 [첫 실제 평가 준비](docs/first-evaluation.md)에서 준비물과 순서를 확인하세요. 사례·정답·설정은 로컬에 두고, 실행할 때 조건별 파일 목록을 지정합니다. [입력 형식](docs/data-format.md)과 [모델 연결](docs/adapters.md)에 작성 예시가 있습니다.
 
 ```bash
 node dist/cli.js validate --cases local/cases.jsonl
