@@ -52,7 +52,7 @@ artifacts/ci-sample-001/
 - 현재 실행의 artifact가 없거나 검증되지 않으면 실패·누락 상태를 게시합니다. 이전 커밋의 완료 표시를 그대로 남기지 않습니다.
 - 같은 run·attempt는 중복 게시하지 않습니다. artifact 오류를 해결한 뒤에는 평가 workflow를 재실행하여 attempt를 늘립니다.
 
-`workflow_run` 파일은 기본 브랜치에 있어야 활성화됩니다. 따라서 이 기능을 처음 추가하는 PR에서는 preview를 확인할 수 있지만, sticky comment의 실제 동작은 기본 브랜치 반영 후에 확인해야 합니다. 현재 댓글 처리는 가짜 GitHub API를 사용한 테스트로 검증하며, 실제 API 댓글 게시까지 검증했다고 보지 않습니다.
+`workflow_run` 파일은 기본 브랜치에 있어야 활성화됩니다. 따라서 이 기능을 처음 추가하는 PR에서는 preview를 확인할 수 있지만, sticky comment의 실제 동작은 기본 브랜치 반영 후에 확인해야 합니다. 댓글 생성·갱신과 오래된 실행 차단은 모의 API로 검사했으며, 기본 브랜치 반영 후 [PR #14의 공개 예제 댓글](https://github.com/allcll/graduation-wiki-eval/pull/14#issuecomment-6878890885)이 실제로 게시되는 것도 확인했습니다. 이 확인은 고정 응답 예제의 결과 전달에 한정하며, 실제 모델 평가나 디스코드 연동 검증은 아닙니다.
 
 수동 실행 버튼도 `workflow_dispatch`를 정의한 파일이 기본 브랜치에 반영된 뒤 표시됩니다. PR을 올린 것만으로 수동 실행이나 결과 댓글이 모두 활성화되지는 않습니다.
 
