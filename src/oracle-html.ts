@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { dirname, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { z } from 'zod';
 import { assertJson } from './json-data.js';
@@ -14,6 +14,7 @@ export interface OracleHtmlOptions {
   title?: string;
   sourceLinks?: unknown;
   sourceLinksBase?: string;
+  relativeSourceLinks?: boolean;
 }
 
 function text(value: string): string {
@@ -70,7 +71,12 @@ export async function writeOracleHtml(casesInput: unknown, options: OracleHtmlOp
   const knownSources = new Set(workspace.entries.flatMap(entry => entry.draft.sources.map(source => source.id)));
   const sourceLinks = Object.fromEntries(Object.entries(links).map(([id, href]) => {
     if (!knownSources.has(id)) throw new Error(`평가셋에 없는 출처의 링크입니다: ${id}`);
-    return [id, sourceLink(href, options.sourceLinksBase ?? process.cwd())];
+    const url = new URL(sourceLink(href, options.sourceLinksBase ?? process.cwd()));
+    if (options.relativeSourceLinks && url.protocol === 'file:') {
+      const local = relative(dirname(resolve(options.out)), fileURLToPath(url));
+      return [id, local.split(/[\\/]/).map(encodeURIComponent).join('/') + url.hash];
+    }
+    return [id, url.href];
   }));
   const bundle = await readFile(new URL('../dist/oracle-ui.bundle.js', import.meta.url), 'utf8');
   // These are trusted build assets, but embedded closing tags would still end an HTML element.

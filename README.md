@@ -154,6 +154,10 @@ WIKI에 규정이 적혀 있어도 LLM이 이를 올바르게 적용한다고 �
 
 먼저 로컬 실제 평가를 확인하고 결과 전달을 보완한 뒤 수동 CI와 WIKI PR 평가를 연결합니다. 현재 명령은 [GitHub Actions 연결](docs/actions.md), 후속 계획은 [평가 운영 흐름](docs/evaluation-workflow.md)을 참고하세요.
 
+## 팀 공유 데이터셋
+
+실제 문항·정답·검토 기록은 비공개 WIKI에서 버전 관리합니다. `dataset-check`로 자료와 승인 기록의 일치 여부를 확인하고, `dataset-review`로 편람 PDF가 포함된 검토 폴더를 만듭니다. 개인 컴퓨터의 절대 경로를 저장하지 않아 팀원도 같은 자료로 검토를 이어갈 수 있습니다. [팀 사용 절차](docs/team-dataset.md)를 참고하세요.
+
 ## 실행하기
 
 Node.js 22 이상이 필요합니다. 외부 어댑터 실행은 macOS/Linux를 지원합니다.

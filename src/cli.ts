@@ -16,10 +16,12 @@ import type { SavedReport } from './reporting.js';
 import { writeReviewBundle } from './review-guide.js';
 import { createOracleWorkspace, validateOracleWorkspace, exportOracleCases } from './oracle-review.js';
 import { writeOracleHtml } from './oracle-html.js';
+import { loadDataset, writeDatasetReview } from './dataset.js';
 
-const commands = ['validate', 'oracle-init', 'oracle-review', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
+const commands = ['dataset-check', 'dataset-review', 'validate', 'oracle-init', 'oracle-review', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
 const commandSchema = z.enum(commands);
 const flags = {
+  root: { type: 'string' }, manifest: { type: 'string' },
   cases: { type: 'string' }, runs: { type: 'string' }, reviews: { type: 'string' },
   plan: { type: 'string' }, config: { type: 'string' }, out: { type: 'string' },
   baseline: { type: 'string' }, candidate: { type: 'string' },
@@ -29,6 +31,7 @@ const flags = {
   'source-links': { type: 'string' },
 } as const;
 const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flags)[]> = {
+  'dataset-check': ['root', 'manifest'], 'dataset-review': ['root', 'manifest', 'out'],
   validate: ['cases'], plan: ['cases', 'conditions', 'repeats', 'out'], prepare: ['cases', 'config', 'out'],
   run: ['plan'], 'review-template': ['cases', 'runs', 'plan', 'out'], report: ['cases', 'runs', 'reviews', 'plan', 'out', 'check', 'condition'],
   compare: ['baseline', 'candidate', 'condition', 'split', 'out'], demo: ['out'],
@@ -37,6 +40,8 @@ const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flag
 };
 const HELP = `grad-eval <command> [options]
 
+  dataset-check   --root DATA_REPO --manifest RELATIVE_MANIFEST
+  dataset-review  --root DATA_REPO --manifest RELATIVE_MANIFEST --out NEW_DIRECTORY
   validate        --cases FILE
   oracle-init     --cases FILE --out NEW_FILE.json [--title TEXT]
   oracle-review   --cases FILE --out NEW_FILE.html [--workspace FILE] [--source-links FILE] [--title TEXT]
@@ -121,6 +126,15 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     }
     let result: unknown;
     switch (command) {
+      case 'dataset-check': {
+        const dataset = await loadDataset(required(values.root, 'root'), required(values.manifest, 'manifest'));
+        result = { valid: true, id: dataset.manifest.id, version: dataset.manifest.version, cases: dataset.cases.length, dataset_sha256: dataset.dataset_sha256 };
+        break;
+      }
+      case 'dataset-review': {
+        result = await writeDatasetReview(required(values.root, 'root'), required(values.manifest, 'manifest'), required(values.out, 'out'));
+        break;
+      }
       case 'validate': {
         const cases = parseCases(await readRecords(required(values.cases, 'cases')));
         result = { valid: true, cases: cases.length, dataset_sha256: makePlan(cases).dataset_sha256 };
