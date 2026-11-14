@@ -13,7 +13,8 @@ coverage/
 .env.*
 !.env.example
 
-# Local evaluation material and model transcripts do not belong in this repo.
+# Keep local inputs and unreviewed generated output out of commits by default.
+# Reviewed, publishable cases and reports can be tracked outside these paths.
 private/
 local/
 artifacts/
