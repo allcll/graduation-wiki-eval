@@ -1,0 +1,281 @@
+{
+  "experiment": "cs-001-context-rerun-2026-11-15",
+  "case_id": "CS-2026-2-001",
+  "repeats_per_condition": 1,
+  "started_at": "2026-11-15T01:58:05.382Z",
+  "requested_model": "claude-sonnet-4-6",
+  "model_config": "auth=subscription;usage-credits-disabled=user-confirmed;effort=medium;max-turns=12;adapter-timeout=180;fast-mode=off",
+  "tools": "Read,Grep,Glob",
+  "runtime": "claude-code-2.1.325/node-24.4.0;safe-mode;restricted",
+  "authentication": "Existing Claude Pro subscription; user confirmed extra usage disabled; no API-key fallback",
+  "oracle_revision": "datasets/graduation-2026-2/pilots/cs-001-v2/cases.jsonl",
+  "oracle_review_status": "draft",
+  "model_response_review_status": "pending",
+  "baseline_plan_sha256": "sha256:64c320ed87817ecc22cc80953b1e6fbf9e20658d8de942dc1d477de04d5e2e5b",
+  "candidate_plan_sha256": "sha256:d9c842098c5c4a4464727dd13986eb29d0585d676608f6757993ebde827e94d3",
+  "baseline_case_sha256": "sha256:46f25329fb61b52c08da8118de177793f34bcfe3ec1af1499221194927264b9d",
+  "candidate_case_sha256": "sha256:a9401fd19108324c0eabe7cc237dc9eb9883b1c139b153aeb91394b3eb1bb7bb",
+  "source_manifest_unchanged": true,
+  "wiki_manifest_unchanged": true,
+  "common_instructions_unchanged": true,
+  "candidate_context_manifest": {
+    "sources": [
+      {
+        "path": "original/handbook-2026-2.pdf",
+        "sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+        "bytes": 1583950
+      },
+      {
+        "path": "original/handbook-2026-2.txt",
+        "sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+        "bytes": 843312
+      }
+    ],
+    "wiki": [
+      {
+        "path": "wiki/INDEX.md",
+        "sha256": "sha256:395f4fc9ed8eacbdf99fa780a311abc3c67bb28f89841a7d62b8afc0f76a6db6",
+        "bytes": 14002
+      },
+      {
+        "path": "wiki/cohort/2022/balance.md",
+        "sha256": "sha256:cd2e627aae74e379d2e3b5a1d81b6a233d516e69b8b5923cd9d9227334bfa5a0",
+        "bytes": 5948
+      }
+    ],
+    "skills": [
+      {
+        "path": "skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+        "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8",
+        "bytes": 505
+      },
+      {
+        "path": "skill-bundle/CLAUDE.md",
+        "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f",
+        "bytes": 1723
+      },
+      {
+        "path": "skill-bundle/docs/agent-harness/PROJECT.md",
+        "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f",
+        "bytes": 5606
+      },
+      {
+        "path": "skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+        "sha256": "sha256:8b8b03d9e37fa2e56f89a3a50713b2e53f96a95321c81958676e2505199b0d6e",
+        "bytes": 1133
+      }
+    ]
+  },
+  "skill_contract": {
+    "entrypoints": [
+      "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md"
+    ],
+    "required_files": [
+      "context/sources/original/handbook-2026-2.txt",
+      "context/sources/original/handbook-2026-2.pdf",
+      "context/wiki/wiki/INDEX.md",
+      "context/wiki/wiki/cohort/2022/balance.md",
+      "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+      "context/skills/skill-bundle/CLAUDE.md",
+      "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+    ]
+  },
+  "counts": {
+    "expected": 3,
+    "missing": 0,
+    "error": 0,
+    "unreviewed": 3,
+    "objective_pass": 2,
+    "objective_fail": 1,
+    "evidence_fail": 0,
+    "answer_fail": 0,
+    "reviewed_success": 0,
+    "synthetic": 0,
+    "reviewed_success_rate": 0,
+    "required_fail": 1,
+    "advisory_runs": 0,
+    "criterion_failures": {
+      "blocker": 0,
+      "major": 0,
+      "minor": 0
+    }
+  },
+  "observations": [
+    {
+      "condition": "A",
+      "run_id": "A-0001-001",
+      "before": {
+        "status": "ok",
+        "facts": {
+          "recognized_area_count": 2,
+          "recognized_credits": 9,
+          "required_area_count": 2,
+          "required_credits": 6,
+          "balance_requirement_met": true
+        },
+        "elapsed_ms": 92890.844,
+        "output_sha256": "sha256:3cb31adcd91fbce26994c6756ca4f38add1b31bfd7ecf340f49e7af4e7db90f6",
+        "skill_setup": "not applicable"
+      },
+      "after": {
+        "status": "ok",
+        "facts": {
+          "recognized_area_count": 2,
+          "recognized_credits": 9,
+          "required_area_count": 2,
+          "required_credits": 6,
+          "balance_requirement_met": true
+        },
+        "elapsed_ms": 118242.132,
+        "output_sha256": "sha256:90589e096a18234489412ca7fbb16c7612798dd9b2bb81fcf650b36c5ae45cb6",
+        "citations": [
+          "context/sources/original/handbook-2026-2.txt:3090 (❚ 2022학년도 입학자 교과과정 헤더)",
+          "context/sources/original/handbook-2026-2.txt:3097 (균형교양 2개 영역 6학점 요건)",
+          "context/sources/original/handbook-2026-2.txt:3192-3220 (균형교양 과목 이수 표: 영역별 과목·학점·제외 계열)",
+          "context/sources/original/handbook-2026-2.txt:3206 (현대과학으로의초대 → 자연과과학 영역)",
+          "context/sources/original/handbook-2026-2.txt:3217-3219 (현대예술의이해·한국의문화와한류 → 문화와예술 영역, 제외=예체능)",
+          "context/sources/original/handbook-2026-2.txt:3209-3211 (경제와사회 영역 제외 계열: 사회과학, 경영경제 → 경영학부 계열 확인)"
+        ],
+        "objective_match": true
+      },
+      "comparison": {
+        "status": "INCONCLUSIVE",
+        "condition": "A",
+        "split": "dev",
+        "label": "Matched required-criteria comparison; minor advisories remain in each report. NOT a deployment approval or significance test",
+        "planned_pairs": 1,
+        "comparable_pairs": 0,
+        "reasons": [
+          "different_datasets_or_rubrics",
+          "different_evaluation_plans",
+          "incomplete_synthetic_or_unverified_pairs"
+        ],
+        "counts": {
+          "improved": 0,
+          "regressed": 0,
+          "unchanged_pass": 0,
+          "unchanged_fail": 0
+        },
+        "transitions": []
+      }
+    },
+    {
+      "condition": "B",
+      "run_id": "B-0001-001",
+      "before": {
+        "status": "ok",
+        "facts": {
+          "recognized_area_count": 2,
+          "recognized_credits": 6,
+          "required_area_count": 2,
+          "required_credits": 6,
+          "balance_requirement_met": true
+        },
+        "elapsed_ms": 50958.069,
+        "output_sha256": "sha256:00e975c7d0e91247dbc7532e0129c28ce2c3fd6f83d515b84d27830ad1f502e6",
+        "skill_setup": "not applicable"
+      },
+      "after": {
+        "status": "ok",
+        "facts": {
+          "recognized_area_count": 2,
+          "recognized_credits": 9,
+          "required_area_count": 2,
+          "required_credits": 6,
+          "balance_requirement_met": true
+        },
+        "elapsed_ms": 48750.942,
+        "output_sha256": "sha256:b4dbee6f303115b13829c51775da8c57465fa1d0734015ef8d3f273d7d69bb5e",
+        "citations": [
+          "context/wiki/wiki/cohort/2022/balance.md §1 (이수 규칙)",
+          "context/wiki/wiki/cohort/2022/balance.md §2 (영역 × 과목 표)",
+          "context/wiki/wiki/cohort/2022/balance.md §3 (영역 × 제외 계열 표)",
+          "context/wiki/wiki/INDEX.md §정책 era 사전 (교양 자율 카테고리 행)"
+        ],
+        "objective_match": true
+      },
+      "comparison": {
+        "status": "INCONCLUSIVE",
+        "condition": "B",
+        "split": "dev",
+        "label": "Matched required-criteria comparison; minor advisories remain in each report. NOT a deployment approval or significance test",
+        "planned_pairs": 1,
+        "comparable_pairs": 0,
+        "reasons": [
+          "different_datasets_or_rubrics",
+          "different_evaluation_plans",
+          "incomplete_synthetic_or_unverified_pairs"
+        ],
+        "counts": {
+          "improved": 0,
+          "regressed": 0,
+          "unchanged_pass": 0,
+          "unchanged_fail": 0
+        },
+        "transitions": []
+      }
+    },
+    {
+      "condition": "C",
+      "run_id": "C-0001-001",
+      "before": {
+        "status": "ok",
+        "facts": {
+          "recognized_area_count": 2,
+          "recognized_credits": 6,
+          "required_area_count": 2,
+          "required_credits": 6,
+          "balance_requirement_met": true
+        },
+        "elapsed_ms": 56586.092,
+        "output_sha256": "sha256:4d3e38a11f5d85bc21f0de1743ceab0884bc255c951cf633d8b208364d480934",
+        "skill_setup": "invalid: wrapper body missing"
+      },
+      "after": {
+        "status": "ok",
+        "facts": {
+          "recognized_area_count": 2,
+          "recognized_credits": 6,
+          "required_area_count": 2,
+          "required_credits": 6,
+          "balance_requirement_met": true
+        },
+        "elapsed_ms": 50565.22,
+        "output_sha256": "sha256:3327438896cdbfd852d66186a5fe83ba66a296a00685348653b9915e5777109f",
+        "citations": [
+          "context/wiki/wiki/cohort/2022/balance.md §1 이수 규칙 (수강편람 2026-1 p.52 §4)",
+          "context/wiki/wiki/cohort/2022/balance.md §2 영역 × 과목",
+          "context/wiki/wiki/cohort/2022/balance.md §3 영역 × 제외 계열",
+          "context/wiki/wiki/INDEX.md §정책 era 사전"
+        ],
+        "objective_match": false
+      },
+      "comparison": {
+        "status": "INCONCLUSIVE",
+        "condition": "C",
+        "split": "dev",
+        "label": "Matched required-criteria comparison; minor advisories remain in each report. NOT a deployment approval or significance test",
+        "planned_pairs": 1,
+        "comparable_pairs": 0,
+        "reasons": [
+          "different_datasets_or_rubrics",
+          "different_evaluation_plans",
+          "incomplete_synthetic_or_unverified_pairs"
+        ],
+        "counts": {
+          "improved": 0,
+          "regressed": 0,
+          "unchanged_pass": 0,
+          "unchanged_fail": 0
+        },
+        "transitions": []
+      }
+    }
+  ],
+  "limitations": [
+    "One dev case, one run per condition; no holdout or independent human review.",
+    "Input definitions and C document bundle changed; not a WIKI improvement or isolated Skill effect.",
+    "Native Skill routing and pdfplumber execution are not tested; Read/Grep/Glob only.",
+    "No tool-call trace, token usage, billed amount or actual response model ID captured."
+  ]
+}

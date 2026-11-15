@@ -28,6 +28,7 @@ import {
 import { MAX_TIMEOUT_MS, ProcessInterruptedError, runProcess, TERMINATION_GRACE_MS } from "./process.js";
 
 import { adapterResultSchema } from './adapters/protocol.js';
+import { skillContractSchema, validateSkillContext } from './skill-context.js';
 
 const RUNNER_SCHEMA = "graduation-wiki-eval/runner-v4";
 export const CONTEXT_GROUPS = ["sources", "wiki", "skills"] as const;
@@ -82,6 +83,7 @@ const configSchema = metadataSchema.extend({
   sources: strings.min(1),
   wiki: strings.default([]),
   skills: strings.default([]),
+  skill_contract: skillContractSchema.optional(),
   conditions: z.array(z.enum(["A", "B", "C"])).min(1).default(["A", "B", "C"]),
   repeats: z.number().int().positive().default(1),
   timeout: z.number().finite().positive().max(MAX_TIMEOUT_MS / 1000).default(60),
@@ -149,6 +151,7 @@ export const runnerPlanSchema = z.object({
   prompt_snapshot: promptSnapshotSchema,
   evaluation_plan: planSchema,
   context_manifest: manifestSchema,
+  skill_contract: skillContractSchema.optional(),
   jobs: z.array(jobSchema),
   warning: z.string(),
   plan_sha256: nonempty,
@@ -219,6 +222,10 @@ export async function prepare(cases: Case[], input: unknown, outdir: string): Pr
   }
   requireCondition(!config.conditions.some((c) => c === "B" || c === "C") || manifests.wiki.length, "B/C require an explicit WIKI snapshot");
   requireCondition(!config.conditions.includes("C") || manifests.skills.length, "C requires an explicit Skill snapshot");
+  if (config.conditions.includes("C")) {
+    const files = new Map(CONTEXT_GROUPS.flatMap(group => [...snapshots[group]].map(([file, bytes]) => [`context/${group}/${file}`, bytes] as const)));
+    validateSkillContext(files, manifests.skills.map(file => `context/skills/${file.path}`), config.skill_contract, config.execution);
+  }
   const jobs: Job[] = [];
   const requests = new Map<string, RunnerRequest>();
   for (const [index, item] of checkedCases.entries()) {
@@ -255,6 +262,7 @@ export async function prepare(cases: Case[], input: unknown, outdir: string): Pr
     metadata: { model: config.model, model_config: config.model_config, prompt: digest(promptSnapshot),
       code: config.code, data: config.data, tools: config.tools, runtime: config.runtime },
     prompt_snapshot: promptSnapshot, evaluation_plan: evaluationPlan, context_manifest: manifests, jobs,
+    ...(config.skill_contract ? { skill_contract: config.skill_contract } : {}),
     warning: "Trusted adapter, inherited environment; NOT an OS sandbox or credential boundary.",
   };
   const plan = runnerPlanSchema.parse({ ...unsigned, plan_sha256: digest(unsigned) });
@@ -352,6 +360,11 @@ async function validateSnapshot(plan: RunnerPlan, root: string): Promise<void> {
     }
     requireCondition(request.instructions === plan.prompt_snapshot.instructions && digest(request.output_contract) === digest(plan.prompt_snapshot.output_contract), "Request instructions differ from shared prompt");
     await validateJob(job, root);
+    if (job.condition === "C") {
+      const files = new Map<string, Buffer>();
+      for (const file of job.files) files.set(file.path, await readFile(await localFile(root, `jobs/${job.job_id}/${file.path}`)));
+      validateSkillContext(files, request.context.skills, plan.skill_contract, plan.execution);
+    }
   }
   requireCondition(seen.size === expected.size, "Frozen plan is missing jobs");
 }

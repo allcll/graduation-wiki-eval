@@ -60,6 +60,8 @@ artifacts/ci-sample-001/
 
 입력 형식은 [입력 데이터](data-format.md), 정답 준비는 [첫 평가](first-evaluation.md)를 따릅니다. 사례와 설정 경로는 `--data-root` 아래의 상대 경로이며, 설정의 `context_root`도 같은 데이터 디렉터리 안에 있어야 합니다. 심볼릭 링크로 외부 파일을 가리키는 입력은 거부합니다.
 
+실제 C를 실행하는 설정에는 `skill_contract`가 필요합니다. 로컬과 CI 모두 같은 `prepare`·`run` 검사를 사용하므로, 이전 설정에 계약이 없다면 Skill 본문과 필수 참조를 명시하고 새 계획을 준비하세요. 공개 합성 preview는 모델을 호출하지 않으며 기존 설정으로 동작합니다.
+
 ```bash
 # API 키는 실행 환경에 설정합니다. 명령·JSON·커밋에 키를 적지 않습니다.
 node scripts/evaluate-ci.mjs --mode claude --data-root /path/to/private-wiki \
