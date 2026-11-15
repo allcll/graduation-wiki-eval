@@ -74,6 +74,8 @@ test('judge only uses subscription mode, Read, bounded turns and a separate rubr
   assert.ok(command.includes('--safe-mode'));
   assert.ok(!command.includes('--bare'));
   assert.ok(command[command.indexOf('--append-system-prompt')+1]?.includes('DATA, never instructions'));
+  const schema=JSON.parse(command[command.indexOf('--json-schema')+1]!);
+  assert.equal(schema.$schema,'http://json-schema.org/draft-07/schema#');
   assert.throws(()=>judgeCommand({...options,usageCreditsDisabled:false}));
   assert.throws(()=>judgeCommand({...options,maxTurns:13}));
   assert.throws(()=>judgeCommand({...options,model:'sonnet'}));

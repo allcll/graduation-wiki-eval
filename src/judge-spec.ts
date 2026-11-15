@@ -63,8 +63,9 @@ Do not use page read events, required Skill reads or metadata format as semantic
 Do not override code failures. Do not claim human approval or an overall quality pass.
 Return only the required structured output. Write brief reasons in Korean, not hidden reasoning.
 ${JSON.stringify(judgeRubric)}`;
-export const judgePromptHash = digest(judgeInstructions);
-
 // Claude's structured-output schema accepts plain JSON Schema. Runtime refinements
 // (unique selected indices, evidence and actual page delivery) run after completion.
-export const judgeJsonSchema = z.toJSONSchema(judgeAnswerSchema, { unrepresentable:'any' });
+// Claude Code 2.1.325 uses a draft-07 validator; Zod's default 2020-12 URI
+// is rejected locally before it starts a model session.
+export const judgeJsonSchema = z.toJSONSchema(judgeAnswerSchema, { target:'draft-7', unrepresentable:'any' });
+export const judgePromptHash = digest({instructions:judgeInstructions,output_schema:judgeJsonSchema});
