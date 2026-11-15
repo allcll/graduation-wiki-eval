@@ -74,6 +74,37 @@ npm 패키지로 설치한 경우 `grad-eval`과 `grad-eval-claude` 명령을 �
 
 네이티브 Skill 라우팅을 평가하려면 별도 어댑터에서 제공된 Skill만 등록하고 A/B에는 자동 로드되지 않는지 추가 검증해야 합니다. 파일 목록을 넘겼다는 사실만으로 자동 선택을 검증했다고 쓰지 않습니다.
 
+### 실제 파일 읽기 기록
+
+Claude 어댑터에 `--trace-tools`를 붙이면 답변 JSON과 별도로 작업 디렉터리의 `claude-tools.json`에 도구 기록을 남깁니다. 기존 답변·채점 형식은 유지합니다.
+
+```sh
+node dist/cli.js run --plan artifacts/your-experiment/plan.json -- \
+  node "$PWD/dist/adapters/claude.js" --auth subscription --usage-credits-disabled \
+  --trace-tools --model YOUR_PINNED_MODEL_ID --max-turns 12 --effort medium --timeout 180
+```
+
+기록은 [공식 CLI의 `stream-json`·`--verbose` 옵션](https://code.claude.com/docs/en/cli-reference)과 [SDK 메시지·도구 출력 구조](https://code.claude.com/docs/en/agent-sdk/typescript)를 사용합니다. 모델에게 읽었다고 자체 보고하도록 요청하는 방식은 아닙니다.
+
+| 기록 | 의미 |
+| --- | --- |
+| `calls` | 도구 요청과 연결된 결과. 순서, 도구, 허용 목록 내 경로, 성공·실패·미완료를 구분 |
+| `requested`, `delivered_lines` | 요청한 줄·페이지 범위와 텍스트 도구가 실제 반환한 줄 범위 |
+| `matched_files` | Grep·Glob 검색 결과에 포함된 허용 파일. 본문 읽기와 구분 |
+| `read_files` | 성공한 Read 결과에 인식 가능한 파일 전달 정보가 있는 파일 |
+| `fully_read_files` | 같은 전체 줄 수를 가진 텍스트 Read 결과가 첫 줄부터 끝까지 빈틈없이 덮은 파일 |
+| `required_skill_files`, `unread_skill_files` | 전체 읽기를 요구한 Skill 파일과 이를 충족하지 못한 파일 |
+| `complete`, `issues`, `outcome` | 기록의 완결성, 형식·연결 문제, 답변 반환 여부. 평가 품질 PASS와는 별개 |
+| `request_sha256`, `output_sha256` | 요청·최종 응답과의 결합 정보 |
+
+한 번 Read했다고 파일 전체를 읽었거나 지침을 이해했다고 판단하지 않습니다. 일부 줄만 반환될 수 있습니다. 실패·미완료·캐시 응답·해석하지 못한 반환 형식은 새 본문 전달로 집계하지 않습니다. `read_files`는 Read 도구에 한정되며, Grep에서 일부 내용을 확인한 행위는 별도로 해석해야 합니다.
+
+원시 스트림의 원문 내용, 사고 과정, 인증 정보, 검색어, 임의의 컴퓨터 경로는 기록에 복사하지 않습니다. 기록 파일을 새로 만들 수 없으면 모델 호출을 시작하지 않습니다. 타임아웃·출력 제한 때는 확보한 불완전 기록을 남기고, 스트림이 끊기거나 프로세스가 강제 종료돼 기록이 비어 있다면 파일을 읽지 않았다는 증거로 사용하지 않습니다. 이는 CLI가 보고한 도구 이력이며 OS 수준의 파일 접근 감사는 아닙니다.
+
+`--trace-tools --require-skill-reads`를 함께 사용하면 모델에게 `context.skills`의 모든 파일을 Read로 읽도록 지시하고, 답변을 반환하기 전에 전체 텍스트 읽기 범위가 확인되는지 검사합니다. 파일 목록 제공만으로 C의 Skill 사용을 가정하지 않기 위한 옵션입니다. 누락·부분 읽기·확인 불가능한 반환 형식이면 정상 응답으로 처리하지 않고 실행 오류와 기록을 남깁니다. 원래 답변이 맞는지와는 별도의 실행 조건 검사입니다. 추가 지시가 모델 프롬프트에 들어가므로 이 옵션을 바꾼 실험은 같은 실행 조건이라고 보고하지 않습니다.
+
+[실제 C 평가](experiments/cs-001-skill-verification.md)에서 기록 기능과 읽기 검사를 확인했습니다. 기존 C는 Skill을 읽지 않았고, 읽기를 요구한 C는 관련 파일 4개를 모두 읽었습니다. 후자의 수치는 정답과 일치했지만 원문 대조 절차는 이행하지 않아, 읽기 성공만으로 품질 통과를 표시하지 않았습니다.
+
 ## 접근 범위
 
 Claude의 restricted 설정은 파일 도구를 작업 디렉터리로 제한하는 애플리케이션 제어입니다. 관리자 설정은 여전히 영향을 줄 수 있습니다. 일반 외부 어댑터 실행기는 OS 샌드박스를 만들지 않으며 환경 변수를 상속합니다. 실측 전 정답·이전 결과·운영 DB에 대한 접근을 제한한 실행 환경을 준비해야 합니다.

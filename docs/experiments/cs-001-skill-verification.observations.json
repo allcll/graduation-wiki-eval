@@ -1,0 +1,397 @@
+{
+  "experiment": "cs-001-skill-verification-2026-11-15",
+  "case_id": "CS-2026-2-001",
+  "case_sha256": "sha256:a9401fd19108324c0eabe7cc237dc9eb9883b1c139b153aeb91394b3eb1bb7bb",
+  "requested_model": "claude-sonnet-4-6",
+  "repeats_per_variant": 1,
+  "question_oracle_sources_wiki_unchanged": true,
+  "prior_records_preserved": true,
+  "changes": [
+    "Added tool-call tracing to observe the existing C condition.",
+    "Candidate additionally requires full Read coverage of all listed Skill files and replaces only the query procedure section."
+  ],
+  "procedure_file": "docs/experiments/skills/query-verification.md",
+  "procedure_sha256": "sha256:bff335954f57a224aecd237fdea4adf87912ffc3112e6f81a7b9aa53479c53c2",
+  "skill_files": {
+    "baseline": [
+      {
+        "path": "skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+        "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8",
+        "bytes": 505
+      },
+      {
+        "path": "skill-bundle/CLAUDE.md",
+        "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f",
+        "bytes": 1723
+      },
+      {
+        "path": "skill-bundle/docs/agent-harness/PROJECT.md",
+        "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f",
+        "bytes": 5606
+      },
+      {
+        "path": "skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+        "sha256": "sha256:8b8b03d9e37fa2e56f89a3a50713b2e53f96a95321c81958676e2505199b0d6e",
+        "bytes": 1133
+      }
+    ],
+    "candidate": [
+      {
+        "path": "skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+        "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8",
+        "bytes": 505
+      },
+      {
+        "path": "skill-bundle/CLAUDE.md",
+        "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f",
+        "bytes": 1723
+      },
+      {
+        "path": "skill-bundle/docs/agent-harness/PROJECT.md",
+        "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f",
+        "bytes": 5606
+      },
+      {
+        "path": "skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+        "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7",
+        "bytes": 2878
+      }
+    ]
+  },
+  "observations": {
+    "baseline": {
+      "plan_sha256": "sha256:8e5785ed7803ee37dfadf7180efe54463db03eb91ef20187ad76ceb06147f27d",
+      "output_sha256": "sha256:75f4763250ccbd5999610cfc8ff00847e7da8a5662acf47b61966c37ad3096c0",
+      "trace_sha256": "sha256:2e9c2bbc56b227448d4e4e6210ee145570e179ee8c08c27397af58cad004bcc7",
+      "started_at": "2026-11-15T02:27:46.941Z",
+      "elapsed_ms": 73036.053,
+      "status": "ok",
+      "facts": {
+        "recognized_area_count": 2,
+        "recognized_credits": 6,
+        "required_area_count": 2,
+        "required_credits": 6,
+        "balance_requirement_met": true
+      },
+      "citations": [
+        "context/wiki/wiki/cohort/2022/balance.md §1 이수 규칙",
+        "context/wiki/wiki/cohort/2022/balance.md §2 영역 × 과목",
+        "context/wiki/wiki/cohort/2022/balance.md §3 영역 × 제외 계열",
+        "context/wiki/wiki/INDEX.md §정책 era 사전 (교양 자율 카테고리)"
+      ],
+      "counts": {
+        "expected": 1,
+        "missing": 0,
+        "error": 0,
+        "unreviewed": 1,
+        "objective_pass": 0,
+        "objective_fail": 1,
+        "evidence_fail": 0,
+        "answer_fail": 0,
+        "reviewed_success": 0,
+        "synthetic": 0,
+        "reviewed_success_rate": 0,
+        "required_fail": 1,
+        "advisory_runs": 0,
+        "criterion_failures": {
+          "blocker": 0,
+          "major": 0,
+          "minor": 0
+        }
+      },
+      "quality_gate": "INCONCLUSIVE",
+      "model_config": "auth=subscription;usage-credits-disabled=user-confirmed;effort=medium;max-turns=12;adapter-timeout=180;fast-mode=off;trace-tools=on",
+      "adapter_sha256": "sha256:b129448ef10f473fd12161a69350e064e90f6fdf3cf0545f4072ce4766346e32",
+      "trace_complete": true,
+      "trace_issues": [],
+      "skill_read_count": 0,
+      "source_read_count": 0,
+      "read_files": [
+        "context/wiki/wiki/INDEX.md",
+        "context/wiki/wiki/cohort/2022/balance.md"
+      ],
+      "fully_read_files": null,
+      "required_skill_files": [],
+      "unread_skill_files": [],
+      "calls": [
+        {
+          "sequence": 1,
+          "tool": "Read",
+          "path": "context/wiki/wiki/cohort/2022/balance.md",
+          "path_scope": "listed_file",
+          "status": "success",
+          "delivery": "text",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": null
+          },
+          "delivered_lines": {
+            "start": 1,
+            "count": 70,
+            "total": 70,
+            "truncated": null
+          }
+        },
+        {
+          "sequence": 2,
+          "tool": "Read",
+          "path": "context/wiki/wiki/INDEX.md",
+          "path_scope": "listed_file",
+          "status": "success",
+          "delivery": "text",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": null
+          },
+          "delivered_lines": {
+            "start": 1,
+            "count": 147,
+            "total": 147,
+            "truncated": null
+          }
+        },
+        {
+          "sequence": 3,
+          "tool": "other",
+          "path": null,
+          "path_scope": "unspecified",
+          "status": "success",
+          "delivery": "unverified",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": null
+          },
+          "delivered_lines": null
+        }
+      ]
+    },
+    "candidate": {
+      "plan_sha256": "sha256:d5708cc37e5bd8bf28b6581edae51f807080570394867869e6e91e3404a856e1",
+      "output_sha256": "sha256:11aeb8ebac526134bd301e8727053ec2d22f1b2aef81ad2f5bd9a453f8d13c91",
+      "trace_sha256": "sha256:056bd1d8ae2f915dfebf6d277e73c72f113440ac81ce3c5078eaa2f3e163eae2",
+      "started_at": "2026-11-15T02:32:32.028Z",
+      "elapsed_ms": 56128.058,
+      "status": "ok",
+      "facts": {
+        "recognized_area_count": 2,
+        "recognized_credits": 9,
+        "required_area_count": 2,
+        "required_credits": 6,
+        "balance_requirement_met": true
+      },
+      "citations": [
+        "context/wiki/wiki/cohort/2022/balance.md §1 이수 규칙 (수강편람 2026-1 p.52 §4)",
+        "context/wiki/wiki/cohort/2022/balance.md §2 영역 × 과목 표 (자연과과학: 현대과학으로의초대, 문화와예술: 현대예술의이해·한국의문화와한류)",
+        "context/wiki/wiki/cohort/2022/balance.md §3 영역 × 제외 계열 (경제와사회: 사회과학·경영경제·호텔관광, 문화와예술: 예체능)",
+        "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md §4 계산 규칙 (필요 최소 학점을 이수 합계의 상한으로 사용하지 않는다)"
+      ],
+      "counts": {
+        "expected": 1,
+        "missing": 0,
+        "error": 0,
+        "unreviewed": 1,
+        "objective_pass": 1,
+        "objective_fail": 0,
+        "evidence_fail": 0,
+        "answer_fail": 0,
+        "reviewed_success": 0,
+        "synthetic": 0,
+        "reviewed_success_rate": 0,
+        "required_fail": 0,
+        "advisory_runs": 0,
+        "criterion_failures": {
+          "blocker": 0,
+          "major": 0,
+          "minor": 0
+        }
+      },
+      "quality_gate": "INCONCLUSIVE",
+      "model_config": "auth=subscription;usage-credits-disabled=user-confirmed;effort=medium;max-turns=12;adapter-timeout=180;fast-mode=off;trace-tools=on;require-skill-reads=on",
+      "adapter_sha256": "sha256:9caa985a0bcab6e6399aea16d2b1be6ac36b2d788781719e2058d2f1f9929e09",
+      "trace_complete": true,
+      "trace_issues": [],
+      "skill_read_count": 4,
+      "source_read_count": 0,
+      "read_files": [
+        "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+        "context/skills/skill-bundle/CLAUDE.md",
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+        "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+        "context/wiki/wiki/INDEX.md",
+        "context/wiki/wiki/cohort/2022/balance.md"
+      ],
+      "fully_read_files": [
+        "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+        "context/skills/skill-bundle/CLAUDE.md",
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+        "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+        "context/wiki/wiki/INDEX.md",
+        "context/wiki/wiki/cohort/2022/balance.md"
+      ],
+      "required_skill_files": [
+        "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+        "context/skills/skill-bundle/CLAUDE.md",
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+        "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md"
+      ],
+      "unread_skill_files": [],
+      "calls": [
+        {
+          "sequence": 1,
+          "tool": "Read",
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "path_scope": "listed_file",
+          "status": "success",
+          "delivery": "text",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": null
+          },
+          "delivered_lines": {
+            "start": 1,
+            "count": 11,
+            "total": 11,
+            "truncated": null
+          }
+        },
+        {
+          "sequence": 2,
+          "tool": "Read",
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "path_scope": "listed_file",
+          "status": "success",
+          "delivery": "text",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": null
+          },
+          "delivered_lines": {
+            "start": 1,
+            "count": 35,
+            "total": 35,
+            "truncated": null
+          }
+        },
+        {
+          "sequence": 3,
+          "tool": "Read",
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "path_scope": "listed_file",
+          "status": "success",
+          "delivery": "text",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": null
+          },
+          "delivered_lines": {
+            "start": 1,
+            "count": 74,
+            "total": 74,
+            "truncated": null
+          }
+        },
+        {
+          "sequence": 4,
+          "tool": "Read",
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "path_scope": "listed_file",
+          "status": "success",
+          "delivery": "text",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": null
+          },
+          "delivered_lines": {
+            "start": 1,
+            "count": 21,
+            "total": 21,
+            "truncated": null
+          }
+        },
+        {
+          "sequence": 5,
+          "tool": "Read",
+          "path": "context/wiki/wiki/INDEX.md",
+          "path_scope": "listed_file",
+          "status": "success",
+          "delivery": "text",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": null
+          },
+          "delivered_lines": {
+            "start": 1,
+            "count": 147,
+            "total": 147,
+            "truncated": null
+          }
+        },
+        {
+          "sequence": 6,
+          "tool": "Read",
+          "path": "context/wiki/wiki/cohort/2022/balance.md",
+          "path_scope": "listed_file",
+          "status": "success",
+          "delivery": "text",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": null
+          },
+          "delivered_lines": {
+            "start": 1,
+            "count": 70,
+            "total": 70,
+            "truncated": null
+          }
+        },
+        {
+          "sequence": 7,
+          "tool": "other",
+          "path": null,
+          "path_scope": "unspecified",
+          "status": "success",
+          "delivery": "unverified",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": null
+          },
+          "delivered_lines": null
+        }
+      ]
+    }
+  },
+  "comparison": {
+    "status": "INCONCLUSIVE",
+    "condition": "C",
+    "split": "dev",
+    "label": "Matched required-criteria comparison; minor advisories remain in each report. NOT a deployment approval or significance test",
+    "planned_pairs": 1,
+    "comparable_pairs": 0,
+    "reasons": [
+      "incomplete_synthetic_or_unverified_pairs"
+    ],
+    "counts": {
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 0,
+      "unchanged_fail": 0
+    },
+    "transitions": []
+  },
+  "limitations": [
+    "Candidate facts match but no handbook Read/search was recorded; citations still use WIKI and 2026-1.",
+    "Skill read enforcement and procedure changed together; no isolated effect claim.",
+    "One dev case per variant; oracle revision and model-answer human reviews remain pending.",
+    "CLI trace is not OS access auditing, native Skill routing, or proof of instruction compliance."
+  ]
+}
