@@ -19,6 +19,7 @@ interface ToolCall {
   status: 'pending' | 'success' | 'error' | 'conflict';
   delivery: 'text' | 'pdf' | 'parts' | 'image' | 'notebook' | 'cache' | 'unverified';
   delivered_lines: { start: number | null; count: number | null; total: number | null; truncated: boolean | null } | null;
+  delivered_pages: { start: number; count: number } | null;
   matched_files: string[];
   result_sha256: string | null;
 }
@@ -72,7 +73,7 @@ export function summarizeClaudeStream(stdout: string, request: AdapterRequest, c
         calls.set(id, {
           sequence: calls.size + 1, tool, ...locate(tool === 'Read' ? input['file_path'] : input['path']),
           requested: { offset: integer(input['offset']), limit: integer(input['limit']), pages: typeof pages === 'string' && /^\d+(?:-\d+)?$/.test(pages) ? pages : null },
-          status: 'pending', delivery: 'unverified', delivered_lines: null, matched_files: [], result_sha256: null,
+          status: 'pending', delivery: 'unverified', delivered_lines: null, delivered_pages: null, matched_files: [], result_sha256: null,
         });
       }
       if (event['type'] !== 'user' || block['type'] !== 'tool_result') continue;
@@ -99,7 +100,22 @@ export function summarizeClaudeStream(stdout: string, request: AdapterRequest, c
           call.delivered_lines = { start: integer(file['startLine']), count: integer(file['numLines']), total: integer(file['totalLines']),
             truncated: typeof file['truncatedByTokenCap'] === 'boolean' ? file['truncatedByTokenCap'] : null };
         } else if (kind === 'pdf' || kind === 'image' || kind === 'notebook') call.delivery = kind;
-        else if (kind === 'parts' && (integer(file['count']) ?? 0) > 0) call.delivery = 'parts';
+        else if (kind === 'parts' && (integer(file['count']) ?? 0) > 0) {
+          call.delivery = 'parts';
+          const start = integer(structured?.['firstPage']);
+          const count = integer(file['count']);
+          // Requested pages are not evidence of delivery. Require the returned
+          // page metadata AND the corresponding image blocks, without storing bytes.
+          const images = Array.isArray(block['content']) ? block['content'].filter(value => {
+            const image = object(value);
+            const source = object(image?.['source']);
+            return image?.['type'] === 'image' && source?.['type'] === 'base64'
+              && typeof source['data'] === 'string' && source['data'].length > 0;
+          }).length : 0;
+          if (start !== null && start >= 1 && count !== null && count > 0 && images === count) {
+            call.delivered_pages = { start, count };
+          }
+        }
         else if (kind === 'file_unchanged') call.delivery = 'cache';
       }
       if ((call.tool === 'Grep' || call.tool === 'Glob') && Array.isArray(structured?.['filenames'])) {
@@ -144,3 +160,5 @@ export function summarizeClaudeStream(stdout: string, request: AdapterRequest, c
     },
   };
 }
+
+export type ClaudeToolTrace = ReturnType<typeof summarizeClaudeStream>['trace'];

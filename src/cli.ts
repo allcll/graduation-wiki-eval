@@ -17,8 +17,9 @@ import { writeReviewBundle } from './review-guide.js';
 import { createOracleWorkspace, validateOracleWorkspace, exportOracleCases } from './oracle-review.js';
 import { writeOracleHtml } from './oracle-html.js';
 import { loadDataset, writeDatasetReview } from './dataset.js';
+import { recheckSourceCitations } from './source-recheck.js';
 
-const commands = ['dataset-check', 'dataset-review', 'validate', 'oracle-init', 'oracle-review', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
+const commands = ['source-recheck', 'dataset-check', 'dataset-review', 'validate', 'oracle-init', 'oracle-review', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
 const commandSchema = z.enum(commands);
 const flags = {
   root: { type: 'string' }, manifest: { type: 'string' },
@@ -29,8 +30,10 @@ const flags = {
   condition: { type: 'string' }, split: { type: 'string' }, check: { type: 'boolean' },
   workspace: { type: 'string' }, title: { type: 'string' }, 'approved-only': { type: 'boolean' },
   'source-links': { type: 'string' }, 'metadata-only': { type: 'boolean' },
+  job: { type: 'string' }, 'source-contract': { type: 'string' }, 'table-index': { type: 'string' },
 } as const;
 const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flags)[]> = {
+  'source-recheck': ['job', 'source-contract', 'table-index', 'out'],
   'dataset-check': ['root', 'manifest', 'metadata-only'], 'dataset-review': ['root', 'manifest', 'out'],
   validate: ['cases'], plan: ['cases', 'conditions', 'repeats', 'out'], prepare: ['cases', 'config', 'out'],
   run: ['plan'], 'review-template': ['cases', 'runs', 'plan', 'out'], report: ['cases', 'runs', 'reviews', 'plan', 'out', 'check', 'condition'],
@@ -40,6 +43,7 @@ const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flag
 };
 const HELP = `grad-eval <command> [options]
 
+  source-recheck  --job SAVED_JOB --source-contract LISTED_SOURCE_JSON [--table-index FILE] --out NEW_FILE.json
   dataset-check   --root DATA_REPO --manifest RELATIVE_MANIFEST [--metadata-only]
   dataset-review  --root DATA_REPO --manifest RELATIVE_MANIFEST --out NEW_DIRECTORY
   validate        --cases FILE
@@ -126,6 +130,14 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     }
     let result: unknown;
     switch (command) {
+      case 'source-recheck': {
+        const recheck = await recheckSourceCitations(required(values.job, 'job'), required(values['source-contract'], 'source-contract'),
+          values['table-index'], required(values.out, 'out'));
+        result = { path: resolve(values.out!), mode: recheck.mode, model_calls: 0, status: recheck.source_check.status,
+          citations: recheck.source_check.citations.length, passed: recheck.source_check.citations.filter(item => item.passed).length,
+          human_review: recheck.human_review };
+        break;
+      }
       case 'dataset-check': {
         const dataset = await loadDataset(required(values.root, 'root'), required(values.manifest, 'manifest'), { metadataOnly: values['metadata-only'] ?? false });
         result = { valid: true, id: dataset.manifest.id, version: dataset.manifest.version, cases: dataset.cases.length, dataset_sha256: dataset.dataset_sha256, source_assets_verified: dataset.source_assets_verified };

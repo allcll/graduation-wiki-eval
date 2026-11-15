@@ -1,0 +1,243 @@
+{
+  "experiment": "cs-001-table-recheck-2026-11-15",
+  "mode": "offline_recheck",
+  "model_calls": 0,
+  "same_saved_answer_and_request": true,
+  "original_run_report_and_source_check_preserved": true,
+  "prior_observations_sha256": "sha256:7d24c049efd789d417064fdfad30966e051da71610ea2901624481905f7ccac3",
+  "recheck": {
+    "schema": "graduation-wiki-eval/source-recheck-v1",
+    "mode": "offline_recheck",
+    "model_calls": 0,
+    "case_id": "CS-2026-2-001",
+    "condition": "C",
+    "input_files": {
+      "request.json": "sha256:8295f6874cfcc23e15d20ed4d962dd06f1db523d4a09db401a0fb5f0b3ce62e1",
+      "claude-tools.json": "sha256:ac9116576a57f0f3806aa399a27f2f637071db1cc7b3db5683e679ca143d5930",
+      "source-check.json": "sha256:1b2d02db7b01f677c1f25f90418fd366a0e4ee10357ba65436cbe468d251ea32"
+    },
+    "previous_status": "fail",
+    "source_check": {
+      "schema": "graduation-wiki-eval/source-check-v2",
+      "status": "pass",
+      "request_sha256": "sha256:7a1e17f289f3ddd34443bd12c14c82d6c944607a9356dfbdd02da8e94ff24c8c",
+      "output_sha256": "sha256:0316df392d8df5f1d396fe336ef803d083c8035602854d0c768f5885d6d1dd33",
+      "contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "source_id": "handbook-2026-2",
+      "edition": "2026-2",
+      "pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+      "table_index_sha256": "sha256:160518689f13fddcf124c4385ba6f8c85405394aa1ea1904b64624641b63c685",
+      "delivered_pdf_pages": [
+        {
+          "start": 51,
+          "count": 2
+        },
+        {
+          "start": 53,
+          "count": 1
+        }
+      ],
+      "citations": [
+        {
+          "index": 0,
+          "pdf_page": 52,
+          "quote_sha256": "sha256:41cc3a283252dc3e702399e3d4c080a75347b748dbb9b590ae044c05535f5c79",
+          "literal_match": true,
+          "match_basis": "literal_text",
+          "table_match": {
+            "status": "not_applicable",
+            "matches": []
+          },
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_nonempty": true,
+            "quote_within_limit": true,
+            "quote_grounded": true
+          },
+          "passed": true
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:3c5991d5d63a33cc5a929473b8b443fbc30771845a24214928799f6173f41039",
+          "literal_match": true,
+          "match_basis": "literal_text",
+          "table_match": {
+            "status": "not_applicable",
+            "matches": []
+          },
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_nonempty": true,
+            "quote_within_limit": true,
+            "quote_grounded": true
+          },
+          "passed": true
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:33f72689f95657a2a7b9f2628d91b19566f9be3f8af12318a70d710a8ac1b8fa",
+          "literal_match": false,
+          "match_basis": "table_cells",
+          "table_match": {
+            "status": "matched",
+            "matches": [
+              {
+                "table_id": "p53-balance-2022",
+                "rows": [
+                  8
+                ],
+                "cell_ids": [
+                  "r5c0",
+                  "r8c1",
+                  "r8c2",
+                  "r5c3"
+                ]
+              }
+            ]
+          },
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_nonempty": true,
+            "quote_within_limit": true,
+            "quote_grounded": true
+          },
+          "passed": true
+        },
+        {
+          "index": 3,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:e7ad60f36f085afc7a1660a20e6adf5225ea4ca2434ee384ae219f32f04766ca",
+          "literal_match": false,
+          "match_basis": "table_cells",
+          "table_match": {
+            "status": "matched",
+            "matches": [
+              {
+                "table_id": "p53-balance-2022",
+                "rows": [
+                  15,
+                  16
+                ],
+                "cell_ids": [
+                  "r13c0",
+                  "r15c1",
+                  "r15c2",
+                  "r16c1",
+                  "r16c2",
+                  "r13c3"
+                ]
+              }
+            ]
+          },
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_nonempty": true,
+            "quote_within_limit": true,
+            "quote_grounded": true
+          },
+          "passed": true
+        },
+        {
+          "index": 4,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:9465ec3ee86a8b4a1e0710d0ffd5403bd76a5608a1f156c13c2f1307314b3d66",
+          "literal_match": false,
+          "match_basis": "table_cells",
+          "table_match": {
+            "status": "matched",
+            "matches": [
+              {
+                "table_id": "p53-balance-2022",
+                "rows": [
+                  9
+                ],
+                "cell_ids": [
+                  "r9c0",
+                  "r9c1",
+                  "r9c2",
+                  "r9c3"
+                ]
+              }
+            ]
+          },
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_nonempty": true,
+            "quote_within_limit": true,
+            "quote_grounded": true
+          },
+          "passed": true
+        },
+        {
+          "index": 5,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:9c1b6d903533de14f69e485818e77f542cb9140f58fa78cc46f2463f6874114b",
+          "literal_match": true,
+          "match_basis": "literal_text",
+          "table_match": {
+            "status": "not_applicable",
+            "matches": []
+          },
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_nonempty": true,
+            "quote_within_limit": true,
+            "quote_grounded": true
+          },
+          "passed": true
+        }
+      ],
+      "failures": [],
+      "semantic_support": "requires_review",
+      "note": "Checks pinned source identity, delivered pages, literal text or indexed table-cell relationships. Does not establish policy applicability, complete evidence, or a correct answer. Unindexed tables have no cell-relationship verification."
+    },
+    "original_run_and_report_unchanged": true,
+    "human_review": "pending"
+  },
+  "recheck_file_sha256": "sha256:e6c6aea540381f3b02c7e85cd0bef0e4e39caa09dd6d890d41b8002f37730903",
+  "implementation_files": {
+    "src/adapters/source-citations.ts": "sha256:70b66732e4c507c5f79cfccc07aceaa12b144e89ec7ce27847d1d5ce81f87b92",
+    "src/adapters/table-citations.ts": "sha256:9be2ed41cef13cfa9afb02492c79a15da6bdfb1870add391234d3aca7df0c7ef",
+    "src/source-recheck.ts": "sha256:72cee075ca27d7cc733929d6e2c4e6af6ac438037ceb2af97fbdf89745d290a7",
+    "dist/adapters/source-citations.js": "sha256:e1488210690ed874f265a51723d6cf978db6a38ff2e0f6c0ab5ba443f32fd7e6",
+    "dist/adapters/table-citations.js": "sha256:84edea71a99f35088c604f12c2473ca6c5bc34572115b633cf5efcc0838fe949",
+    "dist/source-recheck.js": "sha256:69abd347f7ee02543e4e8c496588357bb6dae8d739be8b6137011231905d4826"
+  },
+  "tests": {
+    "passed": 168,
+    "failed": 0
+  },
+  "limitations": [
+    "Source-cell index was prepared and visually checked by AI; human review pending.",
+    "One indexed table: PDF page 53. Not a universal PDF table parser.",
+    "Source/relationship checks passed, not overall answer quality.",
+    "No new model output and no claim of model improvement."
+  ]
+}
