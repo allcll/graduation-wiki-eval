@@ -1,0 +1,635 @@
+{
+  "schema": "graduation-wiki-eval/inline-skill-preflight-v1",
+  "checked_on": "2026-11-15",
+  "mode": "offline_payload_preparation",
+  "model_calls": 0,
+  "c_requests": 20,
+  "full_skill_documents": 80,
+  "a_b_requests_without_skills": 40,
+  "question_inputs_and_output_contract_unchanged": true,
+  "original_results_changed": false,
+  "human_review": "pending",
+  "note": "Input construction only. No Claude process, new model answer, tool-read success or understanding was measured.",
+  "rows": [
+    {
+      "case_id": "CS-2026-2-002",
+      "condition": "C",
+      "run_id": "C-0001-001",
+      "request_sha256": "sha256:7333aca18788a1328fbfe8e11a4b0ca4648095bb8d66beb8ee192ecc26895962",
+      "model_input_sha256": "sha256:291fb7d7066d1dd6529432f6af50ad0c5e8baa93c910b151fcafbdf08d34073a",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-003",
+      "condition": "C",
+      "run_id": "C-0002-001",
+      "request_sha256": "sha256:0871793e794e65a5e2373c958453af90b8dda12dbf9679d3dfef5e0cf1da9b93",
+      "model_input_sha256": "sha256:e63099e536f10f91fba2525fc1f42eecada64e3a6b7563ac0ec757c81c94de16",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-004",
+      "condition": "C",
+      "run_id": "C-0003-001",
+      "request_sha256": "sha256:a743872de7c5a4ef809dd511e591f2a9d022c7adf6a87c5b72efcb70a3d63bbf",
+      "model_input_sha256": "sha256:16622950539cc3b6363f31ab6a3b3bf8153e98836ef91c7ce1d1231c61486687",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-005",
+      "condition": "C",
+      "run_id": "C-0004-001",
+      "request_sha256": "sha256:355c95ea6d53b2beaff71f57b7400b9bf00c8a4cb16ba948f6af483d858efa3c",
+      "model_input_sha256": "sha256:93a8154b05c5be121a75fea5a7b2cd7640c4e1a88f68b8fa72d4f48a4e3e36fa",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-006",
+      "condition": "C",
+      "run_id": "C-0005-001",
+      "request_sha256": "sha256:467a3be5aa45b29708fcd36808e3c169fb09f05b37ff99243f5e327f19d20d85",
+      "model_input_sha256": "sha256:255e63dd8df7956990dc5acf97819c647abc4383bc27da222859e7812d811bf8",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-007",
+      "condition": "C",
+      "run_id": "C-0006-001",
+      "request_sha256": "sha256:3812f70ff1bf2c291012d92d8724e8e4c46db8fe416cb6d57524d70103b0e79d",
+      "model_input_sha256": "sha256:1b8d23ae78a9328f6465e39884948852ebfb903f7d7da7d915b2e5d5a0ed021b",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-008",
+      "condition": "C",
+      "run_id": "C-0007-001",
+      "request_sha256": "sha256:ddec089f0550cbe72babeded38aec3a95100ebadc28d5f8e778e3bbf3e82871f",
+      "model_input_sha256": "sha256:adadda8c5de278ba970b15bc9107dfb93249534d0b9059104138b397813ebc92",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-009",
+      "condition": "C",
+      "run_id": "C-0008-001",
+      "request_sha256": "sha256:67427107532ca966636168f216f740d94dde5ebedceb4b9caeb446c62adfb922",
+      "model_input_sha256": "sha256:d9f9077588da764ad330771541b37a0e0f95a52874e814c395aa615a237b479c",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-010",
+      "condition": "C",
+      "run_id": "C-0009-001",
+      "request_sha256": "sha256:621e5b1e51d72e51c2ab2fd6ebe09454abd0990b49406c6af5360242a7fcdc1f",
+      "model_input_sha256": "sha256:d0b444c8c04e4cb2dc52a75263cb1dd040d863ebf1bf5a92bd0e88305db469fb",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-011",
+      "condition": "C",
+      "run_id": "C-0010-001",
+      "request_sha256": "sha256:64d505daef1e605e742b60035b0bbb815e6190ecdf144ab77e574cfbefbfe820",
+      "model_input_sha256": "sha256:d10eb23ff3a19e81acddc27e4821ac586802327425b609f2d3926eb702aab5fe",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-012",
+      "condition": "C",
+      "run_id": "C-0011-001",
+      "request_sha256": "sha256:6fd45d7f66fd49af7da027ba935a6b905f8acfff0ce8aae035be7fa35148b527",
+      "model_input_sha256": "sha256:9643f358c6adf7497e618f1a3d117faefcf0008ab505a6a00aa7ed324738ac06",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-013",
+      "condition": "C",
+      "run_id": "C-0012-001",
+      "request_sha256": "sha256:ec3f986750326713d95e611f4c085259f25e6ac2ea8d2d445152e2f3560e0651",
+      "model_input_sha256": "sha256:e3d52b6e269cf5fdf49632af475ccac1f3cae4cae876afa98986ab453b9d8723",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-014",
+      "condition": "C",
+      "run_id": "C-0013-001",
+      "request_sha256": "sha256:7cb3ae273cf31824596571bccf25a3d040035f096fa53c636c6d36ba5d711433",
+      "model_input_sha256": "sha256:17714edf4aaeb721f257fb43d45e4372f2b6f1683ed996873b8595476541f147",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-015",
+      "condition": "C",
+      "run_id": "C-0014-001",
+      "request_sha256": "sha256:8f2c3b27b72ffc082ba19ea53e36f7621f96ca6a55596a653cb061adc354d195",
+      "model_input_sha256": "sha256:08e3b66cbb9e9dc187c91ccddb21df471ad77bee332af80ce0a934487344097e",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-016",
+      "condition": "C",
+      "run_id": "C-0015-001",
+      "request_sha256": "sha256:23142db17a9acc5c8188c996dffef37fb990b71bd11c7f283d7eaf9ce1369374",
+      "model_input_sha256": "sha256:bdd4c25a1377aff3438af4dc8ddbf86310ebcf8afa238ca252b50754e4398345",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-017",
+      "condition": "C",
+      "run_id": "C-0016-001",
+      "request_sha256": "sha256:35104001ac80cdf3eb737fb9ab65546e8ace8d9a9f565b9202a1eb13cb386567",
+      "model_input_sha256": "sha256:91342aa706881da06aa6fb30b5d4a2b59c6e9040946157a96c1613a9ed1d4314",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-018",
+      "condition": "C",
+      "run_id": "C-0017-001",
+      "request_sha256": "sha256:b8cdd3c3735f1890d1202b8d015ff1dd6e71492e15efdbfab69d67459f75a908",
+      "model_input_sha256": "sha256:bd542a45f68e5d4ef41f8e8f009c31afac45b12b2a2c9b09baf89f3b850feb40",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-019",
+      "condition": "C",
+      "run_id": "C-0018-001",
+      "request_sha256": "sha256:20529b9cf9c10ee07feb93d08e6262633ebbbbc77a6001d0d296884ee1496bc4",
+      "model_input_sha256": "sha256:5bd9c1eee31e7fe328c78c97c84402b290236ee25b562e7b430d9f525a67d49a",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "CS-2026-2-020",
+      "condition": "C",
+      "run_id": "C-0019-001",
+      "request_sha256": "sha256:7f1392b8c78275713373ee2c4a6f50cf2b4c2e645ed1b33e9a6dd6fc44bbc6a8",
+      "model_input_sha256": "sha256:acfab7a3ec963beb08c871cfe4664faa818773f1b43c0db519c2d8f12faeb31c",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    },
+    {
+      "case_id": "OPS-2026-2-001",
+      "condition": "C",
+      "run_id": "C-0020-001",
+      "request_sha256": "sha256:eeb715cb343ccffc909edd87dd288155a7e0f0dfc0858d4a2e9de59d5d6b309d",
+      "model_input_sha256": "sha256:1355d1a9692f2317aca02a5de5796cd83fad9f31d91145297f3b8dc6044b6068",
+      "documents_sha256": "sha256:85537e0b3f4b92c96ec6d3cca92fc5ece18c3eea275d09b462c3e825f749b582",
+      "files": [
+        {
+          "path": "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "bytes": 505,
+          "sha256": "sha256:11570c6cb5aae345ff80d5cc81d92a04b8bcbc7be909d06e725cba38998bd8f8"
+        },
+        {
+          "path": "context/skills/skill-bundle/CLAUDE.md",
+          "bytes": 1723,
+          "sha256": "sha256:1cefa4b247647c66d18062993fd2e2525491e832fdeb3a9a82c6b64e8d56ba9f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "bytes": 5606,
+          "sha256": "sha256:b6bfc2ae2fa7e2cc0c13fd7d0a4570962e84917c3bf8a69447f8c6ae26d9495f"
+        },
+        {
+          "path": "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+          "bytes": 2878,
+          "sha256": "sha256:93934284d85b7ea44bee4ed1f83f132f01a8349b9b9a14706bf14c4448d915d7"
+        }
+      ],
+      "total_bytes": 10712
+    }
+  ]
+}

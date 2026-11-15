@@ -68,11 +68,33 @@ npm 패키지로 설치한 경우 `grad-eval`과 `grad-eval-claude` 명령을 �
 
 ## C 조건에서 평가하는 범위
 
-이 어댑터는 네이티브 Skill과 슬래시 명령을 비활성화하고, C의 Skill 파일 목록을 명시적으로 제공합니다. 모델이 어떤 문서를 읽을지 판단할 수 있지만, 결과는 **Skill 문서 제공의 효과**로 해석합니다. 네이티브 Skill 자동 탐색·라우팅의 성능으로 보고하지 않습니다.
+이 어댑터는 네이티브 Skill과 슬래시 명령을 비활성화합니다. 기본 `--skill-delivery tools`는 C의 파일 목록을 제공해 모델이 읽게 하고, `--skill-delivery inline`은 실행기가 필수 본문을 미리 읽어 요청에 포함합니다. 두 방식은 다른 평가 조건입니다. 네이티브 Skill 자동 탐색·라우팅의 성능으로 보고하지 않습니다.
 
 `SKILL.md`가 다른 파일을 가리키는 wrapper라면 실제 절차 본문까지 명시적으로 제공해야 합니다. 실제 C 실행에는 `skill_contract`로 진입점과 필수 참조를 선언합니다. `prepare`와 `run`은 제공된 파일의 독립된 `@...` 가져오기 참조와 선언한 필수 파일을 검사하고, 누락·빈 본문·순환 참조를 모델 호출 전에 차단합니다. 참조를 찾아 디스크에서 자동 복사하거나 네이티브 Skill로 등록하는 기능은 아닙니다. 경로 형식과 검사 범위는 [입력과 실행 기록](data-format.md#c-조건의-skill-본문과-참조)에 설명했습니다.
 
 네이티브 Skill 라우팅을 평가하려면 별도 어댑터에서 제공된 Skill만 등록하고 A/B에는 자동 로드되지 않는지 추가 검증해야 합니다. 파일 목록을 넘겼다는 사실만으로 자동 선택을 검증했다고 쓰지 않습니다.
+
+### 필수 Skill 본문을 요청에 포함하기
+
+Skill을 제공받은 상태의 답변 품질을 비교하려면 `--skill-delivery inline`을 사용합니다. C의 `context.skills`에 나열한 파일을 실행기가 전부 읽어 `skill_documents` 배열에 경로·본문으로 넣습니다. wrapper, 본문, `CLAUDE.md`, `PROJECT.md`도 목록에 있으면 모두 포함됩니다. A/B 요청에는 이 배열을 넣지 않습니다. 원문·WIKI는 기존처럼 파일 탐색 방식입니다.
+
+```sh
+# 새 실험의 model_config에 skill-delivery=inline-v1을 기록하고 prepare한 뒤 실행합니다.
+# 아래 run 명령은 실제 모델을 호출합니다.
+node dist/cli.js run --plan artifacts/your-inline-experiment/plan.json -- \
+  node "$PWD/dist/adapters/claude.js" \
+  --auth subscription --usage-credits-disabled \
+  --trace-tools --skill-delivery inline \
+  --model YOUR_PINNED_MODEL_ID --max-turns 20 --effort medium --timeout 240
+```
+
+`--require-skill-reads`와는 함께 사용할 수 없습니다. inline은 본문 전달을 보장하는 방식이고, 기존 옵션은 모델의 Read 호출과 전체 줄 읽기를 검사하는 방식입니다. 기존 실험을 재현하기 위해 기본값 `tools`와 Read 검사는 유지합니다. 중단된 과거 계획에 inline 옵션만 바꿔 이어 붙이지 않고 새 계획·실험으로 구분합니다.
+
+본문 전달 전 허용 목록·단독 `@파일` 참조·순환 참조·빈 내용·UTF-8을 검사합니다. 목록 밖의 참조를 임의로 찾아 넣지 않습니다. 파일당 64 KiB, 전체 256 KiB, 최대 32개를 넘으면 호출 전에 중단하며 본문을 잘라서 보내지 않습니다. 참조 파일도 `context.skills`에 명시해야 합니다.
+
+`skill-delivery.json`에는 요청 해시, 파일별 크기·해시, 전체 문서 묶음 해시와 실제 stdin 문자열 해시를 기록합니다. 기록 파일을 새로 만들고 저장할 수 있어야 모델 실행으로 넘어갑니다. 본문 자체는 이 기록에 복사하지 않습니다. `stage: prepared_for_stdin`은 입력 구성 완료를 뜻하며 서버 수신·모델의 이해나 적용을 증명하지 않습니다.
+
+`claude-tools.json`의 `fully_read_files`는 계속 실제 도구 기록만 반영합니다. inline으로 넣은 파일을 가짜 Read 성공으로 채우지 않으며 `skill_delivery_mode`로 실행 방식을 구분합니다. [저장된 요청 60개의 입력 구성 검증](experiments/inline-skill-preflight.md)은 모델 호출 없이 수행했습니다.
 
 ### 실제 파일 읽기 기록
 
