@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { access, chmod, mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
+import { access, chmod, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { test, type TestContext } from 'node:test';
@@ -39,6 +39,85 @@ const options = { model: 'test-pinned-model', budgetUsd: 0.1 };
 const subscriptionOptions = { model: 'test-pinned-model', auth: 'subscription' as const, usageCreditsDisabled: true };
 const subscriptionStatus = JSON.stringify({ loggedIn: true, authMethod: 'claude.ai', apiProvider: 'firstParty',
   subscriptionType: 'pro', email: 'private-account@example.invalid' });
+
+test('trace mode records tools separately while returning the unchanged answer contract', async (t) => {
+  const cwd = await fixture(t);
+  const source = 'context/sources/original.md';
+  const events = [
+    { type: 'system', apiKey: 'private-key', email: 'private-account@example.invalid' },
+    { type: 'assistant', message: { content: [{ type: 'tool_use', id: 'a', name: 'Read', input: { file_path: path.join(cwd, source) } }] } },
+    { type: 'user', message: { content: [{ type: 'tool_result', tool_use_id: 'a', content: 'private-source-text' }] },
+      tool_use_result: { type: 'text', file: { filePath: path.join(cwd, source), content: 'private-source-text', numLines: 1, startLine: 1, totalLines: 1 } } },
+    JSON.parse(response) as unknown,
+  ];
+  const calls: (readonly string[])[] = [];
+  const run: typeof runProcess = async (command) => {
+    calls.push(command);
+    return result(command.includes('--version') ? '2.1.325' : command.includes('auth') ? subscriptionStatus : events.map(event => JSON.stringify(event)).join('\n'));
+  };
+  assert.deepEqual(await invokeClaude(request(), { ...subscriptionOptions, traceTools: true }, { cwd, env: {}, run }), answer);
+  assert(calls[2]?.includes('--verbose'));
+  assert(calls[2]?.includes('stream-json'));
+  const text = await readFile(path.join(cwd, 'claude-tools.json'), 'utf8');
+  const trace = JSON.parse(text) as { complete: boolean; outcome: string; read_files: string[] };
+  assert.equal(trace.complete, true);
+  assert.equal(trace.outcome, 'answer');
+  assert.deepEqual(trace.read_files, [source]);
+  assert(!text.includes('private-'));
+  assert(!text.includes(cwd));
+  assert.equal(calls.length, 3);
+});
+
+test('trace files cannot be overwritten or redirected through a symlink before model invocation', async (t) => {
+  for (const linked of [false, true]) {
+    const cwd = await fixture(t);
+    const target = path.join(cwd, 'existing.txt');
+    await writeFile(target, 'keep');
+    if (linked) await symlink(target, path.join(cwd, 'claude-tools.json'));
+    else await writeFile(path.join(cwd, 'claude-tools.json'), 'keep');
+    let calls = 0;
+    const run: typeof runProcess = async () => { calls++; return result('2.1.325'); };
+    await assert.rejects(invokeClaude(request(), { ...options, traceTools: true }, { cwd, env: { ANTHROPIC_API_KEY: 'unit-test-only' }, run }), /fresh claude-tools/);
+    assert.equal(calls, 1);
+    assert.equal(await readFile(target, 'utf8'), 'keep');
+    assert.equal(await readFile(path.join(cwd, 'claude-tools.json'), 'utf8'), 'keep');
+  }
+});
+
+test('failed or incomplete streams preserve a bounded trace and never return a passing answer', async (t) => {
+  for (const state of [{ timedOut: true }, { outputLimitExceeded: true }, { exitCode: 1 }, {}]) {
+    const cwd = await fixture(t);
+    const run: typeof runProcess = async command => command.includes('--version') ? result('2.1.325') : result('{"type":"assistant"', state);
+    await assert.rejects(invokeClaude(request(), { ...options, traceTools: true }, { cwd, env: { ANTHROPIC_API_KEY: 'unit-test-only' }, run }), ClaudeAdapterError);
+    const trace = JSON.parse(await readFile(path.join(cwd, 'claude-tools.json'), 'utf8')) as { complete: boolean; outcome: string };
+    assert.equal(trace.complete, false);
+    assert.equal(trace.outcome, 'error');
+  }
+});
+
+test('required Skill reads need trace mode and reject skipped or partial bodies', async (t) => {
+  assert.throws(() => buildCommand({ ...options, requireSkillReads: true }), ClaudeAdapterError);
+  for (const count of [0, 1, 3]) {
+    const cwd = await fixture(t);
+    for (const directory of ['wiki', 'skills']) await mkdir(path.join(cwd, 'context', directory));
+    await writeFile(path.join(cwd, 'context/wiki/rule.md'), 'rule');
+    await writeFile(path.join(cwd, 'context/skills/SKILL.md'), '# Query\nRead source\nCite source');
+    const req = { ...request(), condition: 'C' as const,
+      context: { ...request().context, wiki: ['context/wiki/rule.md'], skills: ['context/skills/SKILL.md'] } };
+    const events = count === 0 ? [] : [
+      { type: 'assistant', message: { content: [{ type: 'tool_use', id: 's', name: 'Read', input: { file_path: req.context.skills[0] } }] } },
+      { type: 'user', message: { content: [{ type: 'tool_result', tool_use_id: 's', content: 'body' }] },
+        tool_use_result: { type: 'text', file: { filePath: req.context.skills[0], content: 'body', startLine: 1, numLines: count, totalLines: 3 } } },
+    ];
+    const run: typeof runProcess = async command => result(command.includes('--version') ? '2.1.325' : [...events.map(event => JSON.stringify(event)), response].join('\n'));
+    const invocation = invokeClaude(req, { ...options, traceTools: true, requireSkillReads: true }, { cwd, env: { ANTHROPIC_API_KEY: 'unit-test-only' }, run });
+    if (count === 3) assert.deepEqual(await invocation, answer);
+    else await assert.rejects(invocation, /Skill files were not fully read/);
+    const trace = JSON.parse(await readFile(path.join(cwd, 'claude-tools.json'), 'utf8')) as { unread_skill_files: string[]; outcome: string };
+    assert.deepEqual(trace.unread_skill_files, count === 3 ? [] : req.context.skills);
+    assert.equal(trace.outcome, count === 3 ? 'answer' : 'error');
+  }
+});
 
 test('subscription mode requires the account-setting confirmation and preserves context isolation', () => {
   assert.throws(() => buildCommand({ ...subscriptionOptions, usageCreditsDisabled: false }), ClaudeAdapterError);

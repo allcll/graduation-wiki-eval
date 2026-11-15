@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 import { realpathSync } from 'node:fs';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, open, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { z } from 'zod';
-import { parseJson } from '../json.js';
+import { digest, parseJson } from '../json.js';
 import { runProcess, type ProcessResult } from '../process.js';
 import { answerSchema, validateRequest, type AdapterRequest } from './request.js';
+import { summarizeClaudeStream } from './claude-trace.js';
 export { validateRequest } from './request.js';
 
 const minimumVersion = [2, 1, 322] as const;
@@ -33,6 +34,8 @@ const optionsSchema = z.strictObject({
   maxTurns: z.number().int().positive().default(12),
   effort: z.enum(efforts).default('medium'),
   timeoutSeconds: z.number().finite().positive().default(120),
+  traceTools: z.boolean().default(false),
+  requireSkillReads: z.boolean().default(false),
   executable: z.string().trim().min(1).default('claude'),
 }).superRefine((options, context) => {
   if (options.auth === 'api-key' && options.budgetUsd === undefined) {
@@ -40,6 +43,9 @@ const optionsSchema = z.strictObject({
   }
   if (options.auth === 'subscription' && !options.usageCreditsDisabled) {
     context.addIssue({ code: 'custom', message: 'Confirm usage credits are disabled in the Claude account settings' });
+  }
+  if (options.requireSkillReads && !options.traceTools) {
+    context.addIssue({ code: 'custom', message: 'Required Skill reads need --trace-tools' });
   }
 });
 
@@ -99,10 +105,11 @@ export function buildCommand(value: ClaudeOptions): string[] {
     '--tools', 'Read,Grep,Glob', '--allowedTools', 'Read,Grep,Glob', '--disallowedTools', 'mcp__*',
     '--permission-mode', 'dontAsk', '--permission-prompts', 'none', '--no-chrome',
     '--strict-mcp-config', '--mcp-config', '{"mcpServers":{}}', '--no-session-persistence',
-    '--output-format', 'json', '--json-schema', JSON.stringify(outputJsonSchema), '--model', options.model,
+    '--output-format', options.traceTools ? 'stream-json' : 'json', ...(options.traceTools ? ['--verbose'] : []),
+    '--json-schema', JSON.stringify(outputJsonSchema), '--model', options.model,
     '--effort', options.effort, ...(options.budgetUsd === undefined ? [] : ['--max-budget-usd', String(options.budgetUsd)]),
     '--max-turns', String(options.maxTurns),
-    '--append-system-prompt', instructions];
+    '--append-system-prompt', instructions + (options.requireSkillReads ? '\nEvery file listed under context.skills is required for this evaluation. Use Read to read each listed Skill file completely before answering, including wrappers, procedure bodies, and shared rules. Search results alone do not satisfy this requirement. If a read is truncated, read the remaining lines. No native Skill activation is implied.' : '')];
 }
 
 function requireSuccess(result: ProcessResult, phase: string): void {
@@ -164,7 +171,14 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
   }
   // Subscription login is scoped to the existing config directory/keychain.
   const configDir = options.auth === 'api-key' ? await mkdtemp(path.join(tmpdir(), 'gradwiki-claude-')) : undefined;
+  let traceFile: Awaited<ReturnType<typeof open>> | undefined;
+  let captured: ProcessResult | undefined;
+  let output: ClaudeAnswer | undefined;
   try {
+    if (options.traceTools) {
+      try { traceFile = await open(path.join(cwd, 'claude-tools.json'), 'wx', 0o600); }
+      catch { throw new ClaudeAdapterError('Cannot create a fresh claude-tools.json; refusing a model call without its trace'); }
+    }
     const result = await run(command, {
       cwd,
       input: JSON.stringify({ question: request.question, inputs: request.inputs, context: request.context,
@@ -177,10 +191,32 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
         CLAUDE_CODE_DISABLE_BACKGROUND_TASKS: '1', CLAUDE_CODE_DISABLE_TERMINAL_TITLE: '1',
         MAX_STRUCTURED_OUTPUT_RETRIES: '1' },
     });
+    captured = result;
     requireSuccess(result, 'Claude Code');
-    return parseResponse(result.stdout);
+    if (options.traceTools) {
+      const parsed = summarizeClaudeStream(result.stdout, request, cwd);
+      if (!parsed.trace.complete) throw new ClaudeAdapterError('Claude tool stream is incomplete or inconsistent; inspect claude-tools.json');
+      if (options.requireSkillReads && request.context.skills.some(file => !parsed.trace.fully_read_files.includes(file))) {
+        throw new ClaudeAdapterError('Required Skill files were not fully read; inspect claude-tools.json');
+      }
+      output = parseResponse(JSON.stringify(parsed.result));
+    } else output = parseResponse(result.stdout);
+    return output;
   } finally {
-    if (configDir !== undefined) await rm(configDir, { recursive: true, force: true });
+    try {
+      if (traceFile) {
+        try {
+          const { trace } = summarizeClaudeStream(captured?.stdout ?? '', request, cwd);
+          const processComplete = captured !== undefined && !captured.timedOut && !captured.outputLimitExceeded && captured.exitCode === 0;
+          await traceFile.writeFile(JSON.stringify({ ...trace, complete: trace.complete && processComplete,
+            required_skill_files: options.requireSkillReads ? request.context.skills : [],
+            unread_skill_files: options.requireSkillReads ? request.context.skills.filter(file => !trace.fully_read_files.includes(file)) : [],
+            outcome: output ? 'answer' : 'error', output_sha256: output ? digest(output) : null,
+            process: captured ? { exit_code: captured.exitCode, timed_out: captured.timedOut, output_limit_exceeded: captured.outputLimitExceeded } : null,
+          }, null, 2) + '\n');
+        } finally { await traceFile.close(); }
+      }
+    } finally { if (configDir !== undefined) await rm(configDir, { recursive: true, force: true }); }
   }
 }
 
@@ -201,6 +237,8 @@ async function readStdin(): Promise<string> {
 const usage = `Usage: grad-eval-claude --model MODEL_ID [--max-turns 12] [--effort medium] [--timeout 120]
   API key (default): --auth api-key --max-budget-usd AMOUNT
   Subscription: --auth subscription --usage-credits-disabled
+  Optional: --trace-tools records tool requests/results in a new claude-tools.json in the job directory.
+  Optional: --require-skill-reads requires --trace-tools and full Read coverage of every listed Skill file.
   --usage-credits-disabled confirms you disabled extra usage in Claude account settings.
   It does not change or verify account billing settings. Subscription mode has no API-key fallback.
 `;
@@ -212,10 +250,14 @@ export async function main(argv: string[] = process.argv.slice(2)): Promise<numb
       auth: { type: 'string' }, 'usage-credits-disabled': { type: 'boolean' },
       'max-budget-usd': { type: 'string' }, 'max-turns': { type: 'string' },
       effort: { type: 'string' }, timeout: { type: 'string' },
+      'trace-tools': { type: 'boolean' },
+      'require-skill-reads': { type: 'boolean' },
     }, strict: true, allowPositionals: false });
     if (values.help) { process.stdout.write(usage); return 0; }
     const options = optionsSchema.safeParse({ model: values.model, auth: values.auth ?? 'api-key',
       usageCreditsDisabled: values['usage-credits-disabled'] ?? false,
+      traceTools: values['trace-tools'] ?? false,
+      requireSkillReads: values['require-skill-reads'] ?? false,
       budgetUsd: values['max-budget-usd'] === undefined ? undefined : Number(values['max-budget-usd']),
       maxTurns: values['max-turns'] === undefined ? 12 : Number(values['max-turns']),
       effort: values.effort ?? 'medium', timeoutSeconds: values.timeout === undefined ? 120 : Number(values.timeout) });
