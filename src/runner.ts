@@ -370,6 +370,8 @@ async function validateSnapshot(plan: RunnerPlan, root: string): Promise<void> {
 }
 
 export interface RunPlanOptions {
+  /** Execute a nonempty subset in plan order, without changing the frozen full evaluation plan. */
+  jobIds?: readonly string[];
   /** Called after the result is saved and flushed. Return false to leave later jobs unstarted. */
   onRecord?: (record: Run) => boolean | void | Promise<boolean | void>;
 }
@@ -389,12 +391,23 @@ export async function runPlan(planPath: string, command: readonly string[], opti
   const root = path.dirname(filename);
   const plan = runnerPlanSchema.parse(await readJson(filename));
   requireCondition(!(await exists(path.join(root, "runs.jsonl"))) && !(await exists(path.join(root, "started.json"))), "Plan already started; refusing overwrite or retry");
+  const requestedJobs = options.jobIds === undefined ? plan.jobs.map(job => job.job_id)
+    : z.array(nonempty).min(1).parse(options.jobIds);
+  const selected = new Set(requestedJobs);
+  requireCondition(selected.size === requestedJobs.length, "Duplicate selected job id");
+  const knownJobs = new Set(plan.jobs.map(job => job.job_id));
+  requireCondition(requestedJobs.every(id => knownJobs.has(id)), "Selected job is not in the frozen plan");
+  const selectedJobIds = plan.jobs.filter(job => selected.has(job.job_id)).map(job => job.job_id);
   await validateSnapshot(plan, root);
-  await writeNew(path.join(root, "started.json"), { started_at: new Date().toISOString(), plan_sha256: plan.plan_sha256 });
+  await writeNew(path.join(root, "started.json"), {
+    started_at: new Date().toISOString(), plan_sha256: plan.plan_sha256,
+    selected_job_ids: selectedJobIds, selection_sha256: digest(selectedJobIds),
+  });
   const records: Run[] = [];
   const stream = await open(path.join(root, "runs.jsonl"), "wx");
   try {
     for (const job of plan.jobs) {
+      if (!selected.has(job.job_id)) continue;
       await validateJob(job, root);
       const directory = path.join(root, "jobs", job.job_id);
       const request = await readFile(path.join(directory, "request.json"), "utf8");
