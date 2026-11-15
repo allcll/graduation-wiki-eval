@@ -1,0 +1,15 @@
+{
+  "schema": "graduation-wiki-eval/source-contract-v1",
+  "source_id": "handbook-2026-2",
+  "edition": "2026-2",
+  "pdf": {
+    "path": "context/sources/original/handbook-2026-2.pdf",
+    "sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+    "pages": 172
+  },
+  "text": {
+    "path": "context/sources/original/handbook-2026-2.txt",
+    "sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+    "format": "pdftotext-layout-formfeed"
+  }
+}
