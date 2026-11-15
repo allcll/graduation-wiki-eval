@@ -6,7 +6,7 @@ import path from 'node:path';
 import { test, type TestContext } from 'node:test';
 import { invokeClaude, buildCommand } from '../src/adapters/claude.js';
 import { summarizeClaudeStream } from '../src/adapters/claude-trace.js';
-import { checkSourceCitations, loadSourceContract, type SourceContract } from '../src/adapters/source-citations.js';
+import { checkSourceCitations, loadSourceContract, sourceCitationInstructions, type SourceContract } from '../src/adapters/source-citations.js';
 import type { AdapterAnswer, AdapterRequest } from '../src/adapters/request.js';
 import type { ProcessResult } from '../src/process.js';
 
@@ -33,6 +33,14 @@ const reply = (firstPage: number | undefined = 2, count = 1, images = 1) => ({ t
 const stream = (output = answer, result = reply()) => [use, result, finish(output)].map(item => JSON.stringify(item)).join('\n');
 const trace = (output = answer, result = reply()) => summarizeClaudeStream(stream(output, result), request, '/tmp/job').trace;
 const loaded = { contract, pages: [page1, page2], contract_sha256: 'sha256:fixture' };
+
+test('source instructions identify supported tables and keep other tables on individual fragments', () => {
+  assert.match(sourceCitationInstructions(contract), /No table index/);
+  const prompt = sourceCitationInstructions(contract, [{ id: 'p53-balance', pdf_page: 53 }]);
+  assert.match(prompt, /"pdf_page":53/);
+  assert.match(prompt, /single comma may separate complete cells/);
+  assert.match(prompt, /For all other tables, cite individual verbatim fragments separately/);
+});
 
 async function fixture(t: TestContext) {
   const cwd = await mkdtemp(path.join(tmpdir(), 'source-check-'));
@@ -105,6 +113,35 @@ test('requested pages, missing images, failed reads and incomplete streams canno
   assert.equal(checkSourceCitations(answer, { ...trace(), complete: false }, loaded).status, 'fail');
   const searchOnly = { ...trace(), calls: trace().calls.map(call => ({ ...call, tool: 'Grep' as const })) };
   assert.equal(checkSourceCitations(answer, searchOnly, loaded).status, 'fail');
+});
+
+test('paired quotation typography is separate from literal matching and preserves substantive text', () => {
+  const sentence = '창의소프트학부는 ‘문화와예술’ 영역 제외.';
+  const check = (page: string, quote: string) => checkSourceCitations({ ...answer,
+    citations: [`[source=handbook;edition=2026-2;pdf_page=2] ${quote}`] }, trace(), { ...loaded, pages: [page1, page] });
+  for (const quote of [
+    "창의소프트학부는 '문화와예술' 영역 제외.",
+    '창의소프트학부는 "문화와예술" 영역 제외.', '창의소프트학부는 문화와예술 영역 제외.',
+  ]) {
+    const result = check(sentence, quote);
+    assert.equal(result.status, 'pass');
+    assert.equal(result.citations[0]?.literal_match, false);
+    assert.equal(result.citations[0]?.match_basis, 'normalized_text');
+  }
+  for (const [page, quote] of [
+    [sentence, '창의소프트학부는 자연과과학 영역 제외.'],
+    ['2012학년도 입학자부터', '2012학번도 입학자부터'],
+    ['학생 자율선택', '학생 자유선택'],
+    ['Students cannot waive this.', 'Students can waive this.'],
+    ["Students don't waive this.", 'Students dont waive this.'],
+    ['At least 1.5 credits, ages 2-4, and 1,200 points.', 'At least 15 credits, ages 24, and 1200 points.'],
+    ['Height 5\'9".', 'Height 59.'],
+    [sentence, "창의소프트학부는 '문화와예술 영역 제외."],
+  ]) assert.equal(check(page!, quote!).status, 'fail', quote);
+  const quote = "창의소프트학부는 '문화와예술' 영역 제외.";
+  assert.equal(checkSourceCitations({ ...answer, citations: [`[source=handbook;edition=2026-1;pdf_page=2] ${quote}`] }, trace(), { ...loaded, pages: [page1, sentence] }).status, 'fail');
+  assert.equal(checkSourceCitations({ ...answer, citations: [`[source=handbook;edition=2026-2;pdf_page=2;] ${quote}`] }, trace(), { ...loaded, pages: [page1, sentence] }).status, 'fail');
+  assert.equal(checkSourceCitations({ ...answer, citations: [`[source=handbook;edition=2026-2;pdf_page=2] ${quote}`] }, { ...trace(), calls: [] }, { ...loaded, pages: [page1, sentence] }).status, 'fail');
 });
 
 test('adapter applies source checks, preserves rejected answers, and never retries the model', async t => {

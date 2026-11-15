@@ -19,6 +19,14 @@ export const sourceContractSchema = z.strictObject({
 export type SourceContract = z.infer<typeof sourceContractSchema>;
 export interface LoadedSourceContract { contract: SourceContract; pages: readonly string[]; contract_sha256: string; tables?: LoadedTableIndex }
 const hashBytes = (bytes: Buffer) => 'sha256:' + createHash('sha256').update(bytes).digest('hex');
+// Fold paired quotation typography around words, not arbitrary punctuation.
+// Apostrophes inside words, numeric quotes/primes, signs, decimals and ranges stay.
+function normalizeCitationTypography(text: string): string {
+  return text.normalize('NFC').replace(/[‘’]/gu, "'").replace(/[“”]/gu, '"')
+    .replace(/(?<![\p{L}\p{N}_])(['"])([^'"\r\n]+)\1/gu,
+      (whole: string, _mark: string, body: string) => /\p{L}/u.test(body) ? body : whole)
+    .replace(/\s/gu, '');
+}
 type SourceReadTrace = Pick<ClaudeToolTrace, 'complete' | 'request_sha256'> & {
   calls: readonly Pick<ClaudeToolTrace['calls'][number], 'tool' | 'path' | 'status' | 'delivered_pages'>[];
 };
@@ -48,12 +56,12 @@ export async function loadSourceContract(file: string, request: AdapterRequest, 
   return { contract, pages, contract_sha256: hashBytes(manifestBytes) };
 }
 
-export function sourceCitationInstructions(contract: SourceContract, indexedTables = false): string {
+export function sourceCitationInstructions(contract: SourceContract, indexedTables: readonly { id: string; pdf_page: number }[] = []): string {
   return `Original-source verification is enabled. The source catalog below identifies files, not answers.
 Use the extracted text to find relevant sections, then use Read with the pages parameter on the PDF to inspect the relevant original page images before answering. PDF page numbers are 1-based document pages, not inferred printed page labels. Read only pages needed for this question; do not read the entire PDF.
 Ground each policy claim in the requested edition, including target, exceptions, course classification and credits. WIKI and Skill are navigation/procedure documents, not substitutes for original evidence. Do not infer the application's internal failure cause without code or data.
 Every citations entry must use exactly this format: [source=SOURCE_ID;edition=EDITION;pdf_page=N] SHORT_EXACT_QUOTE
-Replace the placeholders with the catalog's source_id, edition, a page you actually read, and a quote from that page. Prose quotes must be verbatim contiguous text. ${indexedTables ? 'Table quotes may join exact cell values as: group, item and value pairs, then an optional shared qualifier. Each item/value pair must come from the same row; the group and any shared qualifier must span every cited row. Do not mix unrelated rows or columns.' : 'No table index is configured; cite individual verbatim text fragments instead of reconstructing table rows.'} Short cell values are allowed; quotes must be nonempty and at most 600 non-whitespace characters. Do not add quotation marks or paraphrase inside the quote. Include at least one entry, and enough entries to support the policy claims. A file name or edition label alone is insufficient. Do not put WIKI or Skill citations in this array.
+Replace the placeholders with the catalog's source_id, edition, a page you actually read, and a quote from that page. Prose quotes must be verbatim contiguous text. ${indexedTables.length ? `Only these indexed tables support joined cell quotations: ${JSON.stringify(indexedTables.map(({ id, pdf_page }) => ({ id, pdf_page })))}. In those tables, use group + (item, value) pairs + optional complete shared qualifier; spaces or a single comma may separate complete cells. Preserve punctuation inside cells. Each item/value pair must come from the same row; the group and qualifier must span every cited row. Do not insert column headings, units absent from the cell, or explanations. Do not mix unrelated rows or columns. For all other tables, cite individual verbatim fragments separately and explain their relationships in answer_text.` : 'No table index is configured; cite individual verbatim text fragments instead of reconstructing table rows.'} Short cell values are allowed; quotes must be nonempty and at most 600 non-whitespace characters. Do not add quotation marks or paraphrase inside the quote. Include at least one entry, and enough entries to support the policy claims. A file name or edition label alone is insufficient. Do not put WIKI or Skill citations in this array.
 Source catalog: ${JSON.stringify(contract)}
 Passing the file/page/quote checks does not establish that a quote supports your interpretation; explain that reasoning in answer_text.`;
 }
@@ -75,9 +83,12 @@ export function checkSourceCitations(answer: AdapterAnswer, trace: SourceReadTra
     const table = page !== null && loaded.tables ? matchTableCitation(quote, page, loaded.tables.index) : null;
     const literal = page !== null && page >= 1 && page <= pages.length && normalized.length > 0
       && normalizeQuote(pages[page - 1]!).includes(normalized);
+    const typography = normalizeCitationTypography(quote);
+    const normalizedMatch = page !== null && page >= 1 && page <= pages.length && typography.length > 0
+      && normalizeCitationTypography(pages[page - 1]!).includes(typography);
     // A recognized table claim with contradictory relationships cannot escape
     // through a coincidental match in flattened page text.
-    const located = table && table.status !== 'not_applicable' ? table.status === 'matched' : literal;
+    const located = table && table.status !== 'not_applicable' ? table.status === 'matched' : literal || normalizedMatch;
     const checks = {
       format: match !== null,
       source: match?.[1] === contract.source_id,
@@ -89,8 +100,9 @@ export function checkSourceCitations(answer: AdapterAnswer, trace: SourceReadTra
       quote_grounded: located,
     };
     return { index, pdf_page: page !== null && Number.isSafeInteger(page) ? page : null,
-      quote_sha256: match ? digest(quote) : null, literal_match: literal,
-      match_basis: table?.status === 'matched' ? 'table_cells' as const : located ? 'literal_text' as const : 'none' as const,
+      quote_sha256: match ? digest(quote) : null, literal_match: literal, normalized_match: normalizedMatch,
+      match_basis: table?.status === 'matched' ? 'table_cells' as const : located && literal ? 'literal_text' as const
+        : located && normalizedMatch ? 'normalized_text' as const : 'none' as const,
       table_match: table, checks, passed: Object.values(checks).every(Boolean) };
   });
   const failures = [
@@ -101,6 +113,7 @@ export function checkSourceCitations(answer: AdapterAnswer, trace: SourceReadTra
   ];
   return {
     schema: 'graduation-wiki-eval/source-check-v2' as const,
+    checker_version: 'citation-format-3' as const,
     status: failures.length === 0 ? 'pass' as const : 'fail' as const,
     request_sha256: trace.request_sha256, output_sha256: digest(answer),
     contract_sha256: loaded.contract_sha256, source_id: contract.source_id, edition: contract.edition,

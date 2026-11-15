@@ -4,6 +4,9 @@ import { z } from 'zod';
 import { parseJson } from '../json.js';
 
 export const normalizeQuote = (text: string) => text.normalize('NFC').replace(/\s/gu, '');
+// A separator is accepted only after a complete indexed cell. Never remove
+// punctuation from cell values, numbers, qualifiers or the whole quotation.
+const afterCellSeparator = (text: string) => text.startsWith(',') ? text.slice(1) : text;
 const position = z.number().int().nonnegative();
 const extent = z.number().int().positive();
 const edges = z.array(z.number().finite()).min(2).max(501).refine(values => values.every((v, i) => i === 0 || v > values[i - 1]!));
@@ -94,7 +97,7 @@ export function matchTableCitation(quote: string, page: number, index: TableInde
       if (!text.startsWith(label)) continue;
       const rest = text.slice(label.length);
       // A group heading alone or a prose quote is not a claim joining table cells.
-      if (!items.some(item => rest.startsWith(normalizeQuote(item.text)))) continue;
+      if (!items.some(item => afterCellSeparator(rest).startsWith(normalizeQuote(item.text)))) continue;
       applicable = true;
       let steps = 0;
       const walk = (remaining: string, rows: number[], ids: string[]) => {
@@ -102,7 +105,8 @@ export function matchTableCitation(quote: string, page: number, index: TableInde
         if (rows.length) {
           if (!remaining) matches.push({ table_id: table.id, rows, cell_ids: [group.id, ...ids] });
           else for (const qualifier of table.cells.filter(cell => cell.column === qualifier_column && cell.column_span === 1)) {
-            if (normalizeQuote(qualifier.text) === remaining && rows.every(row => covers(qualifier, row, qualifier_column))) {
+            if (normalizeQuote(qualifier.text) && normalizeQuote(qualifier.text) === afterCellSeparator(remaining)
+                && rows.every(row => covers(qualifier, row, qualifier_column))) {
               matches.push({ table_id: table.id, rows, cell_ids: [group.id, ...ids, qualifier.id] });
             }
           }
@@ -111,8 +115,11 @@ export function matchTableCitation(quote: string, page: number, index: TableInde
           if (!covers(group, item.row, group_column) || rows.includes(item.row)) continue;
           const value = table.cells.find(cell => covers(cell, item.row, value_column) && cell.column_span === 1);
           if (!value || !normalizeQuote(value.text)) continue;
-          const pair = normalizeQuote(item.text) + normalizeQuote(value.text);
-          if (remaining.startsWith(pair)) walk(remaining.slice(pair.length), [...rows, item.row], [...ids, item.id, value.id]);
+          const next = afterCellSeparator(remaining);
+          const itemText = normalizeQuote(item.text), valueText = normalizeQuote(value.text);
+          if (!next.startsWith(itemText)) continue;
+          const afterItem = afterCellSeparator(next.slice(itemText.length));
+          if (afterItem.startsWith(valueText)) walk(afterItem.slice(valueText.length), [...rows, item.row], [...ids, item.id, value.id]);
         }
       };
       walk(rest, [], []);

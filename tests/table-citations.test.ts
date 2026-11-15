@@ -27,6 +27,24 @@ test('saved table quotes resolve through source rows and merged-cell spans', () 
   assert.equal(matchTableCitation(quotations[0]!, 52, sourceIndex).status, 'not_applicable');
 });
 
+test('commas separate complete indexed cells, without changing row relationships or cell contents', () => {
+  for (const quote of [
+    '역사와사상, 한국현대사, 3',
+    '자연과과학, 현대과학으로의초대, 3, 자연과학, 생명과학 전자정보공학 소프트웨어융합, 공과',
+    '문화와예술, 한국의문화와한류, 3, 현대예술의이해, 3, 예체능',
+  ]) assert.equal(matchTableCitation(quote, 53, sourceIndex).status, 'matched', quote);
+  for (const quote of [
+    '역사와사상, 한국현대사, 4', '문화와예술, 한국현대사, 3',
+    '자연과과학, 현대과학으로의초대, 3, 예체능',
+    '경제와사회, 경영학, 3, 호텔관광',
+    '자연과과학, 현대과학으로의초대, 3, 자연과학 생명과학 전자정보공학 소프트웨어융합 공과',
+    '역사와사상, 한국현대사, 3.0', '역사와사상, 한국현대사, -3',
+    '역사와사상, 한국현대사, 3,0', '역사와사상, 한국현대사, 3-4',
+    '역사와사상, 한국현대사, 3,', '역사와사상, 한국현대사, 3, 설명 추가',
+  ]) assert.equal(matchTableCitation(quote, 53, sourceIndex).status, 'conflict', quote);
+  assert.equal(matchTableCitation('역사와사상, 한국현대사, 3', 48, sourceIndex).status, 'not_applicable');
+});
+
 test('words on the same page do not permit wrong group, value or qualifier relationships', () => {
   for (const quote of [
     '문화와예술 현대과학으로의초대 3 예체능',
@@ -63,7 +81,7 @@ test('ambiguous tables and malformed geometry never become unique supporting evi
 });
 
 test('a table contradiction overrides an accidental flattened-text match', () => {
-  const wrong = '문화와예술 현대과학으로의초대 3 예체능';
+  for (const wrong of ['문화와예술 현대과학으로의초대 3 예체능', '문화와예술, 현대과학으로의초대, 3, 예체능']) {
   const loaded: LoadedSourceContract = { contract: { schema: 'graduation-wiki-eval/source-contract-v1', source_id: sourceIndex.source_id,
     edition: sourceIndex.edition, pdf: { path: 'context/sources/source.pdf', pages: 53, sha256: sourceIndex.pdf_sha256 },
     text: { path: 'context/sources/source.txt', sha256: sourceIndex.pdf_sha256, format: 'pdftotext-layout-formfeed' } },
@@ -72,6 +90,7 @@ test('a table contradiction overrides an accidental flattened-text match', () =>
     { complete: true, request_sha256: sourceIndex.pdf_sha256, calls: [{ tool: 'Read', path: loaded.contract.pdf.path, status: 'success', delivered_pages: { start: 53, count: 1 } }] }, loaded);
   assert.equal(result.citations[0]?.literal_match, true);
   assert.equal(result.status, 'fail');
+  }
 });
 
 test('table assets must match source edition, PDF hash, page and extracted cell text', async t => {
