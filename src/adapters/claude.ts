@@ -13,6 +13,7 @@ import { prepareClaudePayload } from './skill-delivery.js';
 import { summarizeClaudeStream } from './claude-trace.js';
 import { checkSourceCitations, loadSourceContract, sourceCitationInstructions, type SourceCitationCheck } from './source-citations.js';
 import { loadTableIndex } from './table-citations.js';
+import { automaticEvaluationSchema, type AutomaticCheck } from '../automatic-evaluation.js';
 export { validateRequest } from './request.js';
 
 const minimumVersion = [2, 1, 322] as const;
@@ -159,7 +160,7 @@ export function parseResponse(stdout: string): ClaudeAnswer {
   return result.data.structured_output;
 }
 
-export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, dependencies: ClaudeDependencies = {}): Promise<ClaudeAnswer> {
+export async function invokeClaudeEvaluated(value: unknown, rawOptions: ClaudeOptions, dependencies: ClaudeDependencies = {}) {
   const options = optionsSchema.parse(rawOptions);
   const cwd = dependencies.cwd ?? process.cwd();
   const env = dependencies.env ?? process.env;
@@ -240,13 +241,22 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
       if (!parsed.trace.complete) throw new ClaudeAdapterError('Claude tool stream is incomplete or inconsistent; inspect claude-tools.json');
       candidateOutput = parseResponse(JSON.stringify(parsed.result));
       if (sourceContract) sourceCheck = checkSourceCitations(candidateOutput, parsed.trace, sourceContract);
-      if (options.requireSkillReads && request.context.skills.some(file => !parsed.trace.fully_read_files.includes(file))) {
-        throw new ClaudeAdapterError('Required Skill files were not fully read; inspect claude-tools.json');
-      }
-      if (sourceCheck?.status === 'fail') throw new ClaudeAdapterError('Original source citation checks failed; inspect source-check.json');
       output = candidateOutput;
     } else output = parseResponse(result.stdout);
-    return output;
+    const checks: AutomaticCheck[] = sourceCheck ? sourceCheck.issues.length ? [...sourceCheck.issues] : [{
+      id: 'source_verification', verdict: 'pass', reason: '지정 원문·페이지·인용 검사를 통과했습니다. 의미 검토는 별도입니다.', next_action: '',
+    }] : [];
+    if (options.requireSkillReads) {
+      const { trace } = summarizeClaudeStream(result.stdout, request, cwd);
+      const unread = request.context.skills.filter(file => !trace.fully_read_files.includes(file));
+      checks.push({ id: 'required_skill_reads', verdict: unread.length ? 'fail' : 'pass',
+        reason: unread.length ? `필수 문서 전체 읽기 누락: ${unread.join(', ')}` : '필수 문서 전체 읽기를 확인했습니다.',
+        next_action: unread.length ? '문서 전달/탐색 절차를 확인하세요. 응답 생성 성공과 구분합니다.' : '' });
+    }
+    return { schema: 'graduation-wiki-eval/adapter-v2' as const, output,
+      automatic_evaluation: automaticEvaluationSchema.parse({ schema: 'graduation-wiki-eval/automatic-evaluation-v1',
+        checker_version: sourceCheck?.checker_version ?? 'execution-evaluation-1', request_sha256: digest(request),
+        output_sha256: digest(output), checks, semantic_review: 'pending' }) };
   } finally {
     try {
       if (traceFile) {
@@ -267,11 +277,11 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
         if (sourceCheckFile) {
           try {
             await sourceCheckFile.writeFile(JSON.stringify({
-              ...(sourceCheck ?? { schema: 'graduation-wiki-eval/source-check-v2', status: 'not_evaluated',
+              ...(sourceCheck ?? { schema: 'graduation-wiki-eval/source-check-v3', status: 'not_evaluated',
                 request_sha256: digest(request), contract_sha256: sourceContract?.contract_sha256,
                 semantic_support: 'requires_review' }),
-              accepted_output: output !== undefined,
-              // Keep a rejected structured answer for diagnosis, never raw CLI output.
+              execution_status: output ? 'completed' : 'error',
+              // Capture the response independently of quality; never include raw CLI output.
               candidate_output: candidateOutput ?? null,
             }, null, 2) + '\n');
           } finally { await sourceCheckFile.close(); }
@@ -279,6 +289,12 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
       } finally { if (configDir !== undefined) await rm(configDir, { recursive: true, force: true }); }
     }
   }
+}
+
+/** Programmatic answer-only interface. Completion does not imply evaluation PASS.
+ * CLI/runner callers use invokeClaudeEvaluated so checks travel with the answer. */
+export async function invokeClaude(value: unknown, options: ClaudeOptions, dependencies: ClaudeDependencies = {}): Promise<ClaudeAnswer> {
+  return (await invokeClaudeEvaluated(value, options, dependencies)).output;
 }
 
 async function readStdin(): Promise<string> {
@@ -335,7 +351,7 @@ export async function main(argv: string[] = process.argv.slice(2)): Promise<numb
       maxTurns: values['max-turns'] === undefined ? 12 : Number(values['max-turns']),
       effort: values.effort ?? 'medium', timeoutSeconds: values.timeout === undefined ? 120 : Number(values.timeout) });
     if (!options.success) throw new ClaudeAdapterError('Specify a model ID, valid limits and the authentication prerequisites. Use --help for syntax.');
-    const output = await invokeClaude(parseJson(await readStdin()), options.data);
+    const output = await invokeClaudeEvaluated(parseJson(await readStdin()), options.data);
     process.stdout.write(`${JSON.stringify(output)}\n`);
     return 0;
   } catch (error: unknown) {

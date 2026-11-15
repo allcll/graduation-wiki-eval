@@ -42,7 +42,7 @@ test('offline recheck accepts a real short quote and preserves all original reco
   assert.equal(result.previous_status, 'fail');
   assert.equal(result.source_check.status, 'pass');
   assert.equal(result.source_check.output_sha256, digest(answer));
-  assert.equal(result.source_check.schema, 'graduation-wiki-eval/source-check-v2');
+  assert.equal(result.source_check.schema, 'graduation-wiki-eval/source-check-v3');
   assert.equal(result.mode, 'offline_recheck');
   assert.equal(result.model_calls, 0);
   assert.equal(result.source_check.semantic_support, 'requires_review');

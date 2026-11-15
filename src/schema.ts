@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { automaticEvaluationSchema } from './automatic-evaluation.js';
 
 export const HARNESS_VERSION = 'graduation-wiki-eval/0.4';
 export const PLAN_SCHEMA = 'graduation-wiki-eval/plan-v4';
@@ -72,7 +73,8 @@ const runBase = {
   elapsed_ms: metric.optional(), input_tokens: metric.optional(), output_tokens: metric.optional(),
 };
 export const runSchema = z.discriminatedUnion('status', [
-  z.strictObject({ ...runBase, status: z.literal('ok'), output: outputSchema, output_sha256: hash }),
+  z.strictObject({ ...runBase, status: z.literal('ok'), output: outputSchema, output_sha256: hash,
+    automatic_evaluation: automaticEvaluationSchema.optional() }),
   z.strictObject({ ...runBase, status: z.literal('error'), error: nonempty }),
 ]);
 export const reviewSchema = z.strictObject({
@@ -99,12 +101,14 @@ export const rowSchema = z.strictObject({
   answer: verdictSchema, evidence: verdictSchema, output_sha256: hash.nullable(),
   criterion_failures: criterionFailureCountsSchema,
   review: reviewSchema.nullable(), metrics: metricsSchema,
+  automatic_evaluation: automaticEvaluationSchema.optional(),
 });
 export const countsSchema = z.strictObject({
   expected: count, missing: count, error: count, unreviewed: count, objective_pass: count, objective_fail: count,
   evidence_fail: count, answer_fail: count, reviewed_success: count, synthetic: count,
   required_fail: count, advisory_runs: count, criterion_failures: criterionFailureCountsSchema,
   reviewed_success_rate: z.number().min(0).max(1).nullable(),
+  automatic_fail: count.default(0), automatic_inconclusive: count.default(0),
 });
 const gateSchema = z.strictObject({ gate: z.enum(['PASS', 'FAIL', 'INCONCLUSIVE']), reasons: z.array(z.string()), holdout_counts: countsSchema });
 const metricSummarySchema = z.strictObject({ sum: z.number().finite().nonnegative(), measured_runs: count, expected_runs: count });

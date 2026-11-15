@@ -1,6 +1,7 @@
 import { writeFile } from 'node:fs/promises';
 import type { Comparison, Report } from './schema.js';
 import { writeJson } from './io.js';
+import { automaticFailed, automaticPending } from './automatic-evaluation.js';
 
 export interface ErrorReport { gate: 'INCONCLUSIVE'; input_error: string }
 export type SavedReport = Report | Comparison | ErrorReport;
@@ -27,6 +28,14 @@ export function markdown(report: SavedReport): string {
     lines.push(`| ${condition} | ${count.expected} | ${count.reviewed_success} | ${count.missing} | ${count.error} | ${count.unreviewed} | ${gate.gate} |`);
   }
   lines.push('', '실행 건수는 dev와 holdout의 합계입니다. 필수 기준 통과에는 minor 권고만 남은 실행도 포함합니다. 판정 분모는 JSON의 holdout_counts에 기록합니다.', '',
+    '## 응답 생성 이후의 자동 검사', '',
+    '실행 오류는 응답을 정상적으로 얻지 못한 경우입니다. 응답이 생성된 뒤 확인된 오류와 자동 검증 불가는 따로 셉니다. 한 실행에 둘 다 있으면 두 열에 함께 포함합니다. 검증 불가는 통과나 확인된 오답으로 바꾸지 않습니다.', '',
+    '| 조건 | 확인된 자동 검사 실패 | 자동 검증 불가 |', '| --- | ---: | ---: |');
+  for (const condition of report.plan.conditions) {
+    const count = report.condition_counts[condition]!;
+    lines.push(`| ${condition} | ${count.automatic_fail} | ${count.automatic_inconclusive} |`);
+  }
+  lines.push('',
     '## 실패와 개선 권고', '',
     '| 조건 | 필수 실패 실행 | minor 포함 실행 | blocker 항목 | major 항목 | minor 항목 |',
     '| --- | ---: | ---: | ---: | ---: | ---: |');
@@ -39,10 +48,11 @@ export function markdown(report: SavedReport): string {
   for (const [condition, gate] of Object.entries(report.gates)) lines.push(`- ${condition}: ${gate.reasons.join(', ') || 'holdout 필수 검사 통과'}`);
   lines.push('', '## 확인할 실행', '');
   for (const row of report.rows) {
-    if (row.objective === false || row.evidence === 'fail' || row.answer === 'fail' || row.unreviewed) {
+    if (row.objective === false || row.evidence === 'fail' || row.answer === 'fail' || row.unreviewed || automaticFailed(row.automatic_evaluation) || automaticPending(row.automatic_evaluation)) {
       const criteria = new Map(row.rubric.criteria.map(item => [item.id, item]));
       lines.push(jsonBlock({ case_id: row.case_id, condition: row.condition, repeat: row.repeat,
         objective_details: row.objective_details, evidence: row.evidence, answer: row.answer,
+        automatic_checks: row.automatic_evaluation?.checks.filter(item => item.verdict !== 'pass') ?? [],
         criterion_results: row.review?.criterion_results.filter(item => item.verdict !== 'pass').map(item => ({
           criterion_id: item.criterion_id, description: criteria.get(item.criterion_id)?.description,
           severity: criteria.get(item.criterion_id)?.severity,

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { digest } from './json.js';
 import { summarizeReview } from './review.js';
+import { automaticFailed, automaticPending } from './automatic-evaluation.js';
 import {
   HARNESS_VERSION, PLAN_SCHEMA, METRIC_KEYS, SEVERITIES, conditionSchema, planSchema, reportSchema,
   parseCases, parseRuns, parseReviews,
@@ -57,15 +58,15 @@ function oracleReady(item: Case): boolean {
   return item.review_status === 'verified' && item.independent_reference && item.sources.every(source => source.authoritative);
 }
 export function rowSuccess(row: Row): boolean {
-  return !row.missing && !row.error && !row.unreviewed && row.oracle_ready && !row.synthetic && row.objective === true && !rowFailure(row);
+  return !row.missing && !row.error && !row.unreviewed && !automaticPending(row.automatic_evaluation) && row.oracle_ready && !row.synthetic && row.objective === true && !rowFailure(row);
 }
 /** Required failures only; an advisory does not turn a successful run into a regression. */
-export function rowFailure(row: Row): boolean { return row.objective === false || row.criterion_failures.blocker > 0 || row.criterion_failures.major > 0; }
+export function rowFailure(row: Row): boolean { return row.objective === false || automaticFailed(row.automatic_evaluation) || row.criterion_failures.blocker > 0 || row.criterion_failures.major > 0; }
 
 export function summarize(rows: Row[]): Counts {
   const counts: Counts = { expected: rows.length, missing: 0, error: 0, unreviewed: 0, objective_pass: 0, objective_fail: 0,
     evidence_fail: 0, answer_fail: 0, reviewed_success: 0, synthetic: 0, reviewed_success_rate: null,
-    required_fail: 0, advisory_runs: 0, criterion_failures: { blocker: 0, major: 0, minor: 0 } };
+    required_fail: 0, advisory_runs: 0, automatic_fail: 0, automatic_inconclusive: 0, criterion_failures: { blocker: 0, major: 0, minor: 0 } };
   for (const row of rows) {
     for (const field of ['missing', 'error', 'unreviewed', 'synthetic'] as const) counts[field] += Number(row[field]);
     counts.objective_pass += Number(row.objective === true);
@@ -74,6 +75,8 @@ export function summarize(rows: Row[]): Counts {
     counts.answer_fail += Number(row.answer === 'fail');
     counts.reviewed_success += Number(rowSuccess(row));
     counts.required_fail += Number(rowFailure(row));
+    counts.automatic_fail += Number(automaticFailed(row.automatic_evaluation));
+    counts.automatic_inconclusive += Number(automaticPending(row.automatic_evaluation));
     counts.advisory_runs += Number(row.criterion_failures.minor > 0);
     for (const severity of SEVERITIES) counts.criterion_failures[severity] += row.criterion_failures[severity];
   }
@@ -92,6 +95,7 @@ function gates(rows: Row[], conditions: Condition[]): Record<string, Gate> {
     if (!holdout.length) reasons.push('no_holdout_cases');
     if (synthetic) reasons.push('synthetic_present_in_batch');
     for (const field of ['missing', 'error', 'unreviewed', 'synthetic'] as const) if (counts[field]) reasons.push(field);
+    if (counts.automatic_inconclusive) reasons.push('automatic_verification_inconclusive');
     if (holdout.some(row => !row.oracle_ready)) reasons.push('unverified_or_nonindependent_or_non_authoritative_oracle');
     if (new Set(selected.filter(row => row.versions !== null).map(row => digest(row.versions))).size > 1) reasons.push('mixed_versions_within_condition');
     const failed = holdout.some(row => rowFailure(row) && row.oracle_ready && !row.synthetic);
@@ -139,7 +143,10 @@ export function evaluate(cases: Case[], runs: Run[], reviews: Review[] = [], sup
     ensure(plan.conditions.includes(run.condition) && run.repeat <= plan.repeats, `Run is outside planned slots: ${run.run_id}`);
     ensure(run.case_sha256 === digest(item), `Case hash mismatch: ${run.run_id}`);
     ensure(run.versions.dataset === plan.dataset_sha256, `Dataset hash mismatch: ${run.run_id}`);
-    if (run.status === 'ok') ensure(run.output_sha256 === digest(run.output), `Output hash mismatch: ${run.run_id}`);
+    if (run.status === 'ok') {
+      ensure(run.output_sha256 === digest(run.output), `Output hash mismatch: ${run.run_id}`);
+      ensure(!run.automatic_evaluation || run.automatic_evaluation.output_sha256 === run.output_sha256, `Automatic evaluation output hash mismatch: ${run.run_id}`);
+    }
     slots.set(key, run); byRun.set(run.run_id, run);
   }
   const byReview = new Map<string, Review>();
@@ -169,6 +176,7 @@ export function evaluate(cases: Case[], runs: Run[], reviews: Review[] = [], sup
       answer: reviewed?.answer ?? 'pending', evidence: reviewed?.evidence ?? 'pending',
       criterion_failures: reviewed?.criterion_failures ?? { blocker: 0, major: 0, minor: 0 },
       output_sha256: completed?.output_sha256 ?? null, review: review ?? null,
+      ...(completed?.automatic_evaluation ? { automatic_evaluation: completed.automatic_evaluation } : {}),
       metrics: { elapsed_ms: run?.elapsed_ms ?? null, input_tokens: run?.input_tokens ?? null, output_tokens: run?.output_tokens ?? null },
     });
   }
@@ -206,9 +214,11 @@ export function validateReport(value: unknown): Report {
       ensure(row.versions.dataset === report.dataset_sha256, 'Report version dataset mismatch');
     }
     if (row.missing || row.error) {
+      ensure(!row.automatic_evaluation, 'Missing/error run cannot carry automatic judgments');
       ensure(row.objective === null && row.objective_details.length === 0 && !row.unreviewed && row.answer === 'pending' && row.evidence === 'pending' && row.review === null && row.output_sha256 === null, 'Missing/error run cannot carry completed judgments');
       ensure(SEVERITIES.every(severity => row.criterion_failures[severity] === 0), 'Missing/error run cannot carry criterion failures');
     } else {
+      ensure(!row.automatic_evaluation || row.automatic_evaluation.output_sha256 === row.output_sha256, 'Automatic evaluation output hash mismatch');
       ensure(typeof row.objective === 'boolean' && row.objective === (row.objective_details.length === 0) && row.output_sha256 !== null, 'Objective verdict disagrees with diagnostics');
       if (row.review === null) ensure(row.answer === 'pending' && row.evidence === 'pending' && row.unreviewed && SEVERITIES.every(severity => row.criterion_failures[severity] === 0), 'Verdict without human review');
       else {

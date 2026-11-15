@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { outputSchema } from '../schema.js';
+import { automaticEvaluationSchema } from '../automatic-evaluation.js';
 
 /** Optional envelope for provider usage; legacy adapters can still return only an answer. */
 export const adapterResultSchema = z.strictObject({
@@ -11,4 +12,11 @@ export const adapterResultSchema = z.strictObject({
     model_config: z.string().min(1), tools: z.string().min(1), runtime: z.string().min(1),
     response_id: z.string().min(1),
   }),
+});
+
+/** Evaluation is produced by the adapter, outside the model's answer schema. */
+export const evaluatedAdapterResultSchema = z.strictObject({
+  schema: z.literal('graduation-wiki-eval/adapter-v2'),
+  output: outputSchema,
+  automatic_evaluation: automaticEvaluationSchema,
 });

@@ -79,6 +79,39 @@ const covers = (cell: Cell, row: number, column: number) => row >= cell.row && r
   && column >= cell.column && column < cell.column + cell.column_span;
 export interface TableMatch { table_id: string; rows: number[]; cell_ids: string[] }
 
+/** A failed parse is not a contradiction. Prove a conflict only for a complete,
+ * unambiguous group + item + numeric value + optional known qualifier claim. */
+export function tableContradiction(quote: string, page: number, index: TableIndex): string | null {
+  const text = normalizeQuote(quote);
+  const interpretations: string[] = [];
+  for (const table of index.tables.filter(table => table.pdf_page === page)) {
+    const { group_column, item_column, value_column, qualifier_column } = table.layout;
+    const groups = table.cells.filter(cell => cell.row >= table.header_rows && cell.column === group_column && cell.column_span === 1);
+    const items = table.cells.filter(cell => cell.row >= table.header_rows && cell.column === item_column && cell.row_span === 1 && cell.column_span === 1);
+    for (const group of groups) for (const item of items) {
+      const g = normalizeQuote(group.text), name = normalizeQuote(item.text);
+      if (!g || !name || !text.startsWith(g)) continue;
+      const afterGroup = afterCellSeparator(text.slice(g.length));
+      if (!afterGroup.startsWith(name)) continue;
+      const rest = afterCellSeparator(afterGroup.slice(name.length));
+      const number = /^[+-]?\d+(?:\.\d+)?/.exec(rest)?.[0];
+      if (!number) continue;
+      const tail = rest.slice(number.length);
+      const qualifiers = tail ? table.cells.filter(cell => cell.column === qualifier_column && cell.column_span === 1
+        && normalizeQuote(cell.text) && normalizeQuote(cell.text) === afterCellSeparator(tail)) : [];
+      if (tail && !qualifiers.length) continue; // Added units, explanations or partial cells need review.
+      const value = table.cells.find(cell => covers(cell, item.row, value_column) && cell.column_span === 1);
+      if (!value || !/^[+-]?\d+(?:\.\d+)?$/.test(normalizeQuote(value.text))) continue;
+      const conflict = !covers(group, item.row, group_column) ? 'group_item_conflict'
+        : normalizeQuote(value.text) !== number ? 'item_value_conflict'
+        : tail && !qualifiers.some(cell => covers(cell, item.row, qualifier_column)) ? 'qualifier_conflict' : '';
+      interpretations.push(conflict);
+    }
+  }
+  return interpretations.length && interpretations.every(Boolean) && new Set(interpretations).size === 1
+    ? interpretations[0]! : null;
+}
+
 /** Supported table quotation: group + (item, value)+ + optional shared
  * qualifier. All characters must be consumed. Never use a bag of page words. */
 export function matchTableCitation(quote: string, page: number, index: TableIndex) {
