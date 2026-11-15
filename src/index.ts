@@ -1,6 +1,7 @@
 export { evaluate, makePlan, parsePlan } from './evaluate.js';
 export { compareReports } from './compare.js';
 export { prepare, runPlan } from './runner.js';
+export type { RunPlanOptions } from './runner.js';
 export { digest, parseJson, readJson, readRecords } from './json.js';
 export { parseCases, parseRuns, parseReviews, HARNESS_VERSION } from './schema.js';
 export { summarizeReview } from './review.js';

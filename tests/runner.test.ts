@@ -64,6 +64,35 @@ test('a missing Skill body on disk is not implicitly imported during prepare', a
   await assert.rejects(readFile(path.join(f.out, 'plan.json')), /ENOENT/);
 });
 
+test('a supervisor can stop after a durable record without starting or inventing later results', async t => {
+  const f = await fixture(t);
+  const plan = await prepare(f.cases, f.config, f.out);
+  const records = await runPlan(path.join(f.out, 'plan.json'), [process.execPath, '-e', 'process.exit(75)'], {
+    onRecord: async record => {
+      const saved = await readRecords(path.join(f.out, 'runs.jsonl'));
+      assert.equal(digest(saved), digest([record]));
+      assert.equal(digest(await readJson(path.join(f.out, 'jobs', record.run_id, 'result.json'))), digest(record));
+      return false;
+    },
+  });
+  assert.equal(records.length, 1);
+  assert.equal(records[0]?.status, 'error');
+  for (const job of plan.jobs.slice(1)) await assert.rejects(readFile(path.join(f.out, 'jobs', job.job_id, 'result.json')), /ENOENT/);
+  await assert.rejects(f.execute(), /already started/);
+});
+
+test('an observer returning void does not stop the remaining jobs', async t => {
+  const f = await fixture(t);
+  await prepare(f.cases, f.config, f.out);
+  let count = 0;
+  const records = await runPlan(path.join(f.out, 'plan.json'), [process.execPath, '-e', ADAPTER], {
+    onRecord: () => { count += 1; },
+  });
+  assert.equal(count, 3);
+  assert.equal(records.length, 3);
+  assert(records.every(record => record.status === 'ok'));
+});
+
 test('real C requires a contract and keeps its dependencies out of A/B', async (t) => {
   const f = await fixture(t);
   await assert.rejects(prepare(f.cases, { ...f.config, execution: 'real' }, f.out), /requires skill_contract/);

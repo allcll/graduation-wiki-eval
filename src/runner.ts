@@ -369,8 +369,13 @@ async function validateSnapshot(plan: RunnerPlan, root: string): Promise<void> {
   requireCondition(seen.size === expected.size, "Frozen plan is missing jobs");
 }
 
+export interface RunPlanOptions {
+  /** Called after the result is saved and flushed. Return false to leave later jobs unstarted. */
+  onRecord?: (record: Run) => boolean | void | Promise<boolean | void>;
+}
+
 /** Run each planned job once. The adapter is trusted and inherits the environment. */
-export async function runPlan(planPath: string, command: readonly string[]): Promise<Run[]> {
+export async function runPlan(planPath: string, command: readonly string[], options: RunPlanOptions = {}): Promise<Run[]> {
   requireCondition(process.platform !== "win32", "Command execution requires POSIX process groups (macOS/Linux)");
   requireCondition(command[0] && command.every((value) => typeof value === "string"), "command must be a nonempty argv list");
   const adapterFiles: Record<string, string> = {};
@@ -444,6 +449,7 @@ export async function runPlan(planPath: string, command: readonly string[]): Pro
       await stream.write(`${JSON.stringify(record)}\n`);
       await stream.sync();
       records.push(record);
+      if (await options.onRecord?.(record) === false) break;
     }
   } finally {
     await stream.close();

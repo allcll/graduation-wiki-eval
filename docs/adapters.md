@@ -109,6 +109,22 @@ node dist/cli.js run --plan artifacts/your-experiment/plan.json -- \
 
 `--source-contract`를 추가하면 편람 파일의 해시와 판본, 실제 PDF 페이지 전달, 인용 문구의 위치를 검사합니다. `--trace-tools`가 필요하며 실패한 답변은 정상 결과로 채택하지 않습니다. `--table-index`를 함께 지정하면 준비한 표의 셀 관계도 검사하며, `grad-eval source-recheck`로 저장 응답만 재검사할 수 있습니다. 준비 방법과 `source-check.json`의 해석은 [원문 인용 검사](source-citations.md)를 참고하세요. 원문 인용의 존재와 위치를 확인하는 검사이므로 정책 해석의 정확성은 별도로 검토합니다.
 
+## 여러 사례를 실행할 때 중단 지점 남기기
+
+TypeScript API의 `runPlan(planPath, command, { onRecord })`는 각 결과를 파일과 `runs.jsonl`에 저장하고 flush한 뒤 콜백을 실행합니다. 콜백이 `false`를 반환하면 다음 작업을 호출하지 않습니다. 반환값이 없으면 계속 진행합니다.
+
+```ts
+const records = await runPlan(planPath, adapterCommand, {
+  onRecord: record => {
+    // 여기서는 호출자가 정한 어댑터 종료 코드 75를 중단 신호로 사용합니다.
+    // 모델 오답이나 근거 검사 실패까지 모두 중단하도록 설정하지는 않습니다.
+    return !(record.status === 'error' && record.error === 'adapter_exit_75');
+  },
+});
+```
+
+이 콜백 자체가 Claude 구독 한도를 조회하거나 오류 종류를 판단하지는 않습니다. 호출자가 어댑터의 오류 기록을 확인해 중단 여부를 정합니다. 중단까지 저장한 결과는 유지하고 이후 작업은 미실행으로 남깁니다. 같은 계획의 자동 재개·재시도는 지원하지 않으며, 이미 시작한 계획을 다시 실행하면 기존처럼 거절합니다.
+
 ## 접근 범위
 
 Claude의 restricted 설정은 파일 도구를 작업 디렉터리로 제한하는 애플리케이션 제어입니다. 관리자 설정은 여전히 영향을 줄 수 있습니다. 일반 외부 어댑터 실행기는 OS 샌드박스를 만들지 않으며 환경 변수를 상속합니다. 실측 전 정답·이전 결과·운영 DB에 대한 접근을 제한한 실행 환경을 준비해야 합니다.
