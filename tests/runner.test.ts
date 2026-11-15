@@ -56,6 +56,43 @@ async function rewritePlan(out: string, plan: RunnerPlan): Promise<void> {
   await writeFile(path.join(out, "plan.json"), JSON.stringify({ ...unsigned, plan_sha256: digest(unsigned) }));
 }
 
+test('a missing Skill body on disk is not implicitly imported during prepare', async (t) => {
+  const f = await fixture(t);
+  await writeFile(path.join(f.context, 'skill.md'), '# Query\n@body.md\n');
+  await writeFile(path.join(f.context, 'body.md'), 'This file is present on the host but not allowlisted.');
+  await assert.rejects(prepare(f.cases, f.config, f.out), /not allowlisted.*body/);
+  await assert.rejects(readFile(path.join(f.out, 'plan.json')), /ENOENT/);
+});
+
+test('real C requires a contract and keeps its dependencies out of A/B', async (t) => {
+  const f = await fixture(t);
+  await assert.rejects(prepare(f.cases, { ...f.config, execution: 'real' }, f.out), /requires skill_contract/);
+  const contract = { entrypoints: ['context/skills/skill.md'], required_files: ['context/sources/source.md', 'context/wiki/wiki.md'] };
+  const plan = await prepare(f.cases, { ...f.config, execution: 'real', skill_contract: contract }, f.out);
+  assert.deepEqual(plan.skill_contract, contract);
+  for (const job of plan.jobs) {
+    const request = requestSchema.parse(await readJson(path.join(f.out, 'jobs', job.job_id, 'request.json')));
+    assert.equal(request.context.skills.length, job.condition === 'C' ? 1 : 0);
+    assert.equal(Object.hasOwn(request, 'skill_contract'), false);
+  }
+});
+
+test('run validates C before invoking any adapter, even for a rehashed old plan', async (t) => {
+  const f = await fixture(t);
+  const plan = await prepare(f.cases, f.config, f.out);
+  const marker = path.join(f.root, 'adapter-started');
+  const adapter = `require('node:fs').writeFileSync(${JSON.stringify(marker)}, 'started');`;
+  plan.execution = 'real';
+  await rewritePlan(f.out, plan);
+  await assert.rejects(f.execute(adapter), /requires skill_contract/);
+  plan.skill_contract = { entrypoints: ['context/skills/skill.md'], required_files: ['context/wiki/missing.md'] };
+  await rewritePlan(f.out, plan);
+  await assert.rejects(f.execute(adapter), /Required Skill reference is not allowlisted/);
+  await assert.rejects(readFile(marker), /ENOENT/);
+  await assert.rejects(readFile(path.join(f.out, 'started.json')), /ENOENT/);
+  await assert.rejects(readFile(path.join(f.out, 'runs.jsonl')), /ENOENT/);
+});
+
 test("prepare exposes only task inputs and condition-specific documents", async (t) => {
   const f = await fixture(t);
   const plan = await prepare(f.cases, f.config, f.out);
