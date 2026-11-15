@@ -14,6 +14,7 @@ const traceSchema = z.looseObject({
   calls: z.array(z.looseObject({ tool: z.enum(['Read', 'Grep', 'Glob', 'other']), path: z.string().nullable(),
     status: z.enum(['pending', 'success', 'error', 'conflict']),
     delivered_pages: z.strictObject({ start: z.number().int().positive(), count: z.number().int().positive() }).nullable() })),
+  required_skill_files: z.array(z.string()).optional(), fully_read_files: z.array(z.string()).optional(),
 });
 const previousSchema = z.looseObject({
   schema: z.enum(['graduation-wiki-eval/source-check-v1', 'graduation-wiki-eval/source-check-v2', 'graduation-wiki-eval/source-check-v3']),
@@ -24,7 +25,7 @@ const fileHash = (bytes: Buffer) => 'sha256:' + createHash('sha256').update(byte
 
 /** Rejudge a saved answer only. No model import, authentication or invocation.
  * Original request, trace, failed check, runs and reports remain untouched. */
-export async function recheckSourceCitations(job: string, contractFile: string, tableIndex: string | undefined, out: string) {
+export async function inspectSavedResponse(job: string, contractFile: string, tableIndex: string | undefined) {
   const cwd = path.resolve(job);
   const names = ['request.json', 'claude-tools.json', 'source-check.json'] as const;
   const bytes = await Promise.all(names.map(name => readFile(path.join(cwd, name))));
@@ -45,6 +46,11 @@ export async function recheckSourceCitations(job: string, contractFile: string, 
     previous_status: previous.status, source_check: checkSourceCitations(previous.candidate_output, trace, source),
     original_run_and_report_unchanged: true, human_review: 'pending',
   };
+  return { request, trace, previous, result };
+}
+
+export async function recheckSourceCitations(job: string, contractFile: string, tableIndex: string | undefined, out: string) {
+  const { result } = await inspectSavedResponse(job, contractFile, tableIndex);
   await mkdir(path.dirname(path.resolve(out)), { recursive: true });
   await writeFile(out, JSON.stringify(result, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
   return result;

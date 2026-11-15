@@ -18,8 +18,9 @@ import { createOracleWorkspace, validateOracleWorkspace, exportOracleCases } fro
 import { writeOracleHtml } from './oracle-html.js';
 import { loadDataset, writeDatasetReview } from './dataset.js';
 import { recheckSourceCitations } from './source-recheck.js';
+import { writeOfflineReport } from './offline-report.js';
 
-const commands = ['source-recheck', 'dataset-check', 'dataset-review', 'validate', 'oracle-init', 'oracle-review', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
+const commands = ['recheck-report', 'source-recheck', 'dataset-check', 'dataset-review', 'validate', 'oracle-init', 'oracle-review', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
 const commandSchema = z.enum(commands);
 const flags = {
   root: { type: 'string' }, manifest: { type: 'string' },
@@ -33,6 +34,7 @@ const flags = {
   job: { type: 'string' }, 'source-contract': { type: 'string' }, 'table-index': { type: 'string' },
 } as const;
 const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flags)[]> = {
+  'recheck-report': ['cases', 'manifest', 'out'],
   'source-recheck': ['job', 'source-contract', 'table-index', 'out'],
   'dataset-check': ['root', 'manifest', 'metadata-only'], 'dataset-review': ['root', 'manifest', 'out'],
   validate: ['cases'], plan: ['cases', 'conditions', 'repeats', 'out'], prepare: ['cases', 'config', 'out'],
@@ -43,6 +45,7 @@ const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flag
 };
 const HELP = `grad-eval <command> [options]
 
+  recheck-report  --cases FROZEN_CASES --manifest SAVED_JOBS_JSON --out NEW_DIRECTORY
   source-recheck  --job SAVED_JOB --source-contract LISTED_SOURCE_JSON [--table-index FILE] --out NEW_FILE.json
   dataset-check   --root DATA_REPO --manifest RELATIVE_MANIFEST [--metadata-only]
   dataset-review  --root DATA_REPO --manifest RELATIVE_MANIFEST --out NEW_DIRECTORY
@@ -130,6 +133,12 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     }
     let result: unknown;
     switch (command) {
+      case 'recheck-report': {
+        const report = await writeOfflineReport(required(values.cases, 'cases'), required(values.manifest, 'manifest'), required(values.out, 'out'));
+        result = { path: resolve(values.out!), mode: report.mode, model_calls: 0, summary: report.summary,
+          human_review: report.human_review, quality_gate: report.quality_gate };
+        break;
+      }
       case 'source-recheck': {
         const recheck = await recheckSourceCitations(required(values.job, 'job'), required(values['source-contract'], 'source-contract'),
           values['table-index'], required(values.out, 'out'));
