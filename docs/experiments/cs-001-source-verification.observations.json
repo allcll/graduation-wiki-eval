@@ -1,0 +1,216 @@
+{
+  "experiment": "cs-001-source-check-2026-11-15",
+  "case_id": "CS-2026-2-001",
+  "case_sha256": "sha256:a9401fd19108324c0eabe7cc237dc9eb9883b1c139b153aeb91394b3eb1bb7bb",
+  "requested_model": "claude-sonnet-4-6",
+  "conditions": [
+    "C"
+  ],
+  "repeats": 1,
+  "model_calls": 1,
+  "auth": "Claude Pro subscription; extra usage off per user confirmation; no API-key fallback",
+  "question_inputs_oracle_rubric_unchanged": true,
+  "wiki_and_skill_bytes_unchanged": true,
+  "original_pdf_and_text_bytes_unchanged": true,
+  "changes": [
+    "Added a pinned source identity manifest to context.sources.",
+    "Added adapter instructions requiring original PDF page reads and edition/page/verbatim citations.",
+    "Rejects answers that fail source citation checks; retains candidate_output locally."
+  ],
+  "baseline": {
+    "experiment": "cs-001-skill-candidate-2026-11-15",
+    "recognized_credits": 9,
+    "original_pdf_pages": [],
+    "citation_edition": "2026-1 WIKI",
+    "elapsed_ms": 56128.058
+  },
+  "candidate": {
+    "elapsed_ms": 121489.326,
+    "run_status": "error",
+    "run_error": "adapter_exit_2",
+    "claude_process": {
+      "exit_code": 0,
+      "timed_out": false,
+      "output_limit_exceeded": false
+    },
+    "tool_trace_complete": true,
+    "skill_files_fully_read": 4,
+    "source_check": {
+      "schema": "graduation-wiki-eval/source-check-v1",
+      "status": "fail",
+      "request_sha256": "sha256:7a1e17f289f3ddd34443bd12c14c82d6c944607a9356dfbdd02da8e94ff24c8c",
+      "output_sha256": "sha256:0316df392d8df5f1d396fe336ef803d083c8035602854d0c768f5885d6d1dd33",
+      "contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "source_id": "handbook-2026-2",
+      "edition": "2026-2",
+      "pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+      "delivered_pdf_pages": [
+        {
+          "start": 51,
+          "count": 2
+        },
+        {
+          "start": 53,
+          "count": 1
+        }
+      ],
+      "citations": [
+        {
+          "index": 0,
+          "pdf_page": 52,
+          "quote_sha256": "sha256:41cc3a283252dc3e702399e3d4c080a75347b748dbb9b590ae044c05535f5c79",
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_length": true,
+            "quote_on_page": true
+          },
+          "passed": true
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:3c5991d5d63a33cc5a929473b8b443fbc30771845a24214928799f6173f41039",
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_length": true,
+            "quote_on_page": true
+          },
+          "passed": true
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:33f72689f95657a2a7b9f2628d91b19566f9be3f8af12318a70d710a8ac1b8fa",
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_length": true,
+            "quote_on_page": false
+          },
+          "passed": false
+        },
+        {
+          "index": 3,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:e7ad60f36f085afc7a1660a20e6adf5225ea4ca2434ee384ae219f32f04766ca",
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_length": true,
+            "quote_on_page": false
+          },
+          "passed": false
+        },
+        {
+          "index": 4,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:9465ec3ee86a8b4a1e0710d0ffd5403bd76a5608a1f156c13c2f1307314b3d66",
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_length": true,
+            "quote_on_page": false
+          },
+          "passed": false
+        },
+        {
+          "index": 5,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:9c1b6d903533de14f69e485818e77f542cb9140f58fa78cc46f2463f6874114b",
+          "checks": {
+            "format": true,
+            "source": true,
+            "edition": true,
+            "page_exists": true,
+            "page_read": true,
+            "quote_length": false,
+            "quote_on_page": true
+          },
+          "passed": false
+        }
+      ],
+      "failures": [
+        "citation_2:quote_on_page",
+        "citation_3:quote_on_page",
+        "citation_4:quote_on_page",
+        "citation_5:quote_length"
+      ],
+      "semantic_support": "requires_review",
+      "note": "Checks pinned source identity, delivered PDF pages and verbatim quote location. Does not establish semantic support, complete evidence, or a correct answer.",
+      "accepted_output": false
+    },
+    "diagnostic_values": {
+      "recognized_area_count": {
+        "expected": 2,
+        "actual": 2,
+        "match": true
+      },
+      "recognized_credits": {
+        "expected": 9,
+        "actual": 9,
+        "match": true
+      },
+      "required_area_count": {
+        "expected": 2,
+        "actual": 2,
+        "match": true
+      },
+      "required_credits": {
+        "expected": 6,
+        "actual": 6,
+        "match": true
+      },
+      "balance_requirement_met": {
+        "expected": true,
+        "actual": true,
+        "match": true
+      }
+    },
+    "diagnostic_action_match": true,
+    "numeric_diagnostics_are_not_report_objective_pass": true,
+    "report_gate": "INCONCLUSIVE",
+    "comparison": "INCONCLUSIVE",
+    "human_review": "pending",
+    "citation_failure_interpretation": "Three table-cell reconstructions do not occur as contiguous extracted text. One genuine short quote is below the configured minimum length. These failures do not prove an incorrect policy interpretation."
+  },
+  "records": {
+    "artifacts/cs-001-source-check-2026-11-15/plan.json": "sha256:18e754a90dea9041bba99c3e5895aa6c4b057e32c664ade11cf33fc6d123b605",
+    "artifacts/cs-001-source-check-2026-11-15/runs.jsonl": "sha256:865680f2e730ee432fca942ba4f82186f70cf71403218e894c3e5b61c0a42f4f",
+    "artifacts/cs-001-source-check-2026-11-15/report.json": "sha256:28a309efe7dd8add4da1ff1fc65d6368f422bf95166cc3eba712d92121f4cec5",
+    "artifacts/cs-001-source-check-2026-11-15/compare.json": "sha256:33ed31dd4a9e544cfd716d544a9cce331fe91c25fc12c9cf34f3b2dcf0010170",
+    "artifacts/cs-001-source-check-2026-11-15/jobs/C-0001-001/claude-tools.json": "sha256:ac9116576a57f0f3806aa399a27f2f637071db1cc7b3db5683e679ca143d5930",
+    "artifacts/cs-001-source-check-2026-11-15/jobs/C-0001-001/source-check.json": "sha256:1b2d02db7b01f677c1f25f90418fd366a0e4ee10357ba65436cbe468d251ea32",
+    "src/adapters/claude.ts": "sha256:46ff957f818a4b0f1eae3dcef2ced97178f2ec11f6e531ac4be5ca6226b6c165",
+    "src/adapters/claude-trace.ts": "sha256:8e20d68f6d5257ec049a7f5348d68fc6a15b5e0bdd7b473bd08848efb51e42c7",
+    "src/adapters/source-citations.ts": "sha256:0dfeb332131bf9822f7d51c86f2c3abe1ce4e87b7286423c92a7f0d6b94540fd",
+    "dist/adapters/claude.js": "sha256:50e50dfec36e3cabad5e78a4433ebda0f6ac6c53678d758591f3660e68c043ed",
+    "dist/adapters/claude-trace.js": "sha256:158a389b2950de3faef83f716c6adf00fd9372acce986cae9c5eeb02fc99295c",
+    "dist/adapters/source-citations.js": "sha256:4604750d2bd9684f49974da33c349af49d28b0e43b3062947c68c2d0cd08de88"
+  },
+  "preserved_files": 20,
+  "limitations": [
+    "One dev case and one call; no general performance conclusion.",
+    "Exact text matching cannot validate table structure or semantic support.",
+    "The short-quote threshold can reject a genuine table cell; not a measure of truth.",
+    "Rejected output is not a successful runner answer; numeric values are diagnostic only.",
+    "Model instructions and source manifest changed; not a WIKI-only or Skill-only comparison."
+  ]
+}
