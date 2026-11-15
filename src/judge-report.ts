@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { digest, readJson } from './json.js';
 import { loadJudgePlan, judgeResultSchema } from './judge.js';
 import { validateJudgeReferences } from './judge-spec.js';
+import { caseSchema, outputSchema } from './schema.js';
+import { objectiveDetails } from './evaluate.js';
 
 const escape=(value:string)=>value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\|/g,'&#124;').replace(/[\r\n]+/g,' ');
 const label={pass:'충족',fail:'불충족',uncertain:'판단 보류'};
@@ -29,6 +31,11 @@ export async function writeJudgeReport(planFile:string,referencesFile:string,out
     if(result?.output && digest(result.output.citations.map(c=>c.citation_index).sort((a,b)=>a-b))!==digest([...entry.citation_indices].sort((a,b)=>a-b))) throw Error('Judge indices changed');
     const automatic=await readJson(path.join(root,entry.id,'automatic.json'));
     if(digest(automatic)!==entry.automatic_checks_sha256) throw Error('Original automatic checks changed');
+    const rawInput=await readJson(path.join(root,entry.id,'input.json'));
+    if(digest(rawInput)!==entry.input_sha256) throw Error('Judge input changed');
+    const input=z.looseObject({saved_answer:outputSchema,oracle_draft:caseSchema.shape.expected}).parse(rawInput);
+    if(digest(input.saved_answer)!==entry.answer_sha256) throw Error('Judge answer changed');
+    const objective=objectiveDetails(input.saved_answer,input.oracle_draft);
     const comparisons=references.entries.filter(r=>r.sample_id===entry.id).map(reference=>{
       if(reference.answer_sha256!==entry.answer_sha256 || reference.source_pages.some(p=>!entry.evidence_pages.includes(p))) throw Error('Stale judge reference');
       const judgment=result?.output?.citations.find(c=>c.citation_index===reference.citation_index);
@@ -45,6 +52,7 @@ export async function writeJudgeReport(planFile:string,referencesFile:string,out
       answer_sha256:entry.answer_sha256,source_pdf_sha256:entry.source_pdf_sha256,
       execution_status:result?.execution_status??'missing',evidence_status:result?.evidence_status??'not_evaluated',
       judge_model:result?.model??null,judge_output_sha256:result?.output_sha256??null,
+      objective_values:objective.length?'fail':'pass',objective_details:objective,
       automatic_checks:automatic,comparisons,human_review:'pending'});
   }
   const dimensions=rows.flatMap(r=>r.comparisons.flatMap(c=>c.dimensions));
@@ -53,21 +61,24 @@ export async function writeJudgeReport(planFile:string,referencesFile:string,out
     reference_kind:'assistant_draft',human_review:'pending',automatic_promotion:false,quality_gate:'NOT_EVALUATED',
     summary:{planned_answers:rows.length,completed:rows.filter(r=>r.execution_status==='completed').length,
       evidence_verified:rows.filter(r=>r.evidence_status==='verified').length,
+      original_objective_fail:rows.filter(r=>r.objective_values==='fail').length,
       selected_citations:expectedSlots.length,dimensions:dimensions.length,agree:dimensions.filter(d=>d.status==='agree').length,
       disagree:dimensions.filter(d=>d.status==='disagree').length,not_evaluated:dimensions.filter(d=>d.status==='not_evaluated').length,
       false_accepts_against_draft:dimensions.filter(d=>d.false_accept).length},rows};
   const md=['# 저장 답변의 LLM 인용 채점 표본','',
     '기존 답변을 재생성하지 않고 선택한 인용만 채점했습니다. 비교 기준은 AI가 원문을 대조해 작성한 초안이며 사람 검토는 대기입니다. 아래 일치 수는 사람이 확정한 정답에 대한 정확도가 아닙니다. 기존 코드 검사와 전체 품질 판정은 바꾸지 않습니다.','',
-    '| 표본 | 사례 / 조건 | 실행 | 원문 페이지 확인 | 초안과 일치 | 불일치 | 미평가 |',
-    '| --- | --- | --- | --- | ---: | ---: | ---: |'];
+    '| 표본 | 사례 / 조건 | 실행 | 원문 페이지 확인 | 기존 정답값 | 초안과 일치 | 불일치 | 미평가 |',
+    '| --- | --- | --- | --- | --- | ---: | ---: | ---: |'];
   for(const row of rows) {
     const ds=row.comparisons.flatMap(c=>c.dimensions);
-    md.push('| '+[row.sample_id,row.case_id+' / '+row.condition,row.execution_status,row.evidence_status,
+    md.push('| '+[row.sample_id,row.case_id+' / '+row.condition,row.execution_status,row.evidence_status,row.objective_values,
       ds.filter(d=>d.status==='agree').length,ds.filter(d=>d.status==='disagree').length,ds.filter(d=>d.status==='not_evaluated').length].join(' | ')+' |');
   }
   md.push('','각 인용의 원문 재현·표/의미 관계 두 항목을 초안과 비교합니다. 질문에 대한 적용 적합성은 모델 의견만 제시하며, 이번 초안 일치 수에는 넣지 않습니다.','');
   for(const row of rows) {
     md.push('<details><summary>'+escape(row.case_id+' / '+row.condition)+'</summary>','');
+    for(const detail of row.objective_details) md.push('- 기존 정답값 불일치: '+escape(detail.field)+' / 기대값 '+escape(JSON.stringify(detail.expected)??'없음')+' / 응답값 '+escape(JSON.stringify(detail.actual)??'없음'));
+    if(row.objective_details.length) md.push('');
     for(const c of row.comparisons) {
       md.push('**인용 '+(c.citation_index+1)+' · '+c.category+'**','',
         '참조 초안: '+escape(c.reference_reason)+' (PDF '+c.source_pages.join(', ')+'쪽)','');

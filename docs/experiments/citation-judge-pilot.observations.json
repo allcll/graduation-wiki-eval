@@ -1,0 +1,1656 @@
+{
+  "schema": "graduation-wiki-eval/published-judge-pilot-v1",
+  "plan_sha256": "sha256:afb61ba512b0898e291fe90866a760fdb6157fb9758d1b38c35d68ee9eac75d3",
+  "prompt_sha256": "sha256:1f625fce4dc1ea0ccf7de4eaa13944fdd150a7f1816681098c5aebb3a24ca30a",
+  "rubric_sha256": "sha256:a5853edb3eda7ab9b4f32d6a08cab0128bb19d45f1d4c319e9edbf988b725347",
+  "references_sha256": "sha256:e9bb51d47f66d1177359cae4bed78fde40aeb924deaa929a5f377051899d47d0",
+  "reference_kind": "assistant_draft",
+  "human_review": "pending",
+  "automatic_promotion": false,
+  "quality_gate": "NOT_EVALUATED",
+  "summary": {
+    "planned_answers": 6,
+    "completed": 6,
+    "evidence_verified": 5,
+    "original_objective_fail": 1,
+    "selected_citations": 8,
+    "dimensions": 16,
+    "agree": 11,
+    "disagree": 3,
+    "not_evaluated": 2,
+    "false_accepts_against_draft": 3
+  },
+  "rows": [
+    {
+      "sample_id": "sample-01",
+      "case_id": "CS-2026-2-005",
+      "condition": "A",
+      "run_id": "A-0004-001",
+      "answer_sha256": "sha256:6df7a3716e9fbb3e7e6fbc8086cae682e650f2ef90c3637b1ca95f1cc4fa6da1",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "execution_status": "completed",
+      "evidence_status": "verified",
+      "judge_model": "claude-sonnet-4-6",
+      "judge_output_sha256": "sha256:be47497d83ce92652dd8fe7129608d8337d3e9a76d275b3be4b71a3ec613ffbd",
+      "objective_values": "pass",
+      "objective_details": [],
+      "automatic_checks": {
+        "source_check": {
+          "schema": "graduation-wiki-eval/source-check-v3",
+          "checker_version": "citation-verdict-4",
+          "status": "pass",
+          "issues": [],
+          "legacy_status": "pass",
+          "request_sha256": "sha256:7eee70b35302cbc62538dd42fd696084a782d04caa19c5d04b0be6be909bba12",
+          "output_sha256": "sha256:6df7a3716e9fbb3e7e6fbc8086cae682e650f2ef90c3637b1ca95f1cc4fa6da1",
+          "contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+          "source_id": "handbook-2026-2",
+          "edition": "2026-2",
+          "pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+          "text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+          "table_index_sha256": "sha256:160518689f13fddcf124c4385ba6f8c85405394aa1ea1904b64624641b63c685",
+          "delivered_pdf_pages": [
+            {
+              "start": 53,
+              "count": 1
+            },
+            {
+              "start": 52,
+              "count": 1
+            }
+          ],
+          "citations": [
+            {
+              "index": 0,
+              "pdf_page": 52,
+              "quote_sha256": "sha256:41cc3a283252dc3e702399e3d4c080a75347b748dbb9b590ae044c05535f5c79",
+              "literal_match": true,
+              "normalized_match": true,
+              "match_basis": "literal_text",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            },
+            {
+              "index": 1,
+              "pdf_page": 53,
+              "quote_sha256": "sha256:78462aef8bd70d6b9eb4f97385a7501dc084d1991d159b740e32878b2f6f5df5",
+              "literal_match": false,
+              "normalized_match": false,
+              "match_basis": "table_cells",
+              "table_match": {
+                "status": "matched",
+                "matches": [
+                  {
+                    "table_id": "p53-balance-2022",
+                    "rows": [
+                      4
+                    ],
+                    "cell_ids": [
+                      "r1c0",
+                      "r4c1",
+                      "r4c2"
+                    ]
+                  }
+                ]
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            },
+            {
+              "index": 2,
+              "pdf_page": 53,
+              "quote_sha256": "sha256:bc7f1c2957a24eeb7e52757d32e10e802607e55fd6ee99251e54acc5edef9e36",
+              "literal_match": false,
+              "normalized_match": false,
+              "match_basis": "table_cells",
+              "table_match": {
+                "status": "matched",
+                "matches": [
+                  {
+                    "table_id": "p53-balance-2022",
+                    "rows": [
+                      5
+                    ],
+                    "cell_ids": [
+                      "r5c0",
+                      "r5c1",
+                      "r5c2"
+                    ]
+                  }
+                ]
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            },
+            {
+              "index": 3,
+              "pdf_page": 53,
+              "quote_sha256": "sha256:d316ec064f0d9df73e1067c6d503061a5b51112f78b1985368f77f4bd2e0646e",
+              "literal_match": true,
+              "normalized_match": true,
+              "match_basis": "literal_text",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            }
+          ],
+          "failures": [],
+          "semantic_support": "requires_review",
+          "note": "Checks pinned source identity, delivered pages, literal text or indexed table-cell relationships. Does not establish policy applicability, complete evidence, or a correct answer. Unindexed tables have no cell-relationship verification."
+        },
+        "required_skill_files": [],
+        "unread_skill_files": []
+      },
+      "comparisons": [
+        {
+          "citation_index": 1,
+          "category": "normal",
+          "reference_kind": "assistant_draft",
+          "reference_reason": "p53 역사와사상 병합셀 안의 한국현대사 행과 학점 3이 일치한다.",
+          "source_pages": [
+            53
+          ],
+          "dimensions": [
+            {
+              "dimension": "quote_fidelity",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "agree",
+              "false_accept": false
+            },
+            {
+              "dimension": "source_relation",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "agree",
+              "false_accept": false
+            }
+          ],
+          "judgment": {
+            "citation_index": 1,
+            "quote_fidelity": {
+              "verdict": "pass",
+              "reason": "인용문 '역사와사상, 한국현대사, 3'은 표의 셀 값(영역: 역사와사상, 과목명: 한국현대사, 학점: 3)을 쉼표로 연결한 것으로, 없는 단어나 단위를 추가하지 않았고 표 셀 관계에 맞게 연결했으므로 허용된다.",
+              "evidence": [
+                {
+                  "pdf_page": 53,
+                  "excerpt": "역사와사상 ... 한국현대사 3",
+                  "location": "53페이지 '4. 계열별 필수 – 균형교양 과목 이수' 표, 역사와사상 영역 행, 한국현대사 과목명·학점 셀"
+                }
+              ]
+            },
+            "source_relation": {
+              "verdict": "pass",
+              "reason": "53페이지 균형교양 표에서 한국현대사는 역사와사상 영역에 3학점으로 명시되어 있다. 영역-과목-학점 관계가 원문과 일치한다.",
+              "evidence": [
+                {
+                  "pdf_page": 53,
+                  "excerpt": "역사와사상 ... 한국현대사 3 ... 인문과학",
+                  "location": "53페이지 균형교양 과목 표, 역사와사상 영역 병합셀 하위 한국현대사 행"
+                }
+              ]
+            },
+            "case_applicability": {
+              "verdict": "pass",
+              "reason": "질문은 2022학번 학생이 한국현대사가 어느 균형교양 영역인지 묻고 있으며, 이 인용은 2022학번 교과과정(52~53페이지)에 수록된 과목표에서 직접 가져온 것으로 질문에 적용된다.",
+              "evidence": [
+                {
+                  "pdf_page": 52,
+                  "excerpt": "❚ 2022학년도 입학자 교과과정",
+                  "location": "52페이지 상단 제목"
+                },
+                {
+                  "pdf_page": 53,
+                  "excerpt": "역사와사상 ... 한국현대사 3",
+                  "location": "53페이지 균형교양 표"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "citation_index": 2,
+          "category": "normal",
+          "reference_kind": "assistant_draft",
+          "reference_reason": "p53 자연과과학 병합셀 안의 생명과학의이해 행과 학점 3이 일치한다.",
+          "source_pages": [
+            53
+          ],
+          "dimensions": [
+            {
+              "dimension": "quote_fidelity",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "agree",
+              "false_accept": false
+            },
+            {
+              "dimension": "source_relation",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "agree",
+              "false_accept": false
+            }
+          ],
+          "judgment": {
+            "citation_index": 2,
+            "quote_fidelity": {
+              "verdict": "pass",
+              "reason": "인용문 '자연과과학, 생명과학의이해, 3'은 표의 셀 값(영역: 자연과과학, 과목명: 생명과학의이해, 학점: 3)을 쉼표로 연결한 것으로, 없는 단어나 단위를 추가하지 않았고 표 셀 관계에 맞게 연결했으므로 허용된다.",
+              "evidence": [
+                {
+                  "pdf_page": 53,
+                  "excerpt": "자연과학 ... 생명과학의이해 3",
+                  "location": "53페이지 균형교양 표, 자연과과학 영역 병합셀 하위 생명과학의이해 행"
+                }
+              ]
+            },
+            "source_relation": {
+              "verdict": "pass",
+              "reason": "53페이지 균형교양 표에서 생명과학의이해는 자연과과학 영역에 3학점으로 명시되어 있다. 영역-과목-학점 관계가 원문과 일치한다.",
+              "evidence": [
+                {
+                  "pdf_page": 53,
+                  "excerpt": "자연과학 생명과학의이해 3 자연과학, 생명과학 전자정보공학 소프트웨어융합, 공과",
+                  "location": "53페이지 균형교양 표, 자연과과학 영역 첫 번째 과목 행"
+                }
+              ]
+            },
+            "case_applicability": {
+              "verdict": "pass",
+              "reason": "질문은 2022학번 학생이 생명과학의이해가 어느 균형교양 영역인지 묻고 있으며, 이 인용은 2022학번 교과과정(52~53페이지)에 수록된 과목표에서 직접 가져온 것으로 질문에 적용된다.",
+              "evidence": [
+                {
+                  "pdf_page": 52,
+                  "excerpt": "❚ 2022학년도 입학자 교과과정",
+                  "location": "52페이지 상단 제목"
+                },
+                {
+                  "pdf_page": 53,
+                  "excerpt": "자연과학 생명과학의이해 3",
+                  "location": "53페이지 균형교양 표, 자연과과학 영역"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "human_review": "pending",
+      "selected_original_citations": [
+        {
+          "index": 1,
+          "text": "[source=handbook-2026-2;edition=2026-2;pdf_page=53] 역사와사상, 한국현대사, 3"
+        },
+        {
+          "index": 2,
+          "text": "[source=handbook-2026-2;edition=2026-2;pdf_page=53] 자연과과학, 생명과학의이해, 3"
+        }
+      ],
+      "judge_elapsed_ms": 44126.099792,
+      "unread_pages": [],
+      "page_read_evidence": [
+        {
+          "path": "context/sources/handbook.pdf",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": "52-53"
+          },
+          "delivered_pages": {
+            "start": 52,
+            "count": 2
+          },
+          "status": "success"
+        }
+      ],
+      "judge_result_sha256": "sha256:65aa2d93c223b3f231a5dcfb7aa169cc4e25ca0ceab7334dec85a4d8da9fa7aa",
+      "judge_trace_sha256": "sha256:2c15b158d64f71356acace6cc6fc3a9262517ae96d6e30f02f8f1944c5241a2e"
+    },
+    {
+      "sample_id": "sample-02",
+      "case_id": "CS-2026-2-015",
+      "condition": "B",
+      "run_id": "B-0014-001",
+      "answer_sha256": "sha256:1c688487af55f0ce0e055eeb0101ea66f7068c4e79b632a595784498d75c379d",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "execution_status": "completed",
+      "evidence_status": "verified",
+      "judge_model": "claude-sonnet-4-6",
+      "judge_output_sha256": "sha256:8d707f16ec5799c209d58b447b9b57b0e819ffe4b34ae980f669fec931d0dc19",
+      "objective_values": "pass",
+      "objective_details": [],
+      "automatic_checks": {
+        "source_check": {
+          "schema": "graduation-wiki-eval/source-check-v3",
+          "checker_version": "citation-verdict-4",
+          "status": "pass",
+          "issues": [],
+          "legacy_status": "pass",
+          "request_sha256": "sha256:f6226f951535cd37cb70847458e9204dd852919d9e63ed537050058c62bd172a",
+          "output_sha256": "sha256:1c688487af55f0ce0e055eeb0101ea66f7068c4e79b632a595784498d75c379d",
+          "contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+          "source_id": "handbook-2026-2",
+          "edition": "2026-2",
+          "pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+          "text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+          "table_index_sha256": "sha256:160518689f13fddcf124c4385ba6f8c85405394aa1ea1904b64624641b63c685",
+          "delivered_pdf_pages": [
+            {
+              "start": 7,
+              "count": 1
+            },
+            {
+              "start": 4,
+              "count": 3
+            }
+          ],
+          "citations": [
+            {
+              "index": 0,
+              "pdf_page": 4,
+              "quote_sha256": "sha256:0073e0c80803c5019c9de61459022e5eb3792ce1b9212ea73f784b72d1b9c749",
+              "literal_match": true,
+              "normalized_match": true,
+              "match_basis": "literal_text",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            },
+            {
+              "index": 1,
+              "pdf_page": 4,
+              "quote_sha256": "sha256:8dbdd8a5887bb0cd72b417137aacfdce20aa50160d795f5719411260cc04e52e",
+              "literal_match": true,
+              "normalized_match": true,
+              "match_basis": "literal_text",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            }
+          ],
+          "failures": [],
+          "semantic_support": "requires_review",
+          "note": "Checks pinned source identity, delivered pages, literal text or indexed table-cell relationships. Does not establish policy applicability, complete evidence, or a correct answer. Unindexed tables have no cell-relationship verification."
+        },
+        "required_skill_files": [],
+        "unread_skill_files": []
+      },
+      "comparisons": [
+        {
+          "citation_index": 1,
+          "category": "normal",
+          "reference_kind": "assistant_draft",
+          "reference_reason": "p4 항목 4의 교양 이수구분 소급 적용 제목과 적용 학번 범위를 그대로 옮겼다.",
+          "source_pages": [
+            4
+          ],
+          "dimensions": [
+            {
+              "dimension": "quote_fidelity",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "agree",
+              "false_accept": false
+            },
+            {
+              "dimension": "source_relation",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "agree",
+              "false_accept": false
+            }
+          ],
+          "judgment": {
+            "citation_index": 1,
+            "quote_fidelity": {
+              "verdict": "pass",
+              "reason": "인용문 '4. 교양 이수구분 소급 적용(2022학년도 입학자부터 적용된 이수구분을 2021학년도 입학자까지 소급 적용)'은 PDF 4쪽의 항목 4 제목과 정확히 일치한다. 단어·숫자·괄호 표현 모두 원문과 동일하다.",
+              "evidence": [
+                {
+                  "pdf_page": 4,
+                  "excerpt": "4. 교양 이수구분 소급 적용(2022학년도 입학자부터 적용된 이수구분을 2021학년도 입학자까지 소급 적용)",
+                  "location": "PDF 4쪽, 항목 4 제목"
+                }
+              ]
+            },
+            "source_relation": {
+              "verdict": "pass",
+              "reason": "항목 4의 본문에 '전공기초교양, 학문기초교양 → 학문기초교양필수'라는 내용이 명확히 존재하며, 인용문이 나타내는 소급 적용 범위(2022학년도 입학자부터 적용된 이수구분을 2021학년도 입학자까지)와 대상(교양 이수구분)도 원문과 일치한다.",
+              "evidence": [
+                {
+                  "pdf_page": 4,
+                  "excerpt": "- 전공기초교양, 학문기초교양 → 학문기초교양필수",
+                  "location": "PDF 4쪽, 항목 4 세 번째 불릿"
+                }
+              ]
+            },
+            "case_applicability": {
+              "verdict": "pass",
+              "reason": "질문은 2019학번의 소급 적용 이수구분 명칭을 묻고 있다. 항목 4는 '2022학년도 입학자부터 적용된 이수구분을 2021학년도 입학자까지 소급 적용'한다고 명시하며, 2019학번은 2021학년도 입학자 범위에 포함된다. 따라서 이 인용은 질문에 직접 적용 가능하다.",
+              "evidence": [
+                {
+                  "pdf_page": 4,
+                  "excerpt": "4. 교양 이수구분 소급 적용(2022학년도 입학자부터 적용된 이수구분을 2021학년도 입학자까지 소급 적용)",
+                  "location": "PDF 4쪽, 항목 4 제목"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "human_review": "pending",
+      "selected_original_citations": [
+        {
+          "index": 1,
+          "text": "[source=handbook-2026-2;edition=2026-2;pdf_page=4] 4. 교양 이수구분 소급 적용(2022학년도 입학자부터 적용된 이수구분을 2021학년도 입학자까지 소급 적용)"
+        }
+      ],
+      "judge_elapsed_ms": 17393.2845,
+      "unread_pages": [],
+      "page_read_evidence": [
+        {
+          "path": "context/sources/handbook.pdf",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": "4"
+          },
+          "delivered_pages": {
+            "start": 4,
+            "count": 1
+          },
+          "status": "success"
+        }
+      ],
+      "judge_result_sha256": "sha256:d6ac80e96dddac142b5edf91d9d7759c33acbb5751b52b3f138ff2e55fa24ce2",
+      "judge_trace_sha256": "sha256:cfaf9b648103f40071f791d60d7da5b5ea5cdba7dea00f8f7291015da532344d"
+    },
+    {
+      "sample_id": "sample-03",
+      "case_id": "CS-2026-2-002",
+      "condition": "A",
+      "run_id": "A-0001-001",
+      "answer_sha256": "sha256:eb0364d8e72e215544a04c3af45d8ae32f4716aa7f44f6758c15515bc205e15d",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "execution_status": "completed",
+      "evidence_status": "unverified",
+      "judge_model": "claude-sonnet-4-6",
+      "judge_output_sha256": "sha256:50b8ea550f916f8857da7e4cff5621da2d4bf76e649dbd18af3abdbea68e5620",
+      "objective_values": "pass",
+      "objective_details": [],
+      "automatic_checks": {
+        "source_check": {
+          "schema": "graduation-wiki-eval/source-check-v3",
+          "checker_version": "citation-verdict-4",
+          "status": "inconclusive",
+          "issues": [
+            {
+              "id": "citation_0:quote_unverified",
+              "verdict": "inconclusive",
+              "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+              "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+            }
+          ],
+          "legacy_status": "fail",
+          "request_sha256": "sha256:746ebac5979393671e77586c6105a234d18a57160ae6dd76f634bbfb81b250f6",
+          "output_sha256": "sha256:eb0364d8e72e215544a04c3af45d8ae32f4716aa7f44f6758c15515bc205e15d",
+          "contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+          "source_id": "handbook-2026-2",
+          "edition": "2026-2",
+          "pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+          "text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+          "table_index_sha256": "sha256:160518689f13fddcf124c4385ba6f8c85405394aa1ea1904b64624641b63c685",
+          "delivered_pdf_pages": [
+            {
+              "start": 53,
+              "count": 1
+            }
+          ],
+          "citations": [
+            {
+              "index": 0,
+              "pdf_page": 53,
+              "quote_sha256": "sha256:99f1663dc6e183588e68224c2e3e7f6b06d1723a106c07fc259993cb623abaf8",
+              "literal_match": false,
+              "normalized_match": false,
+              "match_basis": "none",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": false
+              },
+              "passed": false,
+              "verdict": "inconclusive",
+              "issues": [
+                {
+                  "id": "citation_0:quote_unverified",
+                  "verdict": "inconclusive",
+                  "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+                  "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "pdf_page": 53,
+              "quote_sha256": "sha256:66ef8c1021ee6ae1e56900ca4b1241aeee78051c3f40dc4772ba9ebd15b7a46a",
+              "literal_match": false,
+              "normalized_match": true,
+              "match_basis": "normalized_text",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            }
+          ],
+          "failures": [
+            "citation_0:quote_grounded"
+          ],
+          "semantic_support": "requires_review",
+          "note": "Checks pinned source identity, delivered pages, literal text or indexed table-cell relationships. Does not establish policy applicability, complete evidence, or a correct answer. Unindexed tables have no cell-relationship verification."
+        },
+        "required_skill_files": [],
+        "unread_skill_files": []
+      },
+      "comparisons": [
+        {
+          "citation_index": 0,
+          "category": "unsupported_table",
+          "reference_kind": "assistant_draft",
+          "reference_reason": "p53 자연과과학 영역과 제외계열 병합셀의 관계가 맞다. 창의소프트학부 질문에 그대로 적용되는지는 각주를 포함한 별도 판단이다.",
+          "source_pages": [
+            53
+          ],
+          "dimensions": [
+            {
+              "dimension": "quote_fidelity",
+              "expected": "pass",
+              "actual": "fail",
+              "status": "not_evaluated",
+              "false_accept": false
+            },
+            {
+              "dimension": "source_relation",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "not_evaluated",
+              "false_accept": false
+            }
+          ],
+          "judgment": {
+            "citation_index": 0,
+            "quote_fidelity": {
+              "verdict": "fail",
+              "reason": "원문 표에서 '자연과과학'은 영역명 셀(행 헤더)이고, '자연과학, 생명과학 / 전자정보공학 / 소프트웨어융합, 공과'는 별도의 '제외 계열' 셀이다. 인용문은 영역명 뒤에 쉼표를 추가하여 '자연과과학,'으로 적고 제외 계열 항목들과 연결했는데, 이 쉼표는 원문에 없다. 셀 경계를 무시하고 행 헤더를 목록 항목처럼 연결한 것은 원문 재현 기준을 충족하지 않는다.",
+              "evidence": [
+                {
+                  "pdf_page": 53,
+                  "excerpt": "자연과과학 | 생명과학의이해·수의세계·지구환경과기후변화·현대과학으로의초대 | 자연과학, 생명과학 / 전자정보공학 / 소프트웨어융합, 공과",
+                  "location": "53쪽 균형교양 표, '자연과과학' 영역 행 — 영역명 셀과 제외 계열 셀은 분리되어 있음"
+                }
+              ]
+            },
+            "source_relation": {
+              "verdict": "pass",
+              "reason": "표 이미지를 확인한 결과, '자연과과학' 영역의 제외 계열 셀(병합)에 '자연과학, 생명과학 / 전자정보공학 / 소프트웨어융합, 공과'가 한 셀로 표기되어 있다. 소프트웨어융합이 자연과과학 영역의 제외 계열에 포함된다는 사실 관계는 원문에서 성립한다.",
+              "evidence": [
+                {
+                  "pdf_page": 53,
+                  "excerpt": "자연과과학 ... 자연과학, 생명과학 전자정보공학 소프트웨어융합, 공과",
+                  "location": "53쪽 균형교양 표, '자연과과학' 영역 제외 계열 열 (병합 셀)"
+                }
+              ]
+            },
+            "case_applicability": {
+              "verdict": "pass",
+              "reason": "2022학번 만화애니메이션텍은 소프트웨어융합대학 창의소프트학부 소속이므로 소프트웨어융합 계열에 해당한다. 표에서 소프트웨어융합이 자연과과학 영역의 제외 계열에 포함되므로, 이 인용은 시스템에서 자연과과학이 제외영역으로 표시되는 이유를 뒷받침하는 데 적합하다.",
+              "evidence": [
+                {
+                  "pdf_page": 53,
+                  "excerpt": "소프트웨어융합, 공과 (자연과과학 제외 계열)",
+                  "location": "53쪽 균형교양 표, '자연과과학' 행 제외 계열 셀"
+                },
+                {
+                  "pdf_page": 53,
+                  "excerpt": "소프트웨어융합대학 창의소프트학부(디자인이노베이션, 만화애니메이션텍)는 '문화와예술' 영역 제외.",
+                  "location": "53쪽 균형교양 표 하단 각주"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "human_review": "pending",
+      "selected_original_citations": [
+        {
+          "index": 0,
+          "text": "[source=handbook-2026-2;edition=2026-2;pdf_page=53] 자연과과학, 자연과학, 생명과학 전자정보공학 소프트웨어융합, 공과"
+        }
+      ],
+      "judge_elapsed_ms": 71064.45499999999,
+      "unread_pages": [
+        52
+      ],
+      "page_read_evidence": [
+        {
+          "path": "context/sources/handbook.pdf",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": "53"
+          },
+          "delivered_pages": {
+            "start": 53,
+            "count": 1
+          },
+          "status": "success"
+        }
+      ],
+      "judge_result_sha256": "sha256:424cd2208f8a9a11bd99c53dc1278b2913dd96836e39895c94573cbf07338601",
+      "judge_trace_sha256": "sha256:ba03824950eb3c77b70678bf3398e72e007e06f7edaa56fd9cadbc69a491d240"
+    },
+    {
+      "sample_id": "sample-04",
+      "case_id": "CS-2026-2-018",
+      "condition": "B",
+      "run_id": "B-0017-001",
+      "answer_sha256": "sha256:119f15f751e16f3108f7ef087850d22003e093578a498b0c301d49292717a82f",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "execution_status": "completed",
+      "evidence_status": "verified",
+      "judge_model": "claude-sonnet-4-6",
+      "judge_output_sha256": "sha256:f250a70129581f06a933120eb200e393e5c5ba8d2a9e7c85ef524ff3593e3735",
+      "objective_values": "pass",
+      "objective_details": [],
+      "automatic_checks": {
+        "source_check": {
+          "schema": "graduation-wiki-eval/source-check-v3",
+          "checker_version": "citation-verdict-4",
+          "status": "inconclusive",
+          "issues": [
+            {
+              "id": "citation_1:quote_unverified",
+              "verdict": "inconclusive",
+              "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+              "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+            },
+            {
+              "id": "citation_3:quote_unverified",
+              "verdict": "inconclusive",
+              "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+              "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+            }
+          ],
+          "legacy_status": "fail",
+          "request_sha256": "sha256:d05e48639db518774dddd4d6cf496947492679532080e0b8efb6fafe2e836754",
+          "output_sha256": "sha256:119f15f751e16f3108f7ef087850d22003e093578a498b0c301d49292717a82f",
+          "contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+          "source_id": "handbook-2026-2",
+          "edition": "2026-2",
+          "pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+          "text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+          "table_index_sha256": "sha256:160518689f13fddcf124c4385ba6f8c85405394aa1ea1904b64624641b63c685",
+          "delivered_pdf_pages": [
+            {
+              "start": 16,
+              "count": 2
+            }
+          ],
+          "citations": [
+            {
+              "index": 0,
+              "pdf_page": 16,
+              "quote_sha256": "sha256:15aec6200ab825b0ed08cbc6d78fb65ffb92ac70a234005794ccbb4d81f322aa",
+              "literal_match": true,
+              "normalized_match": true,
+              "match_basis": "literal_text",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            },
+            {
+              "index": 1,
+              "pdf_page": 16,
+              "quote_sha256": "sha256:2b2b2849702453a822dcfb20f2c1297533384588f30f6d6fee845b193d7b9843",
+              "literal_match": false,
+              "normalized_match": false,
+              "match_basis": "none",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": false
+              },
+              "passed": false,
+              "verdict": "inconclusive",
+              "issues": [
+                {
+                  "id": "citation_1:quote_unverified",
+                  "verdict": "inconclusive",
+                  "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+                  "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "pdf_page": 16,
+              "quote_sha256": "sha256:70170b27ca070d4de1c266fa4b2b3c03b04db6b6c1bbdb3fbbfc8c17166e3312",
+              "literal_match": false,
+              "normalized_match": true,
+              "match_basis": "normalized_text",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            },
+            {
+              "index": 3,
+              "pdf_page": 16,
+              "quote_sha256": "sha256:8c769730396b9e5aea9579c65113c470d585193bcada9a67e4360e780b1d613b",
+              "literal_match": false,
+              "normalized_match": false,
+              "match_basis": "none",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": false
+              },
+              "passed": false,
+              "verdict": "inconclusive",
+              "issues": [
+                {
+                  "id": "citation_3:quote_unverified",
+                  "verdict": "inconclusive",
+                  "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+                  "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+                }
+              ]
+            }
+          ],
+          "failures": [
+            "citation_1:quote_grounded",
+            "citation_3:quote_grounded"
+          ],
+          "semantic_support": "requires_review",
+          "note": "Checks pinned source identity, delivered pages, literal text or indexed table-cell relationships. Does not establish policy applicability, complete evidence, or a correct answer. Unindexed tables have no cell-relationship verification."
+        },
+        "required_skill_files": [],
+        "unread_skill_files": []
+      },
+      "comparisons": [
+        {
+          "citation_index": 1,
+          "category": "unsupported_table",
+          "reference_kind": "assistant_draft",
+          "reference_reason": "p16 이수 조건 표의 머리글을 먼저 나열하고 총권수·영역별 권수를 순서대로 연결했다. 10/4/2/3/1의 열 대응이 맞다.",
+          "source_pages": [
+            16
+          ],
+          "dimensions": [
+            {
+              "dimension": "quote_fidelity",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "agree",
+              "false_accept": false
+            },
+            {
+              "dimension": "source_relation",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "agree",
+              "false_accept": false
+            }
+          ],
+          "judgment": {
+            "citation_index": 1,
+            "quote_fidelity": {
+              "verdict": "pass",
+              "reason": "원문 표의 헤더('영역 총 권수', '서양의 역사와 사상', '동양의 역사와 사상', '동·서양의 문학', '과학 사상')와 값('10권', '4권', '2권', '3권', '1권')을 모두 정확히 옮겼다. 쉼표와 슬래시로 셀 구분자를 대신한 것은 허용 범위이며 단어 추가·변경 없음.",
+              "evidence": [
+                {
+                  "pdf_page": 16,
+                  "excerpt": "영역 총 권수 / 서양의 역사와 사상 / 동양의 역사와 사상 / 동·서양의 문학 / 과학 사상 / 10권 / 4권 / 2권 / 3권 / 1권",
+                  "location": "p.16, '다. 이수 조건' 하단 표"
+                }
+              ]
+            },
+            "source_relation": {
+              "verdict": "pass",
+              "reason": "표의 헤더와 수치가 1:1 대응하며, 각 영역별 최소 인증 권수(서양 4권, 동양 2권, 문학 3권, 과학 1권, 합계 10권) 관계가 원문 표에서 그대로 성립한다.",
+              "evidence": [
+                {
+                  "pdf_page": 16,
+                  "excerpt": "다. 이수 조건 : 세종 고전도서 목록 중 4개 영역별 인증 권수 모두 이수(10권 이상)\n영역 총 권수 / 서양의 역사와 사상 4권 / 동양의 역사와 사상 2권 / 동·서양의 문학 3권 / 과학 사상 1권",
+                  "location": "p.16, '8. 고전독서졸업인증제 다. 이수 조건' 표"
+                }
+              ]
+            },
+            "case_applicability": {
+              "verdict": "pass",
+              "reason": "2020학번은 '가. 이수 대상 : 2012학년도 입학자부터'에 해당하므로 이 표의 조건이 직접 적용된다. 영역별 권수 조건은 2020학번에게 유효하다.",
+              "evidence": [
+                {
+                  "pdf_page": 16,
+                  "excerpt": "가. 이수 대상 : 2012학년도 입학자부터",
+                  "location": "p.16, '8. 고전독서졸업인증제 가. 이수 대상'"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "human_review": "pending",
+      "selected_original_citations": [
+        {
+          "index": 1,
+          "text": "[source=handbook-2026-2;edition=2026-2;pdf_page=16] 영역 총 권수, 서양의 역사와 사상, 동양의 역사와 사상, 동·서양의 문학, 과학 사상 / 10권, 4권, 2권, 3권, 1권"
+        }
+      ],
+      "judge_elapsed_ms": 21749.004625,
+      "unread_pages": [],
+      "page_read_evidence": [
+        {
+          "path": "context/sources/handbook.pdf",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": "16"
+          },
+          "delivered_pages": {
+            "start": 16,
+            "count": 1
+          },
+          "status": "success"
+        }
+      ],
+      "judge_result_sha256": "sha256:cd5ed973932821b95a5d45e1972b440c3de0190ac4b45848c85111eaff26b413",
+      "judge_trace_sha256": "sha256:91419830ad2cddcaa83dd6d3ec0af8f42bc396242a1cfa48dc62d4a98d35b287"
+    },
+    {
+      "sample_id": "sample-05",
+      "case_id": "CS-2026-2-010",
+      "condition": "C",
+      "run_id": "C-0009-001",
+      "answer_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "execution_status": "completed",
+      "evidence_status": "verified",
+      "judge_model": "claude-sonnet-4-6",
+      "judge_output_sha256": "sha256:045c78bd895430402b8be8a99a99427d1d41011d177c7e2d01c11f2240256c80",
+      "objective_values": "pass",
+      "objective_details": [],
+      "automatic_checks": {
+        "source_check": {
+          "schema": "graduation-wiki-eval/source-check-v3",
+          "checker_version": "citation-verdict-4",
+          "status": "inconclusive",
+          "issues": [
+            {
+              "id": "citation_0:quote_unverified",
+              "verdict": "inconclusive",
+              "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+              "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+            },
+            {
+              "id": "citation_1:quote_unverified",
+              "verdict": "inconclusive",
+              "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+              "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+            },
+            {
+              "id": "citation_3:quote_unverified",
+              "verdict": "inconclusive",
+              "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+              "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+            }
+          ],
+          "legacy_status": "fail",
+          "request_sha256": "sha256:621e5b1e51d72e51c2ab2fd6ebe09454abd0990b49406c6af5360242a7fcdc1f",
+          "output_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+          "contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+          "source_id": "handbook-2026-2",
+          "edition": "2026-2",
+          "pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+          "text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+          "table_index_sha256": "sha256:160518689f13fddcf124c4385ba6f8c85405394aa1ea1904b64624641b63c685",
+          "delivered_pdf_pages": [
+            {
+              "start": 52,
+              "count": 1
+            },
+            {
+              "start": 53,
+              "count": 1
+            }
+          ],
+          "citations": [
+            {
+              "index": 0,
+              "pdf_page": 53,
+              "quote_sha256": "sha256:4e1482f97cc29d4394881db2f6695bf6c897ada717c201799cf710775f55288b",
+              "literal_match": false,
+              "normalized_match": false,
+              "match_basis": "none",
+              "table_match": {
+                "status": "conflict",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": false
+              },
+              "passed": false,
+              "verdict": "inconclusive",
+              "issues": [
+                {
+                  "id": "citation_0:quote_unverified",
+                  "verdict": "inconclusive",
+                  "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+                  "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+                }
+              ]
+            },
+            {
+              "index": 1,
+              "pdf_page": 53,
+              "quote_sha256": "sha256:4bb08eae44a52be17da235b98ed1937ac9f1735587530adb5e2228334e07e5dd",
+              "literal_match": false,
+              "normalized_match": false,
+              "match_basis": "none",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": false
+              },
+              "passed": false,
+              "verdict": "inconclusive",
+              "issues": [
+                {
+                  "id": "citation_1:quote_unverified",
+                  "verdict": "inconclusive",
+                  "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+                  "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "pdf_page": 53,
+              "quote_sha256": "sha256:3c5991d5d63a33cc5a929473b8b443fbc30771845a24214928799f6173f41039",
+              "literal_match": true,
+              "normalized_match": true,
+              "match_basis": "literal_text",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            },
+            {
+              "index": 3,
+              "pdf_page": 52,
+              "quote_sha256": "sha256:c7ef92d0d5e055265a7a2a7a5e96933e64178a63c34abe4097f2469b1fffb52e",
+              "literal_match": false,
+              "normalized_match": false,
+              "match_basis": "none",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": false
+              },
+              "passed": false,
+              "verdict": "inconclusive",
+              "issues": [
+                {
+                  "id": "citation_3:quote_unverified",
+                  "verdict": "inconclusive",
+                  "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+                  "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+                }
+              ]
+            }
+          ],
+          "failures": [
+            "citation_0:quote_grounded",
+            "citation_1:quote_grounded",
+            "citation_3:quote_grounded"
+          ],
+          "semantic_support": "requires_review",
+          "note": "Checks pinned source identity, delivered pages, literal text or indexed table-cell relationships. Does not establish policy applicability, complete evidence, or a correct answer. Unindexed tables have no cell-relationship verification."
+        },
+        "required_skill_files": [
+          "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "context/skills/skill-bundle/CLAUDE.md",
+          "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md"
+        ],
+        "unread_skill_files": []
+      },
+      "comparisons": [
+        {
+          "citation_index": 0,
+          "category": "actual_error",
+          "reference_kind": "assistant_draft",
+          "reference_reason": "p53 수의세계 행의 학점 셀은 3이다. 직접 인용에 학점을 추가했으므로 원문 재현은 실패지만 학점 열의 수량 의미는 유지된다.",
+          "source_pages": [
+            53
+          ],
+          "dimensions": [
+            {
+              "dimension": "quote_fidelity",
+              "expected": "fail",
+              "actual": "pass",
+              "status": "disagree",
+              "false_accept": true
+            },
+            {
+              "dimension": "source_relation",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "agree",
+              "false_accept": false
+            }
+          ],
+          "judgment": {
+            "citation_index": 0,
+            "quote_fidelity": {
+              "verdict": "pass",
+              "reason": "53페이지 표에서 '자연과과학' 영역 행, '수의세계' 과목 행, 학점 '3' 셀이 모두 원문에 존재한다. 콤마로 셀 관계를 연결한 것은 허용 범위이며 단어·숫자 변경 없음.",
+              "evidence": [
+                {
+                  "pdf_page": 53,
+                  "excerpt": "자연과과학 ... 수의세계 3",
+                  "location": "p.53, '4. 계열별 필수 – 균형교양 과목 이수' 표, 자연과과학 영역 행, 수의세계 과목 행, 학점 열"
+                }
+              ]
+            },
+            "source_relation": {
+              "verdict": "pass",
+              "reason": "53페이지 표에서 자연과과학 영역에 수의세계(3학점)가 등재되어 있으며, 행·열·영역 관계가 원문과 일치한다.",
+              "evidence": [
+                {
+                  "pdf_page": 53,
+                  "excerpt": "자연과과학 ... 수의세계 3 ... 자연과학, 생명과학 전자정보공학 소프트웨어융합, 공과",
+                  "location": "p.53, '4. 계열별 필수 – 균형교양 과목 이수' 표, 자연과과학 영역 행"
+                }
+              ]
+            },
+            "case_applicability": {
+              "verdict": "pass",
+              "reason": "2026-2 편람 p.53 표는 2022학년도 입학자 교과과정 항목 내에 있으며(p.52 헤더 '2022학년도 입학자 교과과정'), 질문의 2022학번·수의세계·자연과과학 등재 여부에 직접 적용된다.",
+              "evidence": [
+                {
+                  "pdf_page": 52,
+                  "excerpt": "❚ 2022학년도 입학자 교과과정",
+                  "location": "p.52 최상단 섹션 헤더"
+                },
+                {
+                  "pdf_page": 53,
+                  "excerpt": "4. 계열별 필수 – 균형교양 과목 이수",
+                  "location": "p.53 섹션 헤더"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "citation_index": 3,
+          "category": "actual_error",
+          "reference_kind": "assistant_draft",
+          "reference_reason": "p52 원문 학생 자율선택을 학생 자유선택으로 바꿨다. 직접 인용의 단어는 다르지만 소속 계열 외 2영역·6학점 선택 의미는 유지된다.",
+          "source_pages": [
+            52
+          ],
+          "dimensions": [
+            {
+              "dimension": "quote_fidelity",
+              "expected": "fail",
+              "actual": "fail",
+              "status": "agree",
+              "false_accept": false
+            },
+            {
+              "dimension": "source_relation",
+              "expected": "pass",
+              "actual": "pass",
+              "status": "agree",
+              "false_accept": false
+            }
+          ],
+          "judgment": {
+            "citation_index": 3,
+            "quote_fidelity": {
+              "verdict": "fail",
+              "reason": "원문 p.52의 균형교양 셀은 '자신의 소속 계열과 다른 2개 영역에서 6학점 선택 이수(학생 자율선택)'이다. 인용문은 '자율선택' 대신 '자유선택'으로 표기하여 원문 단어를 바꿨다.",
+              "evidence": [
+                {
+                  "pdf_page": 52,
+                  "excerpt": "균형교양 자신의 소속 계열과 다른 2개 영역에서 6학점 선택 이수(학생 자율선택)",
+                  "location": "p.52, '1. 졸업 기준' 표, 균형교양 행"
+                }
+              ]
+            },
+            "source_relation": {
+              "verdict": "pass",
+              "reason": "'자유선택'→'자율선택' 오타를 제외하면, 소속 계열과 다른 2개 영역에서 6학점 선택 이수라는 사실·의미 관계는 p.52 원문과 일치한다.",
+              "evidence": [
+                {
+                  "pdf_page": 52,
+                  "excerpt": "균형교양 자신의 소속 계열과 다른 2개 영역에서 6학점 선택 이수(학생 자율선택)",
+                  "location": "p.52, '1. 졸업 기준' 표, 균형교양 행"
+                }
+              ]
+            },
+            "case_applicability": {
+              "verdict": "pass",
+              "reason": "2022학년도 입학자 교과과정 섹션(p.52) 내 균형교양 이수 원칙으로, 2022학번의 균형교양 이수 조건 확인에 직접 적용된다.",
+              "evidence": [
+                {
+                  "pdf_page": 52,
+                  "excerpt": "❚ 2022학년도 입학자 교과과정 ... 균형교양 자신의 소속 계열과 다른 2개 영역에서 6학점 선택 이수(학생 자율선택)",
+                  "location": "p.52, '1. 졸업 기준' 표"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "human_review": "pending",
+      "selected_original_citations": [
+        {
+          "index": 0,
+          "text": "[source=handbook-2026-2;edition=2026-2;pdf_page=53] 자연과과학, 수의세계, 3학점"
+        },
+        {
+          "index": 3,
+          "text": "[source=handbook-2026-2;edition=2026-2;pdf_page=52] 균형교양 자신의 소속 계열과 다른 2개 영역에서 6학점 선택 이수(학생 자유선택)"
+        }
+      ],
+      "judge_elapsed_ms": 37305.36120800002,
+      "unread_pages": [],
+      "page_read_evidence": [
+        {
+          "path": "context/sources/handbook.pdf",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": "52-53"
+          },
+          "delivered_pages": {
+            "start": 52,
+            "count": 2
+          },
+          "status": "success"
+        }
+      ],
+      "judge_result_sha256": "sha256:5452444072ac9991488f1d495dde0d0ece35e104385fd8e79dbaf1e8683aa125",
+      "judge_trace_sha256": "sha256:c725cdfe7fbd860d532753fbb75f604323db79312078eed9495aa6a606321a2f"
+    },
+    {
+      "sample_id": "sample-06",
+      "case_id": "CS-2026-2-014",
+      "condition": "C",
+      "run_id": "C-0013-001",
+      "answer_sha256": "sha256:259c2daee1fdd7a7ff8f8fa1fab98af6053f24ce754a1046d88d9a11d87ba660",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "execution_status": "completed",
+      "evidence_status": "verified",
+      "judge_model": "claude-sonnet-4-6",
+      "judge_output_sha256": "sha256:9af596e9e19ab717c8016d5e49783a514bded42d857c7b6155f8ee5fc4881d33",
+      "objective_values": "fail",
+      "objective_details": [
+        {
+          "field": "facts.current_course_name",
+          "reason": "mismatch",
+          "expected": "세계사",
+          "actual": ""
+        },
+        {
+          "field": "facts.same_course_designation",
+          "reason": "mismatch",
+          "expected": true,
+          "actual": false
+        }
+      ],
+      "automatic_checks": {
+        "source_check": {
+          "schema": "graduation-wiki-eval/source-check-v3",
+          "checker_version": "citation-verdict-4",
+          "status": "inconclusive",
+          "issues": [
+            {
+              "id": "citation_1:quote_unverified",
+              "verdict": "inconclusive",
+              "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+              "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+            },
+            {
+              "id": "citation_2:quote_unverified",
+              "verdict": "inconclusive",
+              "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+              "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+            }
+          ],
+          "legacy_status": "fail",
+          "request_sha256": "sha256:7cb3ae273cf31824596571bccf25a3d040035f096fa53c636c6d36ba5d711433",
+          "output_sha256": "sha256:259c2daee1fdd7a7ff8f8fa1fab98af6053f24ce754a1046d88d9a11d87ba660",
+          "contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+          "source_id": "handbook-2026-2",
+          "edition": "2026-2",
+          "pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+          "text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+          "table_index_sha256": "sha256:160518689f13fddcf124c4385ba6f8c85405394aa1ea1904b64624641b63c685",
+          "delivered_pdf_pages": [
+            {
+              "start": 30,
+              "count": 1
+            }
+          ],
+          "citations": [
+            {
+              "index": 0,
+              "pdf_page": 30,
+              "quote_sha256": "sha256:35a0b83476a8941f2dcf9dfae986f2c2daed6b246437c87bee348733e290c345",
+              "literal_match": true,
+              "normalized_match": true,
+              "match_basis": "literal_text",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": true
+              },
+              "passed": true,
+              "verdict": "pass",
+              "issues": []
+            },
+            {
+              "index": 1,
+              "pdf_page": 30,
+              "quote_sha256": "sha256:9fb012b2509522abd9058a110aeefe50cddbea62d17f5765da526c3892015437",
+              "literal_match": false,
+              "normalized_match": false,
+              "match_basis": "none",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": false
+              },
+              "passed": false,
+              "verdict": "inconclusive",
+              "issues": [
+                {
+                  "id": "citation_1:quote_unverified",
+                  "verdict": "inconclusive",
+                  "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+                  "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "pdf_page": 30,
+              "quote_sha256": "sha256:970f1a32475d2e57982d0e99c3bd270068a2fe8e3678054b8568f8481b2d49c8",
+              "literal_match": false,
+              "normalized_match": false,
+              "match_basis": "none",
+              "table_match": {
+                "status": "not_applicable",
+                "matches": []
+              },
+              "checks": {
+                "format": true,
+                "source": true,
+                "edition": true,
+                "page_exists": true,
+                "page_read": true,
+                "quote_nonempty": true,
+                "quote_within_limit": true,
+                "quote_grounded": false
+              },
+              "passed": false,
+              "verdict": "inconclusive",
+              "issues": [
+                {
+                  "id": "citation_2:quote_unverified",
+                  "verdict": "inconclusive",
+                  "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+                  "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+                }
+              ]
+            }
+          ],
+          "failures": [
+            "citation_1:quote_grounded",
+            "citation_2:quote_grounded"
+          ],
+          "semantic_support": "requires_review",
+          "note": "Checks pinned source identity, delivered pages, literal text or indexed table-cell relationships. Does not establish policy applicability, complete evidence, or a correct answer. Unindexed tables have no cell-relationship verification."
+        },
+        "required_skill_files": [
+          "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+          "context/skills/skill-bundle/CLAUDE.md",
+          "context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md"
+        ],
+        "unread_skill_files": [
+          "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+        ]
+      },
+      "comparisons": [
+        {
+          "citation_index": 1,
+          "category": "actual_error",
+          "reference_kind": "assistant_draft",
+          "reference_reason": "p30 세계사:인간과문명→세계사는 동일과목 병합셀·2023년 행에 있다. 대체과목으로 연결한 인용은 원문의 관계를 바꾸었다.",
+          "source_pages": [
+            30
+          ],
+          "dimensions": [
+            {
+              "dimension": "quote_fidelity",
+              "expected": "fail",
+              "actual": "pass",
+              "status": "disagree",
+              "false_accept": true
+            },
+            {
+              "dimension": "source_relation",
+              "expected": "fail",
+              "actual": "pass",
+              "status": "disagree",
+              "false_accept": true
+            }
+          ],
+          "judgment": {
+            "citation_index": 1,
+            "quote_fidelity": {
+              "verdict": "pass",
+              "reason": "인용은 표의 셀들을 조합한 형태입니다. '지정유형'(열 머리글), '대체과목'(행 유형), '세계사:인간과문명 → 세계사'(변경내용 셀), '2023'(변경년도 셀) 모두 원문에 그대로 존재하며, 없는 단어나 단위를 추가하거나 단어를 바꾼 부분이 없습니다.",
+              "evidence": [
+                {
+                  "pdf_page": 30,
+                  "excerpt": "세계사:인간과문명 → 세계사\n                                                                                       2023",
+                  "location": "30쪽 표, 대체과목 행, 변경내용·변경년도 셀"
+                }
+              ]
+            },
+            "source_relation": {
+              "verdict": "pass",
+              "reason": "PDF 이미지에서 '세계사:인간과문명 → 세계사'는 명확히 '대체과목' 행 아래에 위치하며 변경년도는 2023으로 기재되어 있습니다. 인용이 주장하는 행·열·병합셀 관계가 원문에서 그대로 성립합니다.",
+              "evidence": [
+                {
+                  "pdf_page": 30,
+                  "excerpt": "대체과목 … 세계사:인간과문명 → 세계사 … 2023",
+                  "location": "30쪽 표, 지정유형=대체과목 병합셀 범위 내"
+                },
+                {
+                  "pdf_page": 30,
+                  "excerpt": "동일과목\n컴퓨팅사고기반기초코딩 → 컴퓨터사고기반기초코딩\n소프트웨어기초코딩 → SW기초코딩\n프로그래밍입문-P → 프로그래밍활용-P",
+                  "location": "30쪽 표, 지정유형=동일과목 병합셀 범위(세계사 항목 없음)"
+                }
+              ]
+            },
+            "case_applicability": {
+              "verdict": "pass",
+              "reason": "질문은 2026-2 편람에서 두 과목명이 동일과목으로 지정되었는지 묻고 있습니다. 이 인용은 해당 편람 30쪽의 표에서 '세계사:인간과문명 → 세계사'가 '대체과목'으로 분류됨을 직접 보여주며, 이는 '동일과목 여부'를 판단하는 데 직접 적용됩니다. 2021학번 적용 여부에 대한 별도 조건이 이 항목에는 없으므로 적용에 문제가 없습니다.",
+              "evidence": [
+                {
+                  "pdf_page": 30,
+                  "excerpt": "세계사:인간과문명 → 세계사 … 2023",
+                  "location": "30쪽 표, 대체과목 행"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "human_review": "pending",
+      "selected_original_citations": [
+        {
+          "index": 1,
+          "text": "[source=handbook-2026-2;edition=2026-2;pdf_page=30] 지정유형, 대체과목, 세계사:인간과문명 → 세계사, 2023"
+        }
+      ],
+      "judge_elapsed_ms": 71814.44329199998,
+      "unread_pages": [],
+      "page_read_evidence": [
+        {
+          "path": "context/sources/handbook.pdf",
+          "requested": {
+            "offset": null,
+            "limit": null,
+            "pages": "30"
+          },
+          "delivered_pages": {
+            "start": 30,
+            "count": 1
+          },
+          "status": "success"
+        }
+      ],
+      "judge_result_sha256": "sha256:0b84152d4ee86c9b695c69c20018d67f3d7179f1620a2e136455c17a70463a61",
+      "judge_trace_sha256": "sha256:3aa1dcacd67585c7237b0c13cafda500759ad6b71286711884a5f59a5790810e"
+    }
+  ],
+  "observed_on": "2026-11-15",
+  "source_code_commit": "b46330cb5f336cafa38e037c1ad913ca69addc9e",
+  "auth": "subscription",
+  "api_fallback": false,
+  "extra_usage_disabled": "user_confirmed_setting_not_programmatically_verified",
+  "judge_sessions": 6,
+  "answer_generation_calls": 0,
+  "cli_preflight_failures": 2,
+  "preflight_failure": "JSON Schema 2020-12 meta-schema unsupported by installed Claude CLI; zero output events",
+  "judge_settings": {
+    "model": "claude-sonnet-4-6",
+    "effort": "medium",
+    "max_turns": 6,
+    "timeout_seconds": 180,
+    "automatic_retry": false
+  },
+  "original_files_verified": 270,
+  "original_records_changed": false,
+  "full_report_sha256": "sha256:0eb37f96521fcbdda250fa18718aace5f0deba73bf3ee9921f1ff32cd67401e4",
+  "evidence_status_scope": "PDF page delivery only; judge-authored excerpts and interpretations are not independently verified"
+}
