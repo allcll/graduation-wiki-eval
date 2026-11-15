@@ -73,10 +73,11 @@ test('citation checks require returned page images, the correct edition and a li
     [citation.replace('2026-2', '2026-1')], [citation.replace('source=handbook', 'source=other')],
     [citation.replace('pdf_page=2', 'pdf_page=1')], [citation.replace('pdf_page=2', 'pdf_page=3')],
     [citation.replace('two distinct', 'three different')], [citation, 'Skill calculation procedure'],
-    ['[source=handbook;edition=2026-2;pdf_page=2] two'],
+    ['[source=handbook;edition=2026-2;pdf_page=2]    '],
   ];
   for (const citations of variants) assert.equal(checkSourceCitations({ ...answer, citations }, trace(), loaded).status, 'fail');
   assert.equal(checkSourceCitations({ ...answer, citations: [citation.replace('two distinct', 'two\n  distinct')] }, trace(), loaded).status, 'pass');
+  assert.equal(checkSourceCitations({ ...answer, citations: ['[source=handbook;edition=2026-2;pdf_page=2] two'] }, trace(), loaded).status, 'pass');
   // A real quote can still accompany an incorrect interpretation. Never call this semantic PASS.
   assert.equal(checkSourceCitations({ ...answer, answer_text: 'Only one area is needed.', facts: { areas: 1 } }, trace(), loaded).semantic_support, 'requires_review');
 });

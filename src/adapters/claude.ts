@@ -11,6 +11,7 @@ import { runProcess, type ProcessResult } from '../process.js';
 import { answerSchema, validateRequest, type AdapterRequest } from './request.js';
 import { summarizeClaudeStream } from './claude-trace.js';
 import { checkSourceCitations, loadSourceContract, sourceCitationInstructions, type SourceCitationCheck } from './source-citations.js';
+import { loadTableIndex } from './table-citations.js';
 export { validateRequest } from './request.js';
 
 const minimumVersion = [2, 1, 322] as const;
@@ -38,6 +39,7 @@ const optionsSchema = z.strictObject({
   traceTools: z.boolean().default(false),
   requireSkillReads: z.boolean().default(false),
   sourceContract: z.string().min(1).optional(),
+  tableIndex: z.string().min(1).refine(value => path.isAbsolute(value), 'Table index must use an absolute path').optional(),
   executable: z.string().trim().min(1).default('claude'),
 }).superRefine((options, context) => {
   if (options.auth === 'api-key' && options.budgetUsd === undefined) {
@@ -52,6 +54,7 @@ const optionsSchema = z.strictObject({
   if (options.sourceContract && !options.traceTools) {
     context.addIssue({ code: 'custom', message: 'Source citation checks need --trace-tools' });
   }
+  if (options.tableIndex && !options.sourceContract) context.addIssue({ code: 'custom', message: 'Table index needs --source-contract' });
 });
 
 const subscriptionSettings = JSON.stringify({ forceLoginMethod: 'claudeai', fastMode: false, disableAllHooks: true, fallbackModel: [] });
@@ -156,10 +159,13 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
   // Fail before authentication or a model call if the reviewed source identity
   // no longer matches the prepared snapshots or requested edition.
   let sourceContract;
-  try { sourceContract = options.sourceContract ? await loadSourceContract(options.sourceContract, request, cwd) : undefined; }
-  catch { throw new ClaudeAdapterError('Source contract validation failed; check listed paths, edition, source hashes and page count'); }
+  try {
+    sourceContract = options.sourceContract ? await loadSourceContract(options.sourceContract, request, cwd) : undefined;
+    if (sourceContract && options.tableIndex) sourceContract.tables = await loadTableIndex(path.resolve(cwd, options.tableIndex), sourceContract.contract, sourceContract.pages);
+  }
+  catch { throw new ClaudeAdapterError('Source contract validation failed; check listed paths, edition, source hashes, table index and page count'); }
   const command = buildCommand(options);
-  if (sourceContract) command[command.length - 1] += '\n' + sourceCitationInstructions(sourceContract.contract);
+  if (sourceContract) command[command.length - 1] += '\n' + sourceCitationInstructions(sourceContract.contract, sourceContract.tables !== undefined);
   if (options.auth === 'api-key' && !env['ANTHROPIC_API_KEY']?.trim()) {
     throw new ClaudeAdapterError('ANTHROPIC_API_KEY is required; bare mode does not use subscription login');
   }
@@ -242,7 +248,7 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
         if (sourceCheckFile) {
           try {
             await sourceCheckFile.writeFile(JSON.stringify({
-              ...(sourceCheck ?? { schema: 'graduation-wiki-eval/source-check-v1', status: 'not_evaluated',
+              ...(sourceCheck ?? { schema: 'graduation-wiki-eval/source-check-v2', status: 'not_evaluated',
                 request_sha256: digest(request), contract_sha256: sourceContract?.contract_sha256,
                 semantic_support: 'requires_review' }),
               accepted_output: output !== undefined,
@@ -277,6 +283,8 @@ const usage = `Usage: grad-eval-claude --model MODEL_ID [--max-turns 12] [--effo
   Optional: --require-skill-reads requires --trace-tools and full Read coverage of every listed Skill file.
   Optional: --source-contract LISTED_SOURCE_JSON requires --trace-tools, checks original PDF page reads and citations,
     and writes source-check.json. File/quote checks do not replace semantic review.
+  Optional: --table-index ABSOLUTE_FILE validates indexed table-cell relationships. Requires --source-contract.
+    This scoring asset is not sent to the model; its hash is recorded in source-check.json.
   --usage-credits-disabled confirms you disabled extra usage in Claude account settings.
   It does not change or verify account billing settings. Subscription mode has no API-key fallback.
 `;
@@ -291,6 +299,7 @@ export async function main(argv: string[] = process.argv.slice(2)): Promise<numb
       'trace-tools': { type: 'boolean' },
       'require-skill-reads': { type: 'boolean' },
       'source-contract': { type: 'string' },
+      'table-index': { type: 'string' },
     }, strict: true, allowPositionals: false });
     if (values.help) { process.stdout.write(usage); return 0; }
     const options = optionsSchema.safeParse({ model: values.model, auth: values.auth ?? 'api-key',
@@ -298,6 +307,7 @@ export async function main(argv: string[] = process.argv.slice(2)): Promise<numb
       traceTools: values['trace-tools'] ?? false,
       requireSkillReads: values['require-skill-reads'] ?? false,
       sourceContract: values['source-contract'],
+      tableIndex: values['table-index'],
       budgetUsd: values['max-budget-usd'] === undefined ? undefined : Number(values['max-budget-usd']),
       maxTurns: values['max-turns'] === undefined ? 12 : Number(values['max-turns']),
       effort: values.effort ?? 'medium', timeoutSeconds: values.timeout === undefined ? 120 : Number(values.timeout) });

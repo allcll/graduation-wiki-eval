@@ -107,7 +107,7 @@ node dist/cli.js run --plan artifacts/your-experiment/plan.json -- \
 
 ## 지정 판본의 원문·인용 검사
 
-`--source-contract`를 추가하면 편람 파일의 해시와 판본, 실제 PDF 페이지 전달, 인용 문구의 위치를 검사합니다. `--trace-tools`가 필요하며 실패한 답변은 정상 결과로 채택하지 않습니다. 준비 방법과 `source-check.json`의 해석은 [원문 인용 검사](source-citations.md)를 참고하세요. 원문 인용의 존재와 위치를 확인하는 검사이므로 정책 해석의 정확성은 별도로 검토합니다.
+`--source-contract`를 추가하면 편람 파일의 해시와 판본, 실제 PDF 페이지 전달, 인용 문구의 위치를 검사합니다. `--trace-tools`가 필요하며 실패한 답변은 정상 결과로 채택하지 않습니다. `--table-index`를 함께 지정하면 준비한 표의 셀 관계도 검사하며, `grad-eval source-recheck`로 저장 응답만 재검사할 수 있습니다. 준비 방법과 `source-check.json`의 해석은 [원문 인용 검사](source-citations.md)를 참고하세요. 원문 인용의 존재와 위치를 확인하는 검사이므로 정책 해석의 정확성은 별도로 검토합니다.
 
 ## 접근 범위
 
