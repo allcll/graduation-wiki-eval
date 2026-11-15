@@ -36,6 +36,93 @@ function result(stdout: string, changes: Partial<ProcessResult> = {}): ProcessRe
 const answer = { action: 'clarify', facts: { required_fields: ['admission_year'] }, answer_text: 'Which admission year?', citations: [] };
 const response = JSON.stringify({ type: 'result', subtype: 'success', is_error: false, structured_output: answer });
 const options = { model: 'test-pinned-model', budgetUsd: 0.1 };
+const subscriptionOptions = { model: 'test-pinned-model', auth: 'subscription' as const, usageCreditsDisabled: true };
+const subscriptionStatus = JSON.stringify({ loggedIn: true, authMethod: 'claude.ai', apiProvider: 'firstParty',
+  subscriptionType: 'pro', email: 'private-account@example.invalid' });
+
+test('subscription mode requires the account-setting confirmation and preserves context isolation', () => {
+  assert.throws(() => buildCommand({ ...subscriptionOptions, usageCreditsDisabled: false }), ClaudeAdapterError);
+  const command = buildCommand(subscriptionOptions);
+  assert.ok(command.includes('--safe-mode'));
+  assert.ok(!command.includes('--bare'));
+  assert.ok(!command.includes('--max-budget-usd'));
+  for (const flag of ['--restricted', '--disable-slash-commands', '--strict-mcp-config', '--no-session-persistence']) {
+    assert.ok(command.includes(flag));
+  }
+  assert.equal(command[command.indexOf('--tools') + 1], 'Read,Grep,Glob');
+  assert.equal(command[command.indexOf('--setting-sources') + 1], '');
+  const settings: unknown = JSON.parse(command[command.indexOf('--settings') + 1] ?? 'null');
+  assert.deepEqual(settings, { forceLoginMethod: 'claudeai', fastMode: false, disableAllHooks: true, fallbackModel: [] });
+});
+
+test('subscription invocation verifies login without replacing or deleting its config directory', async (t) => {
+  const cwd = await fixture(t);
+  const configDir = path.join(cwd, 'login-config');
+  await mkdir(configDir);
+  const calls: { command: readonly string[]; options: Parameters<typeof runProcess>[1] }[] = [];
+  const run: typeof runProcess = async (command, processOptions) => {
+    calls.push({ command, options: processOptions });
+    return result(command.includes('--version') ? '2.1.325' : command.includes('auth') ? subscriptionStatus : response);
+  };
+  const actual = await invokeClaude(request(), subscriptionOptions, { cwd, env: { CLAUDE_CONFIG_DIR: configDir }, run });
+  assert.deepEqual(actual, answer);
+  assert.equal(calls.length, 3);
+  assert.ok(calls[1]?.command.includes('auth'));
+  assert.ok(calls[1]?.command.includes('--safe-mode'));
+  assert.equal(calls[2]?.options.env?.['CLAUDE_CONFIG_DIR'], configDir);
+  assert.equal(calls[2]?.options.env?.['CLAUDE_CODE_DISABLE_FAST_MODE'], '1');
+  assert.ok(!calls[2]?.options.input.includes('private-account'));
+  assert.ok(!calls[2]?.options.input.includes('usageCreditsDisabled'));
+  await access(configDir);
+});
+
+test('subscription mode stops before any model call for missing or incompatible authentication', async (t) => {
+  const cwd = await fixture(t);
+  const invalidStatuses = [
+    '{}', 'not-json',
+    JSON.stringify({ loggedIn: false, authMethod: 'none', apiProvider: 'firstParty' }),
+    JSON.stringify({ loggedIn: true, authMethod: 'api_key', apiProvider: 'firstParty', subscriptionType: 'pro' }),
+    JSON.stringify({ loggedIn: true, authMethod: 'claude.ai', apiProvider: 'bedrock', subscriptionType: 'pro' }),
+    JSON.stringify({ loggedIn: true, authMethod: 'claude.ai', apiProvider: 'firstParty', subscriptionType: null }),
+  ];
+  for (const status of invalidStatuses) {
+    let calls = 0;
+    const run: typeof runProcess = async () => result(++calls === 1 ? '2.1.325' : status);
+    await assert.rejects(invokeClaude(request(), subscriptionOptions, { cwd, env: {}, run }), ClaudeAdapterError);
+    assert.equal(calls, 2);
+  }
+  for (const state of [{ timedOut: true }, { exitCode: 1 }, { outputLimitExceeded: true }]) {
+    let calls = 0;
+    const run: typeof runProcess = async () => ++calls === 1 ? result('2.1.325') : result(subscriptionStatus, state);
+    await assert.rejects(invokeClaude(request(), subscriptionOptions, { cwd, env: {}, run }), ClaudeAdapterError);
+    assert.equal(calls, 2);
+  }
+});
+
+test('subscription mode rejects alternate credentials and providers without exposing their values', async (t) => {
+  const cwd = await fixture(t);
+  for (const key of ['ANTHROPIC_API_KEY', 'ANTHROPIC_AUTH_TOKEN', 'ANTHROPIC_BASE_URL', 'CLAUDE_CODE_OAUTH_TOKEN',
+    'CLAUDE_CODE_USE_BEDROCK', 'CLAUDE_CODE_USE_VERTEX', 'CLAUDE_CODE_USE_FOUNDRY', 'CLAUDE_CODE_SIMPLE']) {
+    let calls = 0;
+    const run: typeof runProcess = async () => { calls++; return result(''); };
+    await assert.rejects(invokeClaude(request(), subscriptionOptions, { cwd, env: { [key]: 'private-value' }, run }),
+      (error: unknown) => error instanceof ClaudeAdapterError && !error.message.includes('private-value'));
+    assert.equal(calls, 0);
+  }
+});
+
+test('subscription limits stop the job without an API fallback or automatic retry', async (t) => {
+  const cwd = await fixture(t);
+  let calls = 0;
+  const run: typeof runProcess = async () => {
+    calls++;
+    if (calls === 1) return result('2.1.325');
+    if (calls === 2) return result(subscriptionStatus);
+    return result(JSON.stringify({ type: 'result', subtype: 'error', is_error: true, result: 'Rate limit reached' }));
+  };
+  await assert.rejects(invokeClaude(request(), subscriptionOptions, { cwd, env: {}, run }), /successful structured output/);
+  assert.equal(calls, 3);
+});
 
 test('command fixes read-only tools, context discovery and per-job limits', () => {
   const command = buildCommand(options);

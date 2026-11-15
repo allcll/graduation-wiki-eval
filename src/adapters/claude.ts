@@ -23,16 +23,36 @@ const resultSchema = z.looseObject({
 });
 
 const optionsSchema = z.strictObject({
+  auth: z.enum(['api-key', 'subscription']).default('api-key'),
+  usageCreditsDisabled: z.boolean().default(false),
   model: z.string().trim().min(1).refine(
     (model) => !model.startsWith('-') && !movingAliases.has(model.toLowerCase().split('[')[0] ?? ''),
     'Use an explicit model ID, not a moving alias',
   ),
-  budgetUsd: z.number().finite().positive(),
+  budgetUsd: z.number().finite().positive().optional(),
   maxTurns: z.number().int().positive().default(12),
   effort: z.enum(efforts).default('medium'),
   timeoutSeconds: z.number().finite().positive().default(120),
   executable: z.string().trim().min(1).default('claude'),
+}).superRefine((options, context) => {
+  if (options.auth === 'api-key' && options.budgetUsd === undefined) {
+    context.addIssue({ code: 'custom', message: 'API-key mode requires a budget' });
+  }
+  if (options.auth === 'subscription' && !options.usageCreditsDisabled) {
+    context.addIssue({ code: 'custom', message: 'Confirm usage credits are disabled in the Claude account settings' });
+  }
 });
+
+const subscriptionSettings = JSON.stringify({ forceLoginMethod: 'claudeai', fastMode: false, disableAllHooks: true, fallbackModel: [] });
+const subscriptionFlags = ['--safe-mode', '--restricted', '--setting-sources', '', '--settings', subscriptionSettings];
+const subscriptionStatusSchema = z.looseObject({
+  loggedIn: z.literal(true), authMethod: z.literal('claude.ai'), apiProvider: z.literal('firstParty'),
+  subscriptionType: z.enum(['pro', 'max', 'ultra']),
+});
+const conflictingSubscriptionEnv = [
+  'ANTHROPIC_API_KEY', 'ANTHROPIC_AUTH_TOKEN', 'ANTHROPIC_BASE_URL', 'CLAUDE_CODE_OAUTH_TOKEN',
+  'CLAUDE_CODE_USE_BEDROCK', 'CLAUDE_CODE_USE_VERTEX', 'CLAUDE_CODE_USE_FOUNDRY', 'CLAUDE_CODE_SIMPLE',
+];
 
 export type ClaudeRequest = AdapterRequest;
 export type ClaudeAnswer = z.infer<typeof answerSchema>;
@@ -74,12 +94,14 @@ export function buildCommand(value: ClaudeOptions): string[] {
   const parsed = optionsSchema.safeParse(value);
   if (!parsed.success) throw new ClaudeAdapterError('An explicit model ID and positive finite limits are required');
   const options = parsed.data;
-  return [options.executable, '--bare', '--restricted', '-p', '--disable-slash-commands',
+  const authFlags = options.auth === 'subscription' ? subscriptionFlags : ['--bare', '--restricted', '--setting-sources', ''];
+  return [options.executable, ...authFlags, '-p', '--disable-slash-commands',
     '--tools', 'Read,Grep,Glob', '--allowedTools', 'Read,Grep,Glob', '--disallowedTools', 'mcp__*',
-    '--permission-mode', 'dontAsk', '--permission-prompts', 'none', '--no-chrome', '--setting-sources', '',
+    '--permission-mode', 'dontAsk', '--permission-prompts', 'none', '--no-chrome',
     '--strict-mcp-config', '--mcp-config', '{"mcpServers":{}}', '--no-session-persistence',
     '--output-format', 'json', '--json-schema', JSON.stringify(outputJsonSchema), '--model', options.model,
-    '--effort', options.effort, '--max-budget-usd', String(options.budgetUsd), '--max-turns', String(options.maxTurns),
+    '--effort', options.effort, ...(options.budgetUsd === undefined ? [] : ['--max-budget-usd', String(options.budgetUsd)]),
+    '--max-turns', String(options.maxTurns),
     '--append-system-prompt', instructions];
 }
 
@@ -120,13 +142,28 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
   const run = dependencies.run ?? runProcess;
   const request = await validateRequest(value, cwd);
   const command = buildCommand(options);
-  if (!env['ANTHROPIC_API_KEY']?.trim()) {
+  if (options.auth === 'api-key' && !env['ANTHROPIC_API_KEY']?.trim()) {
     throw new ClaudeAdapterError('ANTHROPIC_API_KEY is required; bare mode does not use subscription login');
+  }
+  if (options.auth === 'subscription' && conflictingSubscriptionEnv.some((key) => env[key]?.trim())) {
+    throw new ClaudeAdapterError('Subscription mode requires removing API credentials, provider overrides and bare-mode environment variables');
   }
   const version = await run([options.executable, '--version'], { cwd, input: '', timeoutMs: 10_000, env, forwardSignals: true });
   requireSuccess(version, 'Claude version check');
   requireVersion(version.stdout);
-  const configDir = await mkdtemp(path.join(tmpdir(), 'gradwiki-claude-'));
+  if (options.auth === 'subscription') {
+    const status = await run([options.executable, ...subscriptionFlags, 'auth', 'status', '--json'],
+      { cwd, input: '', timeoutMs: 10_000, env, forwardSignals: true });
+    requireSuccess(status, 'Claude subscription login check');
+    // Auth status includes account identifiers. Never forward it to the model or logs.
+    let parsed: unknown;
+    try { parsed = parseJson(status.stdout); } catch { throw new ClaudeAdapterError('Could not verify Claude subscription login'); }
+    if (!subscriptionStatusSchema.safeParse(parsed).success) {
+      throw new ClaudeAdapterError('Sign in to Claude Code with a Pro, Max or Ultra subscription; API authentication is not accepted');
+    }
+  }
+  // Subscription login is scoped to the existing config directory/keychain.
+  const configDir = options.auth === 'api-key' ? await mkdtemp(path.join(tmpdir(), 'gradwiki-claude-')) : undefined;
   try {
     const result = await run(command, {
       cwd,
@@ -134,7 +171,8 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
         instructions: request.instructions, output_contract: request.output_contract }),
       timeoutMs: options.timeoutSeconds * 1_000,
       forwardSignals: true,
-      env: { ...env, CLAUDE_CONFIG_DIR: configDir, CLAUDE_CODE_EFFORT_LEVEL: options.effort,
+      env: { ...env, ...(configDir === undefined ? {} : { CLAUDE_CONFIG_DIR: configDir }), CLAUDE_CODE_EFFORT_LEVEL: options.effort,
+        ...(options.auth === 'subscription' ? { CLAUDE_CODE_DISABLE_FAST_MODE: '1' } : {}),
         CLAUDE_CODE_DISABLE_AUTO_MEMORY: '1', CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: '1',
         CLAUDE_CODE_DISABLE_BACKGROUND_TASKS: '1', CLAUDE_CODE_DISABLE_TERMINAL_TITLE: '1',
         MAX_STRUCTURED_OUTPUT_RETRIES: '1' },
@@ -142,7 +180,7 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
     requireSuccess(result, 'Claude Code');
     return parseResponse(result.stdout);
   } finally {
-    await rm(configDir, { recursive: true, force: true });
+    if (configDir !== undefined) await rm(configDir, { recursive: true, force: true });
   }
 }
 
@@ -160,20 +198,28 @@ async function readStdin(): Promise<string> {
   return Buffer.concat(chunks).toString('utf8');
 }
 
-const usage = 'Usage: grad-eval-claude --model MODEL_ID --max-budget-usd AMOUNT [--max-turns 12] [--effort medium] [--timeout 120]\n';
+const usage = `Usage: grad-eval-claude --model MODEL_ID [--max-turns 12] [--effort medium] [--timeout 120]
+  API key (default): --auth api-key --max-budget-usd AMOUNT
+  Subscription: --auth subscription --usage-credits-disabled
+  --usage-credits-disabled confirms you disabled extra usage in Claude account settings.
+  It does not change or verify account billing settings. Subscription mode has no API-key fallback.
+`;
 
 export async function main(argv: string[] = process.argv.slice(2)): Promise<number> {
   try {
     const { values } = parseArgs({ args: argv, options: {
       help: { type: 'boolean', short: 'h' }, model: { type: 'string' },
+      auth: { type: 'string' }, 'usage-credits-disabled': { type: 'boolean' },
       'max-budget-usd': { type: 'string' }, 'max-turns': { type: 'string' },
       effort: { type: 'string' }, timeout: { type: 'string' },
     }, strict: true, allowPositionals: false });
     if (values.help) { process.stdout.write(usage); return 0; }
-    const options = optionsSchema.safeParse({ model: values.model, budgetUsd: Number(values['max-budget-usd']),
+    const options = optionsSchema.safeParse({ model: values.model, auth: values.auth ?? 'api-key',
+      usageCreditsDisabled: values['usage-credits-disabled'] ?? false,
+      budgetUsd: values['max-budget-usd'] === undefined ? undefined : Number(values['max-budget-usd']),
       maxTurns: values['max-turns'] === undefined ? 12 : Number(values['max-turns']),
       effort: values.effort ?? 'medium', timeoutSeconds: values.timeout === undefined ? 120 : Number(values.timeout) });
-    if (!options.success) throw new ClaudeAdapterError('Specify a model ID and positive finite limits. Use --help for syntax.');
+    if (!options.success) throw new ClaudeAdapterError('Specify a model ID, valid limits and the authentication prerequisites. Use --help for syntax.');
     const output = await invokeClaude(parseJson(await readStdin()), options.data);
     process.stdout.write(`${JSON.stringify(output)}\n`);
     return 0;
