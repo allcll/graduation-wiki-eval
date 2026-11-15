@@ -1,0 +1,16 @@
+{
+  "case_id": "CS-2026-2-001",
+  "parent": "../../v1/cases.jsonl",
+  "parent_case_sha256": "sha256:46f25329fb61b52c08da8118de177793f34bcfe3ec1af1499221194927264b9d",
+  "revision_case_sha256": "sha256:a9401fd19108324c0eabe7cc237dc9eb9883b1c139b153aeb91394b3eb1bb7bb",
+  "unchanged_expected_sha256": "sha256:83ddc9dcd13fad3e2682f38b0cf747b1dad408f94a4545738500c2c6baeeb368",
+  "changed_fields": [
+    "inputs.requested_output.facts.recognized_credits",
+    "inputs.requested_output.facts.required_credits",
+    "review_status",
+    "oracle_reviewer"
+  ],
+  "purpose": "학점 합계와 필요 기준을 구분하는 입력 정의 보완. 정답값·질문 본문·채점 기준·편람 근거는 유지한다.",
+  "authorship": "Codex가 사용자의 요청에 따라 입력 정의를 수정했다. 수정본에 대한 독립적인 사람 검토는 대기 중이다.",
+  "review_status": "draft"
+}

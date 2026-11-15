@@ -1,0 +1,47 @@
+{
+  "context_root": "../../../../local/cs-001-context-rerun-2026-11-15/context",
+  "sources": [
+    "original/handbook-2026-2.txt",
+    "original/handbook-2026-2.pdf"
+  ],
+  "wiki": [
+    "wiki/INDEX.md",
+    "wiki/cohort/2022/balance.md"
+  ],
+  "skills": [
+    "skill-bundle/.claude/skills/grad-wiki-query/SKILL.md",
+    "skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+    "skill-bundle/CLAUDE.md",
+    "skill-bundle/docs/agent-harness/PROJECT.md"
+  ],
+  "conditions": [
+    "A",
+    "B",
+    "C"
+  ],
+  "repeats": 1,
+  "timeout": 210,
+  "execution": "real",
+  "model": "claude-sonnet-4-6",
+  "model_config": "auth=subscription;usage-credits-disabled=user-confirmed;effort=medium;max-turns=12;adapter-timeout=180;fast-mode=off",
+  "prompt": "cs-001-credit-definition-v2",
+  "code": "none",
+  "data": "none",
+  "tools": "Read,Grep,Glob",
+  "runtime": "claude-code-2.1.325/node-24.4.0;safe-mode;restricted",
+  "instructions": "입력의 requested_output, output_rules, action_policy를 따르세요. 제공된 자료를 대조하여 질문 범위의 판단과 근거를 한국어로 답하세요. original의 txt는 PDF의 검색용 텍스트 추출본입니다. 표의 열 배치가 모호하면 제공된 PDF의 해당 페이지를 확인하세요. 적용 편람은 입력에 지정된 2026-2이며 과거 판본과 구분하세요. 목록 밖의 파일은 제공되지 않았습니다.",
+  "skill_contract": {
+    "entrypoints": [
+      "context/skills/skill-bundle/.claude/skills/grad-wiki-query/SKILL.md"
+    ],
+    "required_files": [
+      "context/sources/original/handbook-2026-2.txt",
+      "context/sources/original/handbook-2026-2.pdf",
+      "context/wiki/wiki/INDEX.md",
+      "context/wiki/wiki/cohort/2022/balance.md",
+      "context/skills/skill-bundle/docs/agent-harness/skills/grad-wiki-query/SKILL.md",
+      "context/skills/skill-bundle/CLAUDE.md",
+      "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+    ]
+  }
+}
