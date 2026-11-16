@@ -160,23 +160,8 @@ export function parseResponse(stdout: string): ClaudeAnswer {
   return result.data.structured_output;
 }
 
-export async function invokeClaudeEvaluated(value: unknown, rawOptions: ClaudeOptions, dependencies: ClaudeDependencies = {}) {
-  const options = optionsSchema.parse(rawOptions);
-  const cwd = dependencies.cwd ?? process.cwd();
-  const env = dependencies.env ?? process.env;
-  const run = dependencies.run ?? runProcess;
-  const prepared = await prepareClaudePayload(value, options.skillDelivery, cwd);
-  const request = prepared.request;
-  // Fail before authentication or a model call if the reviewed source identity
-  // no longer matches the prepared snapshots or requested edition.
-  let sourceContract;
-  try {
-    sourceContract = options.sourceContract ? await loadSourceContract(options.sourceContract, request, cwd) : undefined;
-    if (sourceContract && options.tableIndex) sourceContract.tables = await loadTableIndex(path.resolve(cwd, options.tableIndex), sourceContract.contract, sourceContract.pages);
-  }
-  catch { throw new ClaudeAdapterError('Source contract validation failed; check listed paths, edition, source hashes, table index and page count'); }
-  const command = buildCommand(options);
-  if (sourceContract) command[command.length - 1] += '\n' + sourceCitationInstructions(sourceContract.contract, sourceContract.tables?.index.tables);
+export async function verifyClaudeAccess(options: Pick<z.infer<typeof optionsSchema>, 'auth' | 'executable'>,
+  cwd: string, env: NodeJS.ProcessEnv, run: typeof runProcess = runProcess): Promise<string> {
   if (options.auth === 'api-key' && !env['ANTHROPIC_API_KEY']?.trim()) {
     throw new ClaudeAdapterError('ANTHROPIC_API_KEY is required; bare mode does not use subscription login');
   }
@@ -197,6 +182,27 @@ export async function invokeClaudeEvaluated(value: unknown, rawOptions: ClaudeOp
       throw new ClaudeAdapterError('Sign in to Claude Code with a Pro, Max or Ultra subscription; API authentication is not accepted');
     }
   }
+  return version.stdout.trim();
+}
+
+export async function invokeClaudeEvaluated(value: unknown, rawOptions: ClaudeOptions, dependencies: ClaudeDependencies = {}) {
+  const options = optionsSchema.parse(rawOptions);
+  const cwd = dependencies.cwd ?? process.cwd();
+  const env = dependencies.env ?? process.env;
+  const run = dependencies.run ?? runProcess;
+  const prepared = await prepareClaudePayload(value, options.skillDelivery, cwd);
+  const request = prepared.request;
+  // Fail before authentication or a model call if the reviewed source identity
+  // no longer matches the prepared snapshots or requested edition.
+  let sourceContract;
+  try {
+    sourceContract = options.sourceContract ? await loadSourceContract(options.sourceContract, request, cwd) : undefined;
+    if (sourceContract && options.tableIndex) sourceContract.tables = await loadTableIndex(path.resolve(cwd, options.tableIndex), sourceContract.contract, sourceContract.pages);
+  }
+  catch { throw new ClaudeAdapterError('Source contract validation failed; check listed paths, edition, source hashes, table index and page count'); }
+  const command = buildCommand(options);
+  if (sourceContract) command[command.length - 1] += '\n' + sourceCitationInstructions(sourceContract.contract, sourceContract.tables?.index.tables);
+  await verifyClaudeAccess(options, cwd, env, run);
   // Subscription login is scoped to the existing config directory/keychain.
   const configDir = options.auth === 'api-key' ? await mkdtemp(path.join(tmpdir(), 'gradwiki-claude-')) : undefined;
   let traceFile: Awaited<ReturnType<typeof open>> | undefined;

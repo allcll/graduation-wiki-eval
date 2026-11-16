@@ -19,10 +19,14 @@ import { writeOracleHtml } from './oracle-html.js';
 import { loadDataset, writeDatasetReview } from './dataset.js';
 import { recheckSourceCitations } from './source-recheck.js';
 import { writeOfflineReport } from './offline-report.js';
+import { prepareJudge, runJudge } from './judge.js';
+import { writeJudgeReport } from './judge-report.js';
 
-const commands = ['recheck-report', 'source-recheck', 'dataset-check', 'dataset-review', 'validate', 'oracle-init', 'oracle-review', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
+const commands = ['judge-prepare', 'judge-run', 'judge-report', 'recheck-report', 'source-recheck', 'dataset-check', 'dataset-review', 'validate', 'oracle-init', 'oracle-review', 'oracle-export', 'plan', 'prepare', 'run', 'review-template', 'report', 'compare', 'demo'] as const;
 const commandSchema = z.enum(commands);
 const flags = {
+  model: { type: 'string' }, references: { type: 'string' }, 'usage-credits-disabled': { type: 'boolean' },
+  'max-turns': { type: 'string' }, timeout: { type: 'string' },
   root: { type: 'string' }, manifest: { type: 'string' },
   cases: { type: 'string' }, runs: { type: 'string' }, reviews: { type: 'string' },
   plan: { type: 'string' }, config: { type: 'string' }, out: { type: 'string' },
@@ -34,6 +38,9 @@ const flags = {
   job: { type: 'string' }, 'source-contract': { type: 'string' }, 'table-index': { type: 'string' },
 } as const;
 const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flags)[]> = {
+  'judge-prepare': ['cases', 'manifest', 'out'],
+  'judge-run': ['plan', 'references', 'model', 'usage-credits-disabled', 'max-turns', 'timeout'],
+  'judge-report': ['plan', 'references', 'out'],
   'recheck-report': ['cases', 'manifest', 'out'],
   'source-recheck': ['job', 'source-contract', 'table-index', 'out'],
   'dataset-check': ['root', 'manifest', 'metadata-only'], 'dataset-review': ['root', 'manifest', 'out'],
@@ -45,6 +52,9 @@ const allowed: Record<z.infer<typeof commandSchema>, readonly (keyof typeof flag
 };
 const HELP = `grad-eval <command> [options]
 
+  judge-prepare   --cases FROZEN_CASES --manifest SAMPLE_SELECTION --out NEW_DIRECTORY
+  judge-run       --plan JUDGE_PLAN --references DRAFT_REFERENCES --model MODEL_ID --usage-credits-disabled [--max-turns 6] [--timeout 180]
+  judge-report    --plan JUDGE_PLAN --references DRAFT_REFERENCES --out NEW_DIRECTORY
   recheck-report  --cases FROZEN_CASES --manifest SAVED_JOBS_JSON --out NEW_DIRECTORY
   source-recheck  --job SAVED_JOB --source-contract LISTED_SOURCE_JSON [--table-index FILE] --out NEW_FILE.json
   dataset-check   --root DATA_REPO --manifest RELATIVE_MANIFEST [--metadata-only]
@@ -61,6 +71,8 @@ const HELP = `grad-eval <command> [options]
   compare         --baseline FILE --candidate FILE --out FILE [--condition C] [--split holdout]
   demo            [--out NEW_DIRECTORY]
 
+judge-run calls Claude using subscription authentication only; extra usage must be disabled.
+judge-prepare and judge-report do not call a model.
 demo does not call a model. run executes the specified adapter and may incur API costs.
 report --check requires all planned conditions to pass unless --condition selects one gate.
 The saved report always contains every planned condition.
@@ -133,6 +145,24 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
     }
     let result: unknown;
     switch (command) {
+      case 'judge-prepare': {
+        const plan = await prepareJudge(required(values.cases,'cases'), required(values.manifest,'manifest'), required(values.out,'out'));
+        result = { path: resolve(values.out!, 'plan.json'), samples: plan.entries.length, plan_sha256: plan.plan_sha256, model_calls: 0 };
+        break;
+      }
+      case 'judge-run': {
+        const run = await runJudge(required(values.plan,'plan'), required(values.references,'references'), { model: required(values.model,'model'),
+          usageCreditsDisabled: values['usage-credits-disabled'] ?? false,
+          maxTurns: Number(values['max-turns'] ?? 6), timeoutSeconds: Number(values.timeout ?? 180) });
+        const { results: _results, ...summary } = run;
+        process.stdout.write(JSON.stringify(summary, null, 2) + '\n');
+        return run.stopped_on_error ? 1 : 0;
+      }
+      case 'judge-report': {
+        const report = await writeJudgeReport(required(values.plan,'plan'), required(values.references,'references'), required(values.out,'out'));
+        result = { path: resolve(values.out!), summary: report.summary, human_review: report.human_review, quality_gate: report.quality_gate };
+        break;
+      }
       case 'recheck-report': {
         const report = await writeOfflineReport(required(values.cases, 'cases'), required(values.manifest, 'manifest'), required(values.out, 'out'));
         result = { path: resolve(values.out!), mode: report.mode, model_calls: 0, summary: report.summary,
