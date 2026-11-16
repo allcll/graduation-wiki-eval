@@ -1,0 +1,1368 @@
+{
+  "schema": "graduation-wiki-eval/citation-format-recheck-v1",
+  "checked_on": "2026-11-15",
+  "checker_version": "citation-format-3",
+  "model_calls": 0,
+  "answers": 60,
+  "before_passed_citations": 69,
+  "after_passed_citations": 99,
+  "separator_cases_fixed": 16,
+  "typography_grounding_fixed": 15,
+  "actual_or_format_errors_still_rejected": 13,
+  "unread_page_citations_still_rejected": 2,
+  "conditions": {
+    "A": {
+      "answers": 20,
+      "before": 2,
+      "after": 6
+    },
+    "B": {
+      "answers": 20,
+      "before": 2,
+      "after": 4
+    },
+    "C": {
+      "answers": 20,
+      "before": 2,
+      "after": 5
+    }
+  },
+  "original_records_changed": false,
+  "human_review": "pending",
+  "note": "Same saved answers, new checker. No new model performance or Skill result is implied.",
+  "results": [
+    {
+      "case_id": "CS-2026-2-002",
+      "condition": "A",
+      "run_id": "A-0001-001",
+      "answer_sha256": "sha256:eb0364d8e72e215544a04c3af45d8ae32f4716aa7f44f6758c15515bc205e15d",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 1,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:1c5d2fd042e92deebd5635dda949f3fb3d0410cf2ab2985750c50c7d58684684",
+        "claude-tools.json": "sha256:8d49e4989b3205a64e7923a769a26d3d8699d56817800f94d35aa717df0ad701",
+        "source-check.json": "sha256:3e26d9880734c1d6b8ace6cb8e9891d9c05020c884f2b3138a89d1c6c3a279e1"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-002",
+      "condition": "B",
+      "run_id": "B-0001-001",
+      "answer_sha256": "sha256:cdaa92c2acd6f690b2078739b75be91f23003926159bd8caf8dc112c751ea36e",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:538bdf761835d3f0ebdc316a3b614c250cf818d8b02043924c232433faf4cece",
+        "claude-tools.json": "sha256:ffcaf3194a7bfcfd412de52ca3963db53da4fefeb50294c36267ab724dca39b7",
+        "source-check.json": "sha256:9704b5a711ac49841bc86eed4a0ea79f3137203f1ef6f6f01062266bc01298cd"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-002",
+      "condition": "C",
+      "run_id": "C-0001-001",
+      "answer_sha256": "sha256:7ddb63405d403253a78709dbb18d3d29a1cad46ef47b09b6746a2f63a1f22421",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 1,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:007d292462d1d5367d744bff719c40793be462a01d979c67d5ddf3789818195e",
+        "claude-tools.json": "sha256:60946a115fead3a997399964aeca39d1a29066be79990d36631524891f632140",
+        "source-check.json": "sha256:2ee2b4d46e3c047fd2ad499bd7cabab89581838db71c06bf7ecd44459be6732b"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-003",
+      "condition": "A",
+      "run_id": "A-0002-001",
+      "answer_sha256": "sha256:45683d52eba5f1ccb2744f05d32fabfec0d539cde34eabc62b2ac1bac9eac5a6",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 2,
+      "after_passed_citations": 2,
+      "remaining_failures": [
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:8481bcefa11714877f63c1d3fdc1aef6bed77115bc5c6051f456764739082121",
+        "claude-tools.json": "sha256:5a2ac8e1fdec540a7efa33f57ceb3cf9047f4b286546f1f57d468bad84bd2e7c",
+        "source-check.json": "sha256:d60e0694c9ee893d476ca252872bde5a1e25105c97eb41cfbf42652dbb9d339b"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-003",
+      "condition": "B",
+      "run_id": "B-0002-001",
+      "answer_sha256": "sha256:9ca8cafd32315cdee8a51cb5b36d04f7bc8e73b8db06cea97dbc60bd53ad2cac",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 2,
+      "after_passed_citations": 2,
+      "remaining_failures": [
+        "citation_2:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:c7305156e7950f8a59ec74e120b8ee5534bea062319a6427249c28e620b363f2",
+        "claude-tools.json": "sha256:405189359edbcc38967ad3cf12aed0921c66fbee6ea9da27564a9b1e1094283c",
+        "source-check.json": "sha256:b8d03a6f48b757f526768aad87fdd83f42af58cad09e4636a34ce51e3c373e28"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-003",
+      "condition": "C",
+      "run_id": "C-0002-001",
+      "answer_sha256": "sha256:85a686447b1310ca12839709f2678752a3942a5b3aa4e0a15b7fe6e1cc6e38d3",
+      "before": "pass",
+      "after": "pass",
+      "before_passed_citations": 2,
+      "after_passed_citations": 2,
+      "remaining_failures": [],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:c81b66c0d44214d43dbad225004da6ef6cd7b84d4ec64d171304aa36f0605c6a",
+        "claude-tools.json": "sha256:5a0e59633d497154ab7f0d70fe78180107c518af9cdccc387dd10b6aa4e38a7c",
+        "source-check.json": "sha256:2fc0d64396fc376da5045f3a57174c81cf6029ec6289e42f6a10198c781020bd"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-004",
+      "condition": "A",
+      "run_id": "A-0003-001",
+      "answer_sha256": "sha256:d507158aa39b46613e73d408abf45b6ea5fd9409c63661b8b900f1e6fad80e25",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 0,
+      "remaining_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:9b73062bcb4cdb0c26a428d2e4175af4c20914793a02706e16db3e13a0362ba1",
+        "claude-tools.json": "sha256:05bb9e1202170339c9776bb730e244d37d210f48457a752c1261b256ed65f78c",
+        "source-check.json": "sha256:a4c76c152aa99fbde9e612654959fcaf795bc5b97da8dd1572de829666a86774"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-004",
+      "condition": "B",
+      "run_id": "B-0003-001",
+      "answer_sha256": "sha256:4fe2db0a10383fadca0c0a1dab8141b9d2285b7b11b4878f7e19a0794c060ce0",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 2,
+      "remaining_failures": [
+        "citation_1:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "table_cells"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:94f402f20ed3ff1bb88353e88ac7d47d5a821a35fc6662a3b11c63d4567835e5",
+        "claude-tools.json": "sha256:6ff9c6d67369aa27ea12334bafadae7823b7fd7b654a6fde7774a0649d81a159",
+        "source-check.json": "sha256:5c1278efb215b23a78584e67b4336da39f273205a4fb238f5efab19fa0eeeff4"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-004",
+      "condition": "C",
+      "run_id": "C-0003-001",
+      "answer_sha256": "sha256:81ce6b31775610970eeb0c059d136853e9127ec740c83ec4d1c0dcc3354eee08",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_1:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "table_cells"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:c311bea34ff48c7c2e6ea7e0a8b38a57e4650af1ef794d6fa0c2e247c5d4c81d",
+        "claude-tools.json": "sha256:085634c099e19f617248c7831f205a02cace1fc7ac99d3392cfbac6f32cca5d3",
+        "source-check.json": "sha256:59eea0cab5d455c6e3bd63d635f2d025e81cf252a9e7139639eeaffa7c5a8366"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-005",
+      "condition": "A",
+      "run_id": "A-0004-001",
+      "answer_sha256": "sha256:6df7a3716e9fbb3e7e6fbc8086cae682e650f2ef90c3637b1ca95f1cc4fa6da1",
+      "before": "fail",
+      "after": "pass",
+      "before_passed_citations": 2,
+      "after_passed_citations": 4,
+      "remaining_failures": [],
+      "changed": [
+        {
+          "index": 1,
+          "passed": true,
+          "match_basis": "table_cells"
+        },
+        {
+          "index": 2,
+          "passed": true,
+          "match_basis": "table_cells"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:7de2e7652693dfee52b2d2d5f6d16f77602713e2dff0470b8c2cee619f84f3df",
+        "claude-tools.json": "sha256:2218d93bf19abb824cb65dd4b5094ea356ac5e4125faec0ab4b41fb2a27fa834",
+        "source-check.json": "sha256:35cd382cf6438bc2c27dadf89f7f4f85f13ae5ec43e0971e4a350123519c657a"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-005",
+      "condition": "B",
+      "run_id": "B-0004-001",
+      "answer_sha256": "sha256:91e85a9f9c018cad8d5c9f4cfc542da729a2323c39acd993efe73d72443d1766",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded",
+        "citation_3:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:232d6e53582a837c703690d51066ca7a945fa38355e4c2cf0100e2ee8465fad3",
+        "claude-tools.json": "sha256:a8e752ea4935faf24fc5181f66b60438c86bf9c15f5ac53639e5c80145cec5fa",
+        "source-check.json": "sha256:e1ae4e7baffce24579ab1123ea049594b8a2f3dedfcaf06062a6d36d4fa82979"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-005",
+      "condition": "C",
+      "run_id": "C-0004-001",
+      "answer_sha256": "sha256:f5832f2996e295aa3392d1ab38a3e31108050f9fdb3b65ae9106203a6f304cba",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:9d460ded771c0fc28a1e642ea6bad052ecd96126f5b6552c5e6033ae8d94f0b2",
+        "claude-tools.json": "sha256:b90bd76e2bebadb2c80ed91d389bc124e455c3b7b7d53e078247b1802691121a",
+        "source-check.json": "sha256:464dd50ab8024c570c7d5a2ed1ca3b29d68349f90261e99f9cfa70c3024a12a3"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-006",
+      "condition": "A",
+      "run_id": "A-0005-001",
+      "answer_sha256": "sha256:3672a5a21b672a612103273860f7cdc7cb0b2879d0b434e922b8728bde5bab04",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 0,
+      "remaining_failures": [
+        "citation_0:format",
+        "citation_0:source",
+        "citation_0:edition",
+        "citation_0:page_exists",
+        "citation_0:page_read",
+        "citation_0:quote_nonempty",
+        "citation_0:quote_grounded",
+        "citation_1:format",
+        "citation_1:source",
+        "citation_1:edition",
+        "citation_1:page_exists",
+        "citation_1:page_read",
+        "citation_1:quote_nonempty",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:1461efddfcf3fe8717b7c801500ca452f6d43d5d33867eca6233324ac2e75f40",
+        "claude-tools.json": "sha256:44cc381f6017e97c0c28cd1e592c11c1f9e734cb210b65b07d2166df869407bf",
+        "source-check.json": "sha256:468f6b44e3cfa520e74939e1371d98ef273b0fafa8e257c8de9b4d37ce97dc46"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-006",
+      "condition": "B",
+      "run_id": "B-0005-001",
+      "answer_sha256": "sha256:f07b6827a7285fc1f557a6fba599fecc2dc4ca9440b71c3a6ea40e7c3144d439",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 0,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:555ad11ca3ee6f9ebeef90980e27a8607ba3938db224fee1abc014e08ad23381",
+        "claude-tools.json": "sha256:4f6d7909b10ff219c9ab8b53972d9882aec2541ea22baa96775e9bc836a709c1",
+        "source-check.json": "sha256:45cda03c9a2352c363824fa2ab4d67033cdfe009fd383eb50cd036376e89b749"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-006",
+      "condition": "C",
+      "run_id": "C-0005-001",
+      "answer_sha256": "sha256:d843e682146afd746c8b83ba738fa16256275b5f991ef755f7261c32ec54be26",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 2,
+      "after_passed_citations": 2,
+      "remaining_failures": [
+        "citation_2:quote_grounded",
+        "citation_3:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:df80670685ea638117dc0142e7b08cca4c4962ee0eff5b355eb57b430fb164db",
+        "claude-tools.json": "sha256:4173ee19371b1b118fa91dcefc310eb039778efdbf6399d2c798d0f64b683cd2",
+        "source-check.json": "sha256:00f865c53c522766e0dfe702c24d1e8f45c30d574d1cadb3b3a0e5f4c5d7d9c9"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-007",
+      "condition": "A",
+      "run_id": "A-0006-001",
+      "answer_sha256": "sha256:072dd9d5c40dd2fecbc72a2de225fe9655ff1d5b2d529bc3e664e8d45a4b5910",
+      "before": "fail",
+      "after": "pass",
+      "before_passed_citations": 1,
+      "after_passed_citations": 3,
+      "remaining_failures": [],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "table_cells"
+        },
+        {
+          "index": 1,
+          "passed": true,
+          "match_basis": "table_cells"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:d376fa909e0ac638fcca6e640f6216a9fb7939f0709008481c1fcc089e97b7e5",
+        "claude-tools.json": "sha256:bd50d722e1b9ec26bca296064ecff2fce25572f429c9850ce87f960951970960",
+        "source-check.json": "sha256:b9387f8b45c62cc8d229050bf5f6aff8f2b7dd34ba6a2391699a0e4e6393bff6"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-007",
+      "condition": "B",
+      "run_id": "B-0006-001",
+      "answer_sha256": "sha256:68e861a7bb9aa376c502f81dd36b0e6b6bde80c6ebe7b67ada99884da20561be",
+      "before": "fail",
+      "after": "pass",
+      "before_passed_citations": 1,
+      "after_passed_citations": 3,
+      "remaining_failures": [],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "table_cells"
+        },
+        {
+          "index": 1,
+          "passed": true,
+          "match_basis": "table_cells"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:c938487ffb3dddb8b73ea2f2838b6b7d82c9b28421087072483d28770b9b48bc",
+        "claude-tools.json": "sha256:8192d641236e96b105e58958761452f886eb98726f618b2b0e679b2ba820f9ec",
+        "source-check.json": "sha256:1139e58680b05ee171bc593a9f6bdf110d551ac167462cebfe9e249d023a08f8"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-007",
+      "condition": "C",
+      "run_id": "C-0006-001",
+      "answer_sha256": "sha256:caccb61bb50a2264fda4b2f13f867522d6cf836cec858528394812ee364453a1",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:16fe97102970364b54e28669add63a643ea64e663df35ad92051f54967af5834",
+        "claude-tools.json": "sha256:5fbbf1c5ad2e8222d599ff84f43ac26d722b0f02c513ef4074d7069667a4776a",
+        "source-check.json": "sha256:b6ebaf84c31f518e003c76291f41d551d2a5b410d2b26e3ec10d48a1f2ff64f2"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-008",
+      "condition": "A",
+      "run_id": "A-0007-001",
+      "answer_sha256": "sha256:0cd021fe9b00029bc7b15104131fdbcb001b150868db7b1443f2fd8bc9796ee4",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:f99562967a75f8a7331e7dc4150dfffc6f9761b70db40ba89bc25630aa0c6477",
+        "claude-tools.json": "sha256:103095cf58807633e09a99e4afd4e449012cca71c9ee5959f32bb9d3e537bfc6",
+        "source-check.json": "sha256:21e73807720f27ec550f29a2cac795ebe943ce6fc4e6f7f4ec6651f4bf5130ec"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-008",
+      "condition": "B",
+      "run_id": "B-0007-001",
+      "answer_sha256": "sha256:ce421ecc693aa1baf0a0c461f928135c697d87ee7149842deab3f0ab71b68784",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:447601ead73a2c688a2692482a216cc01f2e989086a5993c9cfae52f8ff07797",
+        "claude-tools.json": "sha256:3b4221f87a4cbbfd533315302f5eaddb1283a64ebb8a657a8b283610e01dac64",
+        "source-check.json": "sha256:2d126649af821d434b5e03cd118df7f636257dc7dbb315ea72f7ba2c209d36da"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-008",
+      "condition": "C",
+      "run_id": "C-0007-001",
+      "answer_sha256": "sha256:161a4b03db58500c1439817b1f179215af35539082c4009ce799985dce370acc",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 0,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:f133ef2f692f91049d974ac498182818353064b111881a05d920251c4a112a7e",
+        "claude-tools.json": "sha256:522d0b55bed945fb5e80c6c1f77d8c62c7e244c451490347daa2d6cc5c8d49fe",
+        "source-check.json": "sha256:7cd3686decc0e8d4fc8a403815441d4c5fcb426eacdcc1a1acc7904d2b133d28"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-009",
+      "condition": "A",
+      "run_id": "A-0008-001",
+      "answer_sha256": "sha256:e06f24bab5c2ba81973c52d49c408860a804ce90d5625871e9cdafdb228d0093",
+      "before": "fail",
+      "after": "pass",
+      "before_passed_citations": 1,
+      "after_passed_citations": 3,
+      "remaining_failures": [],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "table_cells"
+        },
+        {
+          "index": 1,
+          "passed": true,
+          "match_basis": "table_cells"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:fe6e1fe20060876a1d95fcdf48517758f5a3ac489096fdb4fa7f1ecab62d3343",
+        "claude-tools.json": "sha256:5376cf3e29a3f8acf8cd523462c3d1aab636d9dacf114875a93eac6decf353c8",
+        "source-check.json": "sha256:4a835d88acc654b13e38512ea5f0844d2092c540a2b59bf02fe3cb286f4baed2"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-009",
+      "condition": "B",
+      "run_id": "B-0008-001",
+      "answer_sha256": "sha256:55da02a8c485e4b843679b4142d1d45fce83f2d37a84613956f8bda0717da580",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:d88e2506503a8369f1998f1bada21de5442a5a705311cc814c2d5c050decb36f",
+        "claude-tools.json": "sha256:aed5d67df15fc545557f309ce39273c9815ed0a5099a4d72b8d36bfa1e0c9207",
+        "source-check.json": "sha256:4b8dce1b2390f360c353a11901f82db9acb3f954482be60438ee9e94875a1b74"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-009",
+      "condition": "C",
+      "run_id": "C-0008-001",
+      "answer_sha256": "sha256:bc64e7b88a51b874bb3b226a550759d5923475343b955c86f13ccb7eb77a8895",
+      "before": "fail",
+      "after": "pass",
+      "before_passed_citations": 0,
+      "after_passed_citations": 2,
+      "remaining_failures": [],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "table_cells"
+        },
+        {
+          "index": 1,
+          "passed": true,
+          "match_basis": "table_cells"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:6ffd74c5aace6473b872b8a7add8c3285ac903538a0e3c8bd58bfccbd1b4f336",
+        "claude-tools.json": "sha256:a5ca9d8d30738963bcdf66b6e5fddcd1b33616a6ae06b389b1b2ed83c860096e",
+        "source-check.json": "sha256:84ce68c334a7ad0ffd8372f439e423d7d97815a8412851410e5210e21f2e885e"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-010",
+      "condition": "A",
+      "run_id": "A-0009-001",
+      "answer_sha256": "sha256:97f7632721fbca34d84594c63cb48f4adedbd48b7bb968025e21451404d9f3df",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:02cf949b2a69c6af1847656118902f7fde98d6968504d02e29d2cd02b1562557",
+        "claude-tools.json": "sha256:e9f869a287624d00bfca9e911e3851c587814baeb2aecee56081f370e8349e0a",
+        "source-check.json": "sha256:b5a607c751c144d949eb0fc03e3eab83378707d44b9138ad8b7e445afe9c3ab8"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-010",
+      "condition": "B",
+      "run_id": "B-0009-001",
+      "answer_sha256": "sha256:ed62f12280ab03ecfcea3f4a5aab388d344eae4cb4c42f9d05e005aaa71fea8b",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 2,
+      "remaining_failures": [
+        "citation_1:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "table_cells"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:5c9f78ed1c1cdd99227db9127b0abbcd9930ce4eab392ef414ce3ef3790c0065",
+        "claude-tools.json": "sha256:902b1245b2a2fa0b668d51aa53e7b7dda14ff7bbe176c3a2c4ca62d6282c58ef",
+        "source-check.json": "sha256:6c552400ea01b6303f649198a470bd747c94f4f82329ee68278a062f92e5fba6"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-010",
+      "condition": "C",
+      "run_id": "C-0009-001",
+      "answer_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded",
+        "citation_3:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:7197111db5d33c268dacb22b9ee03cd7698cca4650251d7a583ac54220e32fc1",
+        "claude-tools.json": "sha256:33b99f3188e68e839b82daad31316c1b9f1131a768df6536737c673274bea9ed",
+        "source-check.json": "sha256:44869708394c257fb7d7a201fcb2284338458dbb21b606239e396c32641812ce"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-011",
+      "condition": "A",
+      "run_id": "A-0010-001",
+      "answer_sha256": "sha256:3c4ece7748abff8be0e1a1b26e3ac41c5afd3b2a9424609d257cec2ca4422bd7",
+      "before": "pass",
+      "after": "pass",
+      "before_passed_citations": 4,
+      "after_passed_citations": 4,
+      "remaining_failures": [],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:3c2069c7822c694d79a29a9a75c86efd2e4561fb15cc97b78d4929295fc5ec65",
+        "claude-tools.json": "sha256:ba8ba6bedb07b96f8f8502b6d40276141a72d9e04a22ac64c0dd43fc4fa000fa",
+        "source-check.json": "sha256:94d5f0a4e9778fdaf73cdba388a310f514dbcaef817b3e0bf58513d95886ce06"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-011",
+      "condition": "B",
+      "run_id": "B-0010-001",
+      "answer_sha256": "sha256:5caf843b53c7d678c2721e43f921949117a11a865eb33749fb484bf71476da4f",
+      "before": "fail",
+      "after": "pass",
+      "before_passed_citations": 1,
+      "after_passed_citations": 3,
+      "remaining_failures": [],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "normalized_text"
+        },
+        {
+          "index": 1,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:065acaa38563795c985589772f6cc28127e951fc46a98edd1086ef9925bf2ad8",
+        "claude-tools.json": "sha256:f11c6fc4a2e98d486b0e36f64e42379b33c03a2dc418836bc44db3649ed09813",
+        "source-check.json": "sha256:c9e8091d85f176741ed1cfd3f72c656cf6e23eacb3e40758900afd7b27c66c45"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-011",
+      "condition": "C",
+      "run_id": "C-0010-001",
+      "answer_sha256": "sha256:944d59e963d17c9afc58f9eddaa45d86cc7bef48121a8dbad9264e02a5fb95f8",
+      "before": "fail",
+      "after": "pass",
+      "before_passed_citations": 1,
+      "after_passed_citations": 2,
+      "remaining_failures": [],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:9df246624281a8d566e3eb5d93210bcda054ce050d2510ba70ac4c2301653959",
+        "claude-tools.json": "sha256:3928a238694e31d3812307f8ee1ef694a50cf73b4938430e89a98aa4f37314fa",
+        "source-check.json": "sha256:e207b7b171b7000c55ddb6ad72962ee2d6abcb02e2fc3ecf940c5cc7c7a9477c"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-012",
+      "condition": "A",
+      "run_id": "A-0011-001",
+      "answer_sha256": "sha256:dc66adb88e9a6f5983694e7eefc1b18a2e541100dfa416644e7e5790ae95aa1b",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 2,
+      "after_passed_citations": 2,
+      "remaining_failures": [
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:043a327ef46efeb791fb1b45c7c30ea49391f2a2d95e97191ad761a4884f9a5b",
+        "claude-tools.json": "sha256:98522de627be9bc542e260e86d264fb1604288d6265c97a59a04520fcaa036b0",
+        "source-check.json": "sha256:52338ea7d82367f2d2f486375d86fc1744d1f3eec57f4ae029ee0fbbb9f5ee85"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-012",
+      "condition": "B",
+      "run_id": "B-0011-001",
+      "answer_sha256": "sha256:cca9837a102fac32cbd3f9e0f3cc9b2781bc1ec76db74925a793c7270cc0ec9a",
+      "before": "pass",
+      "after": "pass",
+      "before_passed_citations": 2,
+      "after_passed_citations": 2,
+      "remaining_failures": [],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:6fc9a93ebdbb72f59a9f69079f619b9275ab86b1a6156c59f4bd374d1f334176",
+        "claude-tools.json": "sha256:fdcb077ff2c42c31389840d444018ea0079a88844443aa407762e645c4d3a3ee",
+        "source-check.json": "sha256:2e2d589fb1fd3f01f3fe70edab53e2a370e850625110fdc904c9d0fb8722bdba"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-012",
+      "condition": "C",
+      "run_id": "C-0011-001",
+      "answer_sha256": "sha256:ffa8436df171f63739fdf23a84051c4deb6d550e47d2c079742eb714b7c0b7a4",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 3,
+      "after_passed_citations": 3,
+      "remaining_failures": [
+        "citation_2:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:453e996c2e28d66d0d646b3c9d14ff04a9c745983acfe6b550f38f00d8f01221",
+        "claude-tools.json": "sha256:21f7970d928d99e5eb6bd6e21ea28c7daa244c5466d549131a191c4423a05d25",
+        "source-check.json": "sha256:a20d67f6133365fd0a0ca9ef1062c8cb79c14248a0a2fab0b5614ffc67f62d7d"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-013",
+      "condition": "A",
+      "run_id": "A-0012-001",
+      "answer_sha256": "sha256:abcc786ff751858b95913611ebaa1a4f319837ecfdd0653996e864b70ca8d4ac",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:e33d0f94e310e8ddccca062fbfca7693033b02ffb8a4fbb39d191d75636f7f8a",
+        "claude-tools.json": "sha256:30f8da380a74866c7380db8ee8db7f0832232e2d164e2e58e662583e75478e2f",
+        "source-check.json": "sha256:c181571a20a2efdcc89c5736eb1e205f64fd06d5e651d3e92cc3f70c7d8437f1"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-013",
+      "condition": "B",
+      "run_id": "B-0012-001",
+      "answer_sha256": "sha256:5e516012670c8c2b2253e30b3cd5bafe3534a81df372391064578685e3462310",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:b40d9ff5f9cceaff1d74a15a0b102f6943ebb8c42a42a7580a09deb1773f374c",
+        "claude-tools.json": "sha256:49ea7a895793394d3d2ad25d6e663d496f833f11c7c2687470e35863d85b94fc",
+        "source-check.json": "sha256:2daaaa607367eba632c4fec3ed3b6e09a85c1076b6e9230c3d18ee15983522d1"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-013",
+      "condition": "C",
+      "run_id": "C-0012-001",
+      "answer_sha256": "sha256:620c4d5dc991d81cc934d47afcdf38accc2318268771b95fec1e95b28138c1ef",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:a6f83b4c63454beaee9e8c580e77e2732d128d0e4d82b224916906e8072e51e7",
+        "claude-tools.json": "sha256:888ac03dd5fd379594c346fea0d8fff96478e3ac0fe21afd74de45aaa2193bd0",
+        "source-check.json": "sha256:7886e67cc256006055fd6aad2863f18147ff5dcada07efd7a05bdb9b64e59499"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-014",
+      "condition": "A",
+      "run_id": "A-0013-001",
+      "answer_sha256": "sha256:43c9d8d23a0ad315af265fbc1b0819f456ac1db12dfe25a8201c8e17840478f0",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 0,
+      "remaining_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:d3709244eddda7bf37eab988671a8d2b215dbb7628ac60cbebc1020c4f50530d",
+        "claude-tools.json": "sha256:acfb13589ce15ad3fcf16e3b1df2b165ee4626fc27341052bf952184a5ccbf9f",
+        "source-check.json": "sha256:c384fb35018ec58f0e7624358f2cd71eb3ee1e156faa4b35a843645077bb0b03"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-014",
+      "condition": "B",
+      "run_id": "B-0013-001",
+      "answer_sha256": "sha256:1c2a8d8efae34e03d135682437e079a124798b601d793c9e39741455a463d119",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 0,
+      "remaining_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:c145c18e5a6ed352f178a5a41961607aad4965882cc4e2eb5d28c98b81e2167f",
+        "claude-tools.json": "sha256:a77a03ff1d4168a79f788d43743c3297f317adc19cee9a6b654801d831090334",
+        "source-check.json": "sha256:70e7b929630e7faaf14e0ca68bdd8360c16755c7a52844b3a8861723b4cb684a"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-014",
+      "condition": "C",
+      "run_id": "C-0013-001",
+      "answer_sha256": "sha256:259c2daee1fdd7a7ff8f8fa1fab98af6053f24ce754a1046d88d9a11d87ba660",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:2f90a8dbace36ea2f78a29626b2fbf8db29c296705c62eb4e4c22b054ffad033",
+        "claude-tools.json": "sha256:3d66eeaf1d5157b3c5185e7800626c334125192a369db46b87de98450e247352",
+        "source-check.json": "sha256:3f685f55a7b6995b606b1da9c05868b415fc0aa8d2c66ab6d3a95f03bbb09253"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-015",
+      "condition": "A",
+      "run_id": "A-0014-001",
+      "answer_sha256": "sha256:c1925a8c1e5e03f47f0604e75234dd327217b54552a92eb38b4b9ea050a8b3bc",
+      "before": "pass",
+      "after": "pass",
+      "before_passed_citations": 3,
+      "after_passed_citations": 3,
+      "remaining_failures": [],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:499e5483152813801038c0cdf39cd0159b9616f4d3e9789d3a821d0016a8ac23",
+        "claude-tools.json": "sha256:d6579a6057203ecc3485599592d0128bbd4a5a4f613764f188c7bdb21a8bf622",
+        "source-check.json": "sha256:cd86b2b23f7ce8a8d2b87533218d89f5aaec9600882f7a63f3b93b162a071800"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-015",
+      "condition": "B",
+      "run_id": "B-0014-001",
+      "answer_sha256": "sha256:1c688487af55f0ce0e055eeb0101ea66f7068c4e79b632a595784498d75c379d",
+      "before": "pass",
+      "after": "pass",
+      "before_passed_citations": 2,
+      "after_passed_citations": 2,
+      "remaining_failures": [],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:16c5c7cf5f14aaae5ee068eae245a5c9da5abb6ea29d0e0dbbfd5d2d4444ef27",
+        "claude-tools.json": "sha256:74729bdead2b299eb984c8adbd0ac54cce14c595585c86aaae53da1b35e839f6",
+        "source-check.json": "sha256:949c61a4ac1bb574d58860d9c142a51498a7ac5d3d183b2318ade3e94ef6c301"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-015",
+      "condition": "C",
+      "run_id": "C-0014-001",
+      "answer_sha256": "sha256:3adf8a8d1282ac5dddb43c87a1781bad18446d9003eaeb09527bda1280d1ab24",
+      "before": "pass",
+      "after": "pass",
+      "before_passed_citations": 2,
+      "after_passed_citations": 2,
+      "remaining_failures": [],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:00064f1fe51cf50bcdc62e44aba93c253d35e7c3ef4fde70804f43a03c9917a5",
+        "claude-tools.json": "sha256:6c83244b2933439c6c5efb4881af7513e52a1c9a207f33a186d00d0bea42b0da",
+        "source-check.json": "sha256:a43a9e2b1cee65214fc8142e117f0a5ddda25b7eb9a12cb3074e1ec4548f3146"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-016",
+      "condition": "A",
+      "run_id": "A-0015-001",
+      "answer_sha256": "sha256:4d9f6043f5ec231f2ab475066e7803f34777787d469bc3378722c77fc5f5d75d",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 0,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:page_read",
+        "citation_1:quote_grounded",
+        "citation_2:page_read"
+      ],
+      "changed": [
+        {
+          "index": 2,
+          "passed": false,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:dfc1f8d58becc7dce5077b4613ea2a3c7cd99b4404c3b50745ab0ccde30b2e1f",
+        "claude-tools.json": "sha256:9cb4a237b46ae090908b04c18abf54e7a55309fa2e57d43e76b34756b86f17ec",
+        "source-check.json": "sha256:7b29bbc7948813a8876bb637f4188824e3eca1c1af903ad2eb1316ad9e5988d4"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-016",
+      "condition": "B",
+      "run_id": "B-0015-001",
+      "answer_sha256": "sha256:7e32053229bc8243a3e58b73a2ad39f0f2af4a9f7b75a1cd867e65fa006b40a7",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded",
+        "citation_3:quote_grounded",
+        "citation_4:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:45b2e5a4b49756d3d47f773976346e07f516d38537e2cf60a8908ece31d0acfb",
+        "claude-tools.json": "sha256:09efad5fc48410c65b9929730d351c6080ceaf9f0c80e906ebc21e0ddf837187",
+        "source-check.json": "sha256:e526b6eee8b8377a1120bb4c307713e8da1800a4b0460c17a84a3d4c62184d88"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-016",
+      "condition": "C",
+      "run_id": "C-0015-001",
+      "answer_sha256": "sha256:aa1d054c7e27ee41f304ac169ac7f1a193f7cf0f45f400bd994d81ba249340c2",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:00a3e2a81219bd762f38754f3f6c967e99de69db4c616f1eaf16ef47f259f3cb",
+        "claude-tools.json": "sha256:997e972e8f2893996f012577c67d7193f409f29b912cf885e7b4c013595b6339",
+        "source-check.json": "sha256:5759a07e817c63f29e2dbb2119cc87ed1c7535a4c1bae4b3597e653f7023bec5"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-017",
+      "condition": "A",
+      "run_id": "A-0016-001",
+      "answer_sha256": "sha256:d5c192e083004a0e7b1678ea28f6781038d5a2c6d615d851596b980f372568c6",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 1,
+      "remaining_failures": [
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:4742177af46253873248a9ef8f6a20419cf7f7987ce668d6d133bdc026d69ab7",
+        "claude-tools.json": "sha256:6bedfab35f9d86ff031ef7cc331f7fe1dff8a91f608301bb600cb8ac35d89ff1",
+        "source-check.json": "sha256:e1ddc767a0263862f21f17ffc36d76769c36f3432058d900f301c2f12894ac7a"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-017",
+      "condition": "B",
+      "run_id": "B-0016-001",
+      "answer_sha256": "sha256:076a39d00793a6912b5f0f39a680d1edfd4d381feb06e3480fb7b116bccf7ed2",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 2,
+      "remaining_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 1,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:75ad6d5d9735c63ac72b9368a2a2551298f5db03c3829390e634038b9d8dc5fd",
+        "claude-tools.json": "sha256:f4590c07cdc3b41c0f962ab06ff1b8570ded3e00981808cc84a3cc1e8ddf7482",
+        "source-check.json": "sha256:c29a04c1321711621d77efc3f3ca16c4708e184bf50e003cd264b25d5fe24c4a"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-017",
+      "condition": "C",
+      "run_id": "C-0016-001",
+      "answer_sha256": "sha256:86a1bd6d3fb5371ef0ad255b2a81979dd137bf2478f70f3a4cfd54e482927053",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 2,
+      "remaining_failures": [
+        "citation_2:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:97edab1652f4d10389087d42fcfdd5589474bd02b8fc686be504d93e72e335a1",
+        "claude-tools.json": "sha256:3fc7671116379daedd0b3c9934208e1d7231dc1e2a31e5667901115670c95531",
+        "source-check.json": "sha256:7d63a820aa62646022be9c51763978bc8dc28d7e38b24e9a973bb07e8d52198a"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-018",
+      "condition": "A",
+      "run_id": "A-0017-001",
+      "answer_sha256": "sha256:7416a5ffd2146bd5f36c27c749ca838ac24d526030f9ee7a5a1df5b84b0bf060",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 2,
+      "after_passed_citations": 3,
+      "remaining_failures": [
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded",
+        "citation_3:quote_grounded",
+        "citation_4:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 5,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:8df82dd72e4ae4e7c6e7e868514dce07a936c4c680be93bbd76bdd9f72dd57ec",
+        "claude-tools.json": "sha256:ae5f2c99d948d0b9dcf8f8170191f6b6f4c0c762a1d4a8cb5e73e0e57654d724",
+        "source-check.json": "sha256:34f4a44fa440935472fcf99355c3561f954ecc16098d7dcbac8f2009c02400f6"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-018",
+      "condition": "B",
+      "run_id": "B-0017-001",
+      "answer_sha256": "sha256:119f15f751e16f3108f7ef087850d22003e093578a498b0c301d49292717a82f",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 2,
+      "remaining_failures": [
+        "citation_1:quote_grounded",
+        "citation_3:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 2,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:76d11f634ed38f592001ab34a3d7d206b7143b7af570c40c2003e9c0fcb3525d",
+        "claude-tools.json": "sha256:f18dd707af4de36349871fee85d5fcd2570dc3d60bfa339f1580111cee733689",
+        "source-check.json": "sha256:b7c6aa1aaf714592fb440eae7d3f5b51933763eb181a15d7b8d9c438b6cd6c34"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-018",
+      "condition": "C",
+      "run_id": "C-0017-001",
+      "answer_sha256": "sha256:d65731cc23cf2e2805f8b3383cd123a7940edb322755a85874bc6555b7fe1127",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 2,
+      "after_passed_citations": 3,
+      "remaining_failures": [
+        "citation_1:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 2,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:c194d699e76939aace848341668e056a44e7f90ceecf58db0bb828ce23a2ccdf",
+        "claude-tools.json": "sha256:df9a34e714846ff7fc94f1b8e6a51c37917376626259d77915f795238658e457",
+        "source-check.json": "sha256:28a678547e668fea620699037e61e545297478ab0a5b5a9eaa2fa755d8a7ad6d"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-019",
+      "condition": "A",
+      "run_id": "A-0018-001",
+      "answer_sha256": "sha256:f7977934a2f7d60195c2349b6cbf3f37971e254a1f28b377db570a5971faa1be",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 5,
+      "after_passed_citations": 5,
+      "remaining_failures": [
+        "citation_5:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:29f9ad0af4bf8adb0d392fb7cd98312ed38f79bae2d551faa207ee4375553038",
+        "claude-tools.json": "sha256:722b04dfce77cd9812e47b2456349da4cf46e8af2fb838f2cecdbbb1ea1908da",
+        "source-check.json": "sha256:1312d2ba90405a3e2dcaacd5b9d5e5fc7ac26d0ea0754b8fd409573794ed27d1"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-019",
+      "condition": "B",
+      "run_id": "B-0018-001",
+      "answer_sha256": "sha256:38529d9cbca6a33ee6ec83e79a02ed0aad9965ff2cd736be4c4b1840d7a69ac1",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 2,
+      "after_passed_citations": 2,
+      "remaining_failures": [
+        "citation_1:quote_grounded",
+        "citation_3:quote_grounded",
+        "citation_4:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:1ca8aa33cf4ccb3d2b39fd1d790b08ab9bfe7d8491f7ff1f6411b291d4d736d1",
+        "claude-tools.json": "sha256:c1576c2ccee2ab5866f4962a95e933a2362eefd870c65dc31742eee8d5a0bc62",
+        "source-check.json": "sha256:34e3ecc80515c19ed3bbd8f49de41bdb4fdee7425d3a07d630f78e4d912ae5bc"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-019",
+      "condition": "C",
+      "run_id": "C-0018-001",
+      "answer_sha256": "sha256:b10b7d2fa261c5c942e865de2474528c85e1c1d083d28d6809fd695ea1b84df1",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 3,
+      "after_passed_citations": 3,
+      "remaining_failures": [
+        "citation_1:quote_grounded",
+        "citation_4:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:11ab9efc7b173140b08cefc0ade6ae0a44cb3dc50c949f276d60d80ec8afe236",
+        "claude-tools.json": "sha256:43c21bc679c101e51a673db1afd6a84cdf975b9a0739651cf0f7945c99105df7",
+        "source-check.json": "sha256:fe86dac2e550eb549d3299f804d0a0752537dcd398debb6539c710c307e35eaf"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-020",
+      "condition": "A",
+      "run_id": "A-0019-001",
+      "answer_sha256": "sha256:0f7d51be79f842f3b590a1898fc7727b0b74866b715d4dd98a77a50187de9c7b",
+      "before": "fail",
+      "after": "pass",
+      "before_passed_citations": 2,
+      "after_passed_citations": 3,
+      "remaining_failures": [],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "table_cells"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:306bd55f2a0499438684762c51af2544eb9cb57afa071cfbe217ce26999c4034",
+        "claude-tools.json": "sha256:bc0569ccfd970df7b976eccb7f649148c5f0640e30eab269e3d1b1ef0dba256e",
+        "source-check.json": "sha256:721c6b7920508f6ca13012c2b3f162ca3fb16d41ee9b2a9d10fa7666f344d038"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-020",
+      "condition": "B",
+      "run_id": "B-0019-001",
+      "answer_sha256": "sha256:3bd2a78c8e61a0fd1ebce2b0ac7e52ee0b8052485cd129a6bb6417a18d05280e",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 1,
+      "after_passed_citations": 3,
+      "remaining_failures": [
+        "citation_2:quote_grounded"
+      ],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "table_cells"
+        },
+        {
+          "index": 3,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:2ee06c4db0b68d8c51f105283f37c220cd1798b3196f71c2be81627733699252",
+        "claude-tools.json": "sha256:46655a1bcdcb7128fd97cc8c08a4556f1c7aeb4902e4ebff01564b50b5c24be0",
+        "source-check.json": "sha256:51b56fd8d22225eb7d775072f4d391e1e50b13e10881761eb267db1b382581d9"
+      }
+    },
+    {
+      "case_id": "CS-2026-2-020",
+      "condition": "C",
+      "run_id": "C-0019-001",
+      "answer_sha256": "sha256:9003730bf5bfb18cf878fe7dd7f81eba08418749b381471eca2b12d251a9fd42",
+      "before": "fail",
+      "after": "pass",
+      "before_passed_citations": 0,
+      "after_passed_citations": 2,
+      "remaining_failures": [],
+      "changed": [
+        {
+          "index": 0,
+          "passed": true,
+          "match_basis": "table_cells"
+        },
+        {
+          "index": 1,
+          "passed": true,
+          "match_basis": "normalized_text"
+        }
+      ],
+      "input_files": {
+        "request.json": "sha256:b38b6478e93708ec2209608e42c2cc901d5cea16caa682b9efe8df6acb449f4f",
+        "claude-tools.json": "sha256:570f3ac0a2830f4cad153e8d0883d62e234083bc1a671bba79a388d2a72bed13",
+        "source-check.json": "sha256:d131a94f49cb3e231f8c7131ec9f42e345b821e5f1465637f600ccd5500bcc5b"
+      }
+    },
+    {
+      "case_id": "OPS-2026-2-001",
+      "condition": "A",
+      "run_id": "A-0020-001",
+      "answer_sha256": "sha256:fae532460b563321245f528b4e9483f7fe20de970f1028ea1261523d94ec1993",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 0,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:041f3d15e2be102f46a9d7cc752ea722e02072cc044f9034c2cd73a609870389",
+        "claude-tools.json": "sha256:8950db3dfb9603ecd61c8e76b682a9e135f335172a7074fe85af8812d56941e9",
+        "source-check.json": "sha256:e2012635093ba5a7a34af54b79913f1eed7c75ee97358ba6c6cb90cdb2f44fcb"
+      }
+    },
+    {
+      "case_id": "OPS-2026-2-001",
+      "condition": "B",
+      "run_id": "B-0020-001",
+      "answer_sha256": "sha256:3b45eba37377fe0ce8432d5d3c62f0f4168af1cf871188366bedfd26c9005e2f",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 0,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:24ef6ff1ac20332fdf4266a02b7cbd253b65ae39f0d26c20505276bb626a2137",
+        "claude-tools.json": "sha256:02049049ae855328e33b8ae26175ab2ad3b638f44ac7a8c3bcdbe9dd0915f612",
+        "source-check.json": "sha256:1bf8c6793c9ec390b2e60c024b7122cfbef4556b0c60bcc9fcc2312c7fe57ee7"
+      }
+    },
+    {
+      "case_id": "OPS-2026-2-001",
+      "condition": "C",
+      "run_id": "C-0020-001",
+      "answer_sha256": "sha256:c01221c84bda0ca9f3c453fc9795c92ca63e2db5b4beae3623317fe243a8b32d",
+      "before": "fail",
+      "after": "fail",
+      "before_passed_citations": 0,
+      "after_passed_citations": 0,
+      "remaining_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "changed": [],
+      "input_files": {
+        "request.json": "sha256:d884d2c3b665fbed98d4c35fd56fdb73fb826e9f2b9c3872835d5a6134456466",
+        "claude-tools.json": "sha256:f1b9f0be13356924c001294e4485b186f4c9b1d59ca767fc66a5d068b30d1c01",
+        "source-check.json": "sha256:2161eb61feb5c4f9f93622f306c2f33e52e67479642047089708aeec5e7122aa"
+      }
+    }
+  ]
+}

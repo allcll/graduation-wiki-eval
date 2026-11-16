@@ -165,7 +165,7 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
   }
   catch { throw new ClaudeAdapterError('Source contract validation failed; check listed paths, edition, source hashes, table index and page count'); }
   const command = buildCommand(options);
-  if (sourceContract) command[command.length - 1] += '\n' + sourceCitationInstructions(sourceContract.contract, sourceContract.tables !== undefined);
+  if (sourceContract) command[command.length - 1] += '\n' + sourceCitationInstructions(sourceContract.contract, sourceContract.tables?.index.tables);
   if (options.auth === 'api-key' && !env['ANTHROPIC_API_KEY']?.trim()) {
     throw new ClaudeAdapterError('ANTHROPIC_API_KEY is required; bare mode does not use subscription login');
   }
