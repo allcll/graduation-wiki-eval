@@ -1,0 +1,4635 @@
+{
+  "schema": "graduation-wiki-eval/offline-report-observations-v1",
+  "mode": "offline_recheck",
+  "model_calls": 0,
+  "scope": "selected_saved_responses",
+  "checker_version": "citation-verdict-4",
+  "manifest_sha256": "sha256:bee9991748f74ae63a9ab307c475363a45f99581e6bb98b71e7ea82ace4c1e26",
+  "dataset_sha256": "sha256:d21e74e3c1f90f724828a687f6685780517b50fb892bd81c2740621c5373f5e8",
+  "analysis_notes_sha256": "sha256:9fff01e48aee44a8f0e2d2372074a0cdb41781935f8d3b7a5866b691f3cb97f1",
+  "original_records_changed": false,
+  "human_review": "pending",
+  "quality_gate": "NOT_EVALUATED",
+  "summary": {
+    "responses": 60,
+    "completed": 60,
+    "original_run_errors": 55,
+    "objective_values_pass": 54,
+    "source_pass": 15,
+    "source_fail": 2,
+    "source_inconclusive": 43,
+    "automatic_fail": 11,
+    "automatic_inconclusive": 44,
+    "skill_read_fail": 9,
+    "citations_pass": 99,
+    "citations_fail": 4,
+    "citations_inconclusive": 73,
+    "human_review_pending": 60
+  },
+  "conditions": {
+    "A": {
+      "responses": 20,
+      "completed": 20,
+      "original_run_errors": 18,
+      "objective_values_pass": 18,
+      "source_pass": 6,
+      "source_fail": 2,
+      "source_inconclusive": 12,
+      "automatic_fail": 2,
+      "automatic_inconclusive": 13,
+      "skill_read_fail": 0,
+      "citations_pass": 37,
+      "citations_fail": 4,
+      "citations_inconclusive": 19,
+      "human_review_pending": 20
+    },
+    "B": {
+      "responses": 20,
+      "completed": 20,
+      "original_run_errors": 18,
+      "objective_values_pass": 19,
+      "source_pass": 4,
+      "source_fail": 0,
+      "source_inconclusive": 16,
+      "automatic_fail": 0,
+      "automatic_inconclusive": 16,
+      "skill_read_fail": 0,
+      "citations_pass": 31,
+      "citations_fail": 0,
+      "citations_inconclusive": 29,
+      "human_review_pending": 20
+    },
+    "C": {
+      "responses": 20,
+      "completed": 20,
+      "original_run_errors": 19,
+      "objective_values_pass": 17,
+      "source_pass": 5,
+      "source_fail": 0,
+      "source_inconclusive": 15,
+      "automatic_fail": 9,
+      "automatic_inconclusive": 15,
+      "skill_read_fail": 9,
+      "citations_pass": 31,
+      "citations_fail": 0,
+      "citations_inconclusive": 25,
+      "human_review_pending": 20
+    }
+  },
+  "full_report_sha256": "sha256:98355453e32668d9b8f08781fecdaf3b229ff45f16b285ccb5e27d1a498dd2b8",
+  "preserved_files_verified": 270,
+  "inconclusive_citation_analysis": {
+    "table_relationship_unhandled": 51,
+    "table_quote_with_added_explanation": 11,
+    "changed_source_word_or_unit": 10,
+    "wrong_table_relation": 1
+  },
+  "rows": [
+    {
+      "run_id": "A-0001-001",
+      "case_id": "CS-2026-2-002",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:32932c7a6709f9275658545c462c3be77acda3d4b063bc53d7d6fbf426324a65",
+      "output_sha256": "sha256:eb0364d8e72e215544a04c3af45d8ae32f4716aa7f44f6758c15515bc205e15d",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:1c5d2fd042e92deebd5635dda949f3fb3d0410cf2ab2985750c50c7d58684684",
+        "claude-tools.json": "sha256:8d49e4989b3205a64e7923a769a26d3d8699d56817800f94d35aa717df0ad701",
+        "source-check.json": "sha256:3e26d9880734c1d6b8ace6cb8e9891d9c05020c884f2b3138a89d1c6c3a279e1",
+        "result.json": "sha256:42a05f2a32cfd8f06f9a14259f98a26cbfef2195bf4381339a76b3858479b389"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0001-001",
+          "output_sha256": "sha256:eb0364d8e72e215544a04c3af45d8ae32f4716aa7f44f6758c15515bc205e15d",
+          "citation_index": 0,
+          "citation_sha256": "sha256:80aea875ce943fe1228cec04ef36b027e4017304d4257c65eac49b8798578307",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 자연과과학 영역과 제외계열 병합셀은 대응한다. 현재 문법은 과목·학점 없는 영역→제외계열 조회를 지원하지 않는다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:99f1663dc6e183588e68224c2e3e7f6b06d1723a106c07fc259993cb623abaf8",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:66ef8c1021ee6ae1e56900ca4b1241aeee78051c3f40dc4772ba9ebd15b7a46a",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0001-001",
+      "case_id": "CS-2026-2-002",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:32932c7a6709f9275658545c462c3be77acda3d4b063bc53d7d6fbf426324a65",
+      "output_sha256": "sha256:cdaa92c2acd6f690b2078739b75be91f23003926159bd8caf8dc112c751ea36e",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:538bdf761835d3f0ebdc316a3b614c250cf818d8b02043924c232433faf4cece",
+        "claude-tools.json": "sha256:ffcaf3194a7bfcfd412de52ca3963db53da4fefeb50294c36267ab724dca39b7",
+        "source-check.json": "sha256:9704b5a711ac49841bc86eed4a0ea79f3137203f1ef6f6f01062266bc01298cd",
+        "result.json": "sha256:3f082715fca7aae952ff7ef2066450dca13fc511711e247ecf978cc09fd6aa92"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_2:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0001-001",
+          "output_sha256": "sha256:cdaa92c2acd6f690b2078739b75be91f23003926159bd8caf8dc112c751ea36e",
+          "citation_index": 1,
+          "citation_sha256": "sha256:2fe81ad6e236b7b0f6570022328d75b3e6b5a35bd1d583c62b5335e08f6df934",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 영역·제외계열 머리글과 자연과과학 행의 값은 대응한다. 머리글을 붙인 영역→제외계열 인용은 지원하지 않는다."
+        },
+        {
+          "run_id": "B-0001-001",
+          "output_sha256": "sha256:cdaa92c2acd6f690b2078739b75be91f23003926159bd8caf8dc112c751ea36e",
+          "citation_index": 2,
+          "citation_sha256": "sha256:691de6bca4b55c1817d5303497ee4fbf9de433ed24d3ab571caeec4cfd8b7dfb",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 문화와예술→예체능 제외계열 관계는 맞다. 머리글 및 과목·학점 없는 관계가 현재 문법 밖이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:59a48038ce595047ca5661fabfdcaf6e45b0a1d0a3544e7fa633b3b38b2bc6b3",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:553a2c60aaea181587483ee0f9d1570ad6df43e6c78fe6269627f09fdd4202a5",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:a055cefb5cef60a8eaf323111dccde3dacd181e3daa878e94c3d239fe27ca411",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_2:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "C-0001-001",
+      "case_id": "CS-2026-2-002",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:32932c7a6709f9275658545c462c3be77acda3d4b063bc53d7d6fbf426324a65",
+      "output_sha256": "sha256:7ddb63405d403253a78709dbb18d3d29a1cad46ef47b09b6746a2f63a1f22421",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:007d292462d1d5367d744bff719c40793be462a01d979c67d5ddf3789818195e",
+        "claude-tools.json": "sha256:60946a115fead3a997399964aeca39d1a29066be79990d36631524891f632140",
+        "source-check.json": "sha256:2ee2b4d46e3c047fd2ad499bd7cabab89581838db71c06bf7ecd44459be6732b",
+        "result.json": "sha256:46c4db92ce318e3c865167040063326ae443de098dc28a84990d6813efc0850b"
+      },
+      "objective_values": "fail",
+      "objective_details": [
+        {
+          "field": "facts.excluded_area",
+          "reason": "mismatch",
+          "expected": "문화와예술",
+          "actual": "자연과과학,문화와예술"
+        }
+      ],
+      "source_status": "inconclusive",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0001-001",
+          "output_sha256": "sha256:7ddb63405d403253a78709dbb18d3d29a1cad46ef47b09b6746a2f63a1f22421",
+          "citation_index": 0,
+          "citation_sha256": "sha256:810b7f61c65806e93753b685853ba2d3f743aa1de4c112f591a116c9f37eb0e2",
+          "category": "table_relationship_unhandled",
+          "reason": "p36 자연과과학의 제외계열 병합셀 4줄이다. PDF에서는 한 셀이지만 텍스트 추출 시 옆 과목 행과 섞인다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 36,
+          "quote_sha256": "sha256:ffe8e551f3a58cb10a8a33790af568867be28208a2b926ea1e8e47e0406ff267",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 36,
+          "quote_sha256": "sha256:d05fc0aefda272516c3ca7ed2e3456132e71b93a5bbf4f8e36ca22454892da06",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0002-001",
+      "case_id": "CS-2026-2-003",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:e6c51139ebfb6faf386a9762c82dc5c16e8669235438dbdac7b4444cb3724903",
+      "output_sha256": "sha256:45683d52eba5f1ccb2744f05d32fabfec0d539cde34eabc62b2ac1bac9eac5a6",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:8481bcefa11714877f63c1d3fdc1aef6bed77115bc5c6051f456764739082121",
+        "claude-tools.json": "sha256:5a2ac8e1fdec540a7efa33f57ceb3cf9047f4b286546f1f57d468bad84bd2e7c",
+        "source-check.json": "sha256:d60e0694c9ee893d476ca252872bde5a1e25105c97eb41cfbf42652dbb9d339b",
+        "result.json": "sha256:009b0c0bb26267450d391284cac6aba12598e32422e1531598d02b0967647f49"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0002-001",
+          "output_sha256": "sha256:45683d52eba5f1ccb2744f05d32fabfec0d539cde34eabc62b2ac1bac9eac5a6",
+          "citation_index": 1,
+          "citation_sha256": "sha256:5130784742e1ff59ddff96f74e60adf847d97aedc4aad13d890ae7dc3bba9a7b",
+          "category": "table_relationship_unhandled",
+          "reason": "p4 교양선택 개편표의 변경 전 교양선택(1영역) 비고 값이다. 옆 열과 머리글이 텍스트에 끼어든다. 이것을 현행 요건으로 적용해도 되는지는 별도 문제다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:cc4800daa3310725bb41ca733a951a95e4b0af02f1bfe06c88f3b148a09edd29",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:2cb03e826f7b9f85a175ced96045d3759848fc8abafded49d3c91bee03cb13a5",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:7c8daf7138105d67ac0cc3f17c4f562f0788a34a765d7bcb11409a153b13bb07",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0002-001",
+      "case_id": "CS-2026-2-003",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:e6c51139ebfb6faf386a9762c82dc5c16e8669235438dbdac7b4444cb3724903",
+      "output_sha256": "sha256:9ca8cafd32315cdee8a51cb5b36d04f7bc8e73b8db06cea97dbc60bd53ad2cac",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:c7305156e7950f8a59ec74e120b8ee5534bea062319a6427249c28e620b363f2",
+        "claude-tools.json": "sha256:405189359edbcc38967ad3cf12aed0921c66fbee6ea9da27564a9b1e1094283c",
+        "source-check.json": "sha256:b8d03a6f48b757f526768aad87fdd83f42af58cad09e4636a34ce51e3c373e28",
+        "result.json": "sha256:844747c0e6549462663e614078372ca908864911ae7b7cd79dfbc7178652254c"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_2:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0002-001",
+          "output_sha256": "sha256:9ca8cafd32315cdee8a51cb5b36d04f7bc8e73b8db06cea97dbc60bd53ad2cac",
+          "citation_index": 2,
+          "citation_sha256": "sha256:874cb4190b5f51152f7a4bb2e66c6a1a0e6f20372bb732e6cd6edd844179304a",
+          "category": "table_relationship_unhandled",
+          "reason": "p61 표의 머리글들을 나열했다. 머리글 자체는 존재하지만 특정 학과의 정책 주장까지 뒷받침하는 충분한 근거는 아니다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:5f8c7820a813bc963264ddbbcc2552bd6273e56c7ab49d12329ba6e746e0299c",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:cc4800daa3310725bb41ca733a951a95e4b0af02f1bfe06c88f3b148a09edd29",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 61,
+          "quote_sha256": "sha256:c72be1ad95d77cb7e1e64d6c14673ca07abd72e0a4ddf19b8ad4bb089c0f71dd",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_2:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "C-0002-001",
+      "case_id": "CS-2026-2-003",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:e6c51139ebfb6faf386a9762c82dc5c16e8669235438dbdac7b4444cb3724903",
+      "output_sha256": "sha256:85a686447b1310ca12839709f2678752a3942a5b3aa4e0a15b7fe6e1cc6e38d3",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:c81b66c0d44214d43dbad225004da6ef6cd7b84d4ec64d171304aa36f0605c6a",
+        "claude-tools.json": "sha256:5a0e59633d497154ab7f0d70fe78180107c518af9cdccc387dd10b6aa4e38a7c",
+        "source-check.json": "sha256:2fc0d64396fc376da5045f3a57174c81cf6029ec6289e42f6a10198c781020bd",
+        "result.json": "sha256:b06fdf7a8befdaef27e34ebc6d7331ed15dc90577d234d89db21285cfa984285"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "fail",
+      "unread_skill_files": [
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+      ],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "required_skill_reads",
+          "verdict": "fail",
+          "reason": "필수 문서 전체 읽기 누락: context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "next_action": "기존 읽기 누락을 그대로 유지하고 문서 전달 절차를 확인하세요."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:5f8c7820a813bc963264ddbbcc2552bd6273e56c7ab49d12329ba6e746e0299c",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:cc4800daa3310725bb41ca733a951a95e4b0af02f1bfe06c88f3b148a09edd29",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0003-001",
+      "case_id": "CS-2026-2-004",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:8f87742633f999dd6eed6467485525105b630837a74d1b00db4d5663afbfc8b2",
+      "output_sha256": "sha256:d507158aa39b46613e73d408abf45b6ea5fd9409c63661b8b900f1e6fad80e25",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:9b73062bcb4cdb0c26a428d2e4175af4c20914793a02706e16db3e13a0362ba1",
+        "claude-tools.json": "sha256:05bb9e1202170339c9776bb730e244d37d210f48457a752c1261b256ed65f78c",
+        "source-check.json": "sha256:a4c76c152aa99fbde9e612654959fcaf795bc5b97da8dd1572de829666a86774",
+        "result.json": "sha256:ee995989ea48621e64fcf02ddff064f5fd347ba7e7ecda49f69f7a3ca9ce11a8"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0003-001",
+          "output_sha256": "sha256:d507158aa39b46613e73d408abf45b6ea5fd9409c63661b8b900f1e6fad80e25",
+          "citation_index": 0,
+          "citation_sha256": "sha256:8a6d0510190edeb9c389a387117d056d663fa6ac162c6d55f67b660747d7c5cc",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 자연과과학→현대과학으로의초대→3→제외계열→2-4학년 관계는 맞다. 현재 색인은 이수시기 열 연결을 지원하지 않는다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:d1e3475bad4f048572ae447bdae30bc1a88fe4efa712cbac72b557ec124ff395",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "B-0003-001",
+      "case_id": "CS-2026-2-004",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:8f87742633f999dd6eed6467485525105b630837a74d1b00db4d5663afbfc8b2",
+      "output_sha256": "sha256:4fe2db0a10383fadca0c0a1dab8141b9d2285b7b11b4878f7e19a0794c060ce0",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:94f402f20ed3ff1bb88353e88ac7d47d5a821a35fc6662a3b11c63d4567835e5",
+        "claude-tools.json": "sha256:6ff9c6d67369aa27ea12334bafadae7823b7fd7b654a6fde7774a0649d81a159",
+        "source-check.json": "sha256:5c1278efb215b23a78584e67b4336da39f273205a4fb238f5efab19fa0eeeff4",
+        "result.json": "sha256:61524869fc0665cbc89adea9419cfbc07fdd50fb1ac771d4d072e9c342a3fbc4"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0003-001",
+          "output_sha256": "sha256:4fe2db0a10383fadca0c0a1dab8141b9d2285b7b11b4878f7e19a0794c060ce0",
+          "citation_index": 1,
+          "citation_sha256": "sha256:4ca3f1c2016e3353592ef074c55c1b2fc250f3eaab9e87c69d200498ce6c7652",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 자연과과학의 제외계열 병합셀과 대응한다. 과목·학점 없이 머리글과 제외계열을 연결한 인용이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:47df78010997f76cbcdf7b3c3486b7bbae7cf12f1e8a9951eaab42acb66233e8",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:4bb08eae44a52be17da235b98ed1937ac9f1735587530adb5e2228334e07e5dd",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:cb9a591c483b2d1f389c03e9fae3a9679dc9a398dc8989042ec0e07bf76be285",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0003-001",
+      "case_id": "CS-2026-2-004",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:8f87742633f999dd6eed6467485525105b630837a74d1b00db4d5663afbfc8b2",
+      "output_sha256": "sha256:81ce6b31775610970eeb0c059d136853e9127ec740c83ec4d1c0dcc3354eee08",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:c311bea34ff48c7c2e6ea7e0a8b38a57e4650af1ef794d6fa0c2e247c5d4c81d",
+        "claude-tools.json": "sha256:085634c099e19f617248c7831f205a02cace1fc7ac99d3392cfbac6f32cca5d3",
+        "source-check.json": "sha256:59eea0cab5d455c6e3bd63d635f2d025e81cf252a9e7139639eeaffa7c5a8366",
+        "result.json": "sha256:da33788e5947c2767c5c05725cb4a91542a6c2b282475930712f20ab4b49a78b"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "fail",
+      "unread_skill_files": [
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+      ],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "required_skill_reads",
+          "verdict": "fail",
+          "reason": "필수 문서 전체 읽기 누락: context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "next_action": "기존 읽기 누락을 그대로 유지하고 문서 전달 절차를 확인하세요."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0003-001",
+          "output_sha256": "sha256:81ce6b31775610970eeb0c059d136853e9127ec740c83ec4d1c0dcc3354eee08",
+          "citation_index": 1,
+          "citation_sha256": "sha256:4ca3f1c2016e3353592ef074c55c1b2fc250f3eaab9e87c69d200498ce6c7652",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 자연과과학의 제외계열 병합셀과 대응한다. 과목·학점 없이 머리글과 제외계열을 연결한 인용이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:47df78010997f76cbcdf7b3c3486b7bbae7cf12f1e8a9951eaab42acb66233e8",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:4bb08eae44a52be17da235b98ed1937ac9f1735587530adb5e2228334e07e5dd",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "A-0004-001",
+      "case_id": "CS-2026-2-005",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:f6a2b7471f008b2058b350974685f373bcbc60fae650464a5b74bc3e4dc23200",
+      "output_sha256": "sha256:6df7a3716e9fbb3e7e6fbc8086cae682e650f2ef90c3637b1ca95f1cc4fa6da1",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:7de2e7652693dfee52b2d2d5f6d16f77602713e2dff0470b8c2cee619f84f3df",
+        "claude-tools.json": "sha256:2218d93bf19abb824cb65dd4b5094ea356ac5e4125faec0ab4b41fb2a27fa834",
+        "source-check.json": "sha256:35cd382cf6438bc2c27dadf89f7f4f85f13ae5ec43e0971e4a350123519c657a",
+        "result.json": "sha256:0447982a2b15d640ebd9e52999d0a6223ea001de6ed5e34bf876ce19cf1d127f"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 52,
+          "quote_sha256": "sha256:41cc3a283252dc3e702399e3d4c080a75347b748dbb9b590ae044c05535f5c79",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:78462aef8bd70d6b9eb4f97385a7501dc084d1991d159b740e32878b2f6f5df5",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:bc7f1c2957a24eeb7e52757d32e10e802607e55fd6ee99251e54acc5edef9e36",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 3,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:d316ec064f0d9df73e1067c6d503061a5b51112f78b1985368f77f4bd2e0646e",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0004-001",
+      "case_id": "CS-2026-2-005",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:f6a2b7471f008b2058b350974685f373bcbc60fae650464a5b74bc3e4dc23200",
+      "output_sha256": "sha256:91e85a9f9c018cad8d5c9f4cfc542da729a2323c39acd993efe73d72443d1766",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:232d6e53582a837c703690d51066ca7a945fa38355e4c2cf0100e2ee8465fad3",
+        "claude-tools.json": "sha256:a8e752ea4935faf24fc5181f66b60438c86bf9c15f5ac53639e5c80145cec5fa",
+        "source-check.json": "sha256:e1ae4e7baffce24579ab1123ea049594b8a2f3dedfcaf06062a6d36d4fa82979",
+        "result.json": "sha256:24f52fd5bca1ba25dfbc88d5015cc1975ec01dfa044089ff143b66d3fd7b700d"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_3:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0004-001",
+          "output_sha256": "sha256:91e85a9f9c018cad8d5c9f4cfc542da729a2323c39acd993efe73d72443d1766",
+          "citation_index": 0,
+          "citation_sha256": "sha256:a7b92b2c280e20b86ab8e5b14fe4527cd5661c0a07f6d5f091075be260d6d2e7",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p53 한국현대사 3학점·인문과학 제외는 맞다. 대시 뒤의 2022학년도 표 설명은 모델이 구성한 설명이며 해당 페이지의 연속 원문 인용이 아니다."
+        },
+        {
+          "run_id": "B-0004-001",
+          "output_sha256": "sha256:91e85a9f9c018cad8d5c9f4cfc542da729a2323c39acd993efe73d72443d1766",
+          "citation_index": 1,
+          "citation_sha256": "sha256:d4ab2de4c1e69d8575c1173de9ce847dd8138c10a419c1236b591e09893a0066",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p53 생명과학의이해 3학점·제외계열은 맞다. 대시 뒤의 표 설명을 인용문 안에 추가했다."
+        },
+        {
+          "run_id": "B-0004-001",
+          "output_sha256": "sha256:91e85a9f9c018cad8d5c9f4cfc542da729a2323c39acd993efe73d72443d1766",
+          "citation_index": 3,
+          "citation_sha256": "sha256:737e8b0516978399e06eb0dadefbdb2a5fc7e9f1d54308102ca7b9ffb82c7080",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 균형교양 표의 학점 합계는 6이다. 현재 영역→과목→학점 문법은 합계 행을 지원하지 않는다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:6f6804b7c3b1d13ce280e4efae6bdecedba9d4f8d97dbbe68a10d501a0386d60",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:13053779ed244eed76b5e5481dfb072dcd696687b5fcb5d01cd0ca911573e452",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:3c5991d5d63a33cc5a929473b8b443fbc30771845a24214928799f6173f41039",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 3,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:e97c77f5d9823c1343cb7e6e755b0f8b942fd8228d30a01fa82c77c6d1086117",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_3:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "C-0004-001",
+      "case_id": "CS-2026-2-005",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:f6a2b7471f008b2058b350974685f373bcbc60fae650464a5b74bc3e4dc23200",
+      "output_sha256": "sha256:f5832f2996e295aa3392d1ab38a3e31108050f9fdb3b65ae9106203a6f304cba",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:9d460ded771c0fc28a1e642ea6bad052ecd96126f5b6552c5e6033ae8d94f0b2",
+        "claude-tools.json": "sha256:b90bd76e2bebadb2c80ed91d389bc124e455c3b7b7d53e078247b1802691121a",
+        "source-check.json": "sha256:464dd50ab8024c570c7d5a2ed1ca3b29d68349f90261e99f9cfa70c3024a12a3",
+        "result.json": "sha256:15e2e1637c92ef5cc1303715b94b1d8a0f2faad147c6449c6f92a82eade69234"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0004-001",
+          "output_sha256": "sha256:f5832f2996e295aa3392d1ab38a3e31108050f9fdb3b65ae9106203a6f304cba",
+          "citation_index": 0,
+          "citation_sha256": "sha256:b9eba39cd80cb14f46810a286489b0aaa9a478ab2a457f5ed594752d638f261a",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 역사와사상→한국현대사→3은 같은 영역/행이다. p48 표 색인이 없다."
+        },
+        {
+          "run_id": "C-0004-001",
+          "output_sha256": "sha256:f5832f2996e295aa3392d1ab38a3e31108050f9fdb3b65ae9106203a6f304cba",
+          "citation_index": 1,
+          "citation_sha256": "sha256:5160af0c677a85242f1b4d9f9d89984c0a1440c9404e0a72c913ea61d84fd062",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 자연과과학→생명과학의이해→3은 같은 영역/행이다. p48 표 색인이 없다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:78462aef8bd70d6b9eb4f97385a7501dc084d1991d159b740e32878b2f6f5df5",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:bc7f1c2957a24eeb7e52757d32e10e802607e55fd6ee99251e54acc5edef9e36",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:3c5991d5d63a33cc5a929473b8b443fbc30771845a24214928799f6173f41039",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0005-001",
+      "case_id": "CS-2026-2-006",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:cb89c3917490a4cd5aa05c64024885fdf9513a55df5420bc46186edcd0917c5e",
+      "output_sha256": "sha256:3672a5a21b672a612103273860f7cdc7cb0b2879d0b434e922b8728bde5bab04",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:1461efddfcf3fe8717b7c801500ca452f6d43d5d33867eca6233324ac2e75f40",
+        "claude-tools.json": "sha256:44cc381f6017e97c0c28cd1e592c11c1f9e734cb210b65b07d2166df869407bf",
+        "source-check.json": "sha256:468f6b44e3cfa520e74939e1371d98ef273b0fafa8e257c8de9b4d37ce97dc46",
+        "result.json": "sha256:3e1329f476675e4ea973c50f73e337d4439bbe7b9e57ba297b9b3faf3720ce88"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "fail",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "citation_0:format",
+          "verdict": "fail",
+          "reason": "인용 메타데이터 형식이 올바르지 않습니다.",
+          "next_action": "출처·판본·페이지 형식을 확인하세요. 파싱 실패를 별도의 판본 오류로 중복 집계하지 않습니다."
+        },
+        {
+          "id": "citation_1:format",
+          "verdict": "fail",
+          "reason": "인용 메타데이터 형식이 올바르지 않습니다.",
+          "next_action": "출처·판본·페이지 형식을 확인하세요. 파싱 실패를 별도의 판본 오류로 중복 집계하지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0005-001",
+          "output_sha256": "sha256:3672a5a21b672a612103273860f7cdc7cb0b2879d0b434e922b8728bde5bab04",
+          "citation_index": 0,
+          "citation_sha256": "sha256:039347bff694ee07136c33ef1a9361d69ad60989dcca24e886520aad91a5dc37",
+          "category": "citation_metadata_format",
+          "reason": "pdf_page=48;]의 여분 세미콜론 때문에 파싱되지 않는다. 뒤의 한국현대사 표 정보는 p48에서 확인되지만 형식 수정만으로 p48 표 검증까지 해결되는 것은 아니다."
+        },
+        {
+          "run_id": "A-0005-001",
+          "output_sha256": "sha256:3672a5a21b672a612103273860f7cdc7cb0b2879d0b434e922b8728bde5bab04",
+          "citation_index": 1,
+          "citation_sha256": "sha256:3826530bb3e9f12381217fc0cf854c326f53e432d4c8619d149682f6d2521b9b",
+          "category": "citation_metadata_format",
+          "reason": "pdf_page=48;]의 여분 세미콜론 때문에 파싱되지 않는다. 뒤의 수의세계·제외계열은 p48에서 확인되며 이 표 자체도 현재 미지원이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": null,
+          "quote_sha256": null,
+          "verdict": "fail",
+          "issue_ids": [
+            "citation_0:format"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": null,
+          "quote_sha256": null,
+          "verdict": "fail",
+          "issue_ids": [
+            "citation_1:format"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "B-0005-001",
+      "case_id": "CS-2026-2-006",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:cb89c3917490a4cd5aa05c64024885fdf9513a55df5420bc46186edcd0917c5e",
+      "output_sha256": "sha256:f07b6827a7285fc1f557a6fba599fecc2dc4ca9440b71c3a6ea40e7c3144d439",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:555ad11ca3ee6f9ebeef90980e27a8607ba3938db224fee1abc014e08ad23381",
+        "claude-tools.json": "sha256:4f6d7909b10ff219c9ab8b53972d9882aec2541ea22baa96775e9bc836a709c1",
+        "source-check.json": "sha256:45cda03c9a2352c363824fa2ab4d67033cdfe009fd383eb50cd036376e89b749",
+        "result.json": "sha256:eca290e6f4058ebcc240ae05bb767a3269559bf6381481f9d506ecbf47c2d923"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0005-001",
+          "output_sha256": "sha256:f07b6827a7285fc1f557a6fba599fecc2dc4ca9440b71c3a6ea40e7c3144d439",
+          "citation_index": 0,
+          "citation_sha256": "sha256:c6fdaa81a1da616822ef381dc8024997deb10e0fb88c052eac9fc76d097c4b81",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 한국현대사→3→인문과학 제외는 동일 행과 병합셀 범위에 속한다. p48 색인이 없다."
+        },
+        {
+          "run_id": "B-0005-001",
+          "output_sha256": "sha256:f07b6827a7285fc1f557a6fba599fecc2dc4ca9440b71c3a6ea40e7c3144d439",
+          "citation_index": 1,
+          "citation_sha256": "sha256:97aced51cfa3a7146b0ee69c4d03bbfb5a4af44e0086e4992e435f9c3dda765b",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 수의세계→3→제외계열은 대응한다. 셀 안의 줄바꿈도 쉼표로 바꾸었으므로 원문 셀 표현을 보존하는 구조화가 필요하다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:edc22cd1632f4a63c60683f404c46a71f59d0de9b70d841dc9b7b8b7e3007c15",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:c4007d7b45d72aa9a2905110105abd7ed754fe8f484d045e3a6672786539d733",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "C-0005-001",
+      "case_id": "CS-2026-2-006",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:cb89c3917490a4cd5aa05c64024885fdf9513a55df5420bc46186edcd0917c5e",
+      "output_sha256": "sha256:d843e682146afd746c8b83ba738fa16256275b5f991ef755f7261c32ec54be26",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:df80670685ea638117dc0142e7b08cca4c4962ee0eff5b355eb57b430fb164db",
+        "claude-tools.json": "sha256:4173ee19371b1b118fa91dcefc310eb039778efdbf6399d2c798d0f64b683cd2",
+        "source-check.json": "sha256:00f865c53c522766e0dfe702c24d1e8f45c30d574d1cadb3b3a0e5f4c5d7d9c9",
+        "result.json": "sha256:8ab62a6caad715950d1f901cc47c60adfc1cf9b57671a56d2dbeb4e1ee2308cf"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_2:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_3:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0005-001",
+          "output_sha256": "sha256:d843e682146afd746c8b83ba738fa16256275b5f991ef755f7261c32ec54be26",
+          "citation_index": 2,
+          "citation_sha256": "sha256:c6fdaa81a1da616822ef381dc8024997deb10e0fb88c052eac9fc76d097c4b81",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 한국현대사→3→인문과학 제외는 동일 행과 병합셀 범위에 속한다. p48 색인이 없다."
+        },
+        {
+          "run_id": "C-0005-001",
+          "output_sha256": "sha256:d843e682146afd746c8b83ba738fa16256275b5f991ef755f7261c32ec54be26",
+          "citation_index": 3,
+          "citation_sha256": "sha256:97aced51cfa3a7146b0ee69c4d03bbfb5a4af44e0086e4992e435f9c3dda765b",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 수의세계→3→제외계열은 대응한다. 셀 안의 줄바꿈도 쉼표로 바꾸었으므로 원문 셀 표현을 보존하는 구조화가 필요하다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 47,
+          "quote_sha256": "sha256:da49a286d59660b284526d82c00d7c107cff03e4ebc63ae3dd691c815ceaedee",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 47,
+          "quote_sha256": "sha256:41cc3a283252dc3e702399e3d4c080a75347b748dbb9b590ae044c05535f5c79",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:edc22cd1632f4a63c60683f404c46a71f59d0de9b70d841dc9b7b8b7e3007c15",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_2:quote_unverified"
+          ]
+        },
+        {
+          "index": 3,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:c4007d7b45d72aa9a2905110105abd7ed754fe8f484d045e3a6672786539d733",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_3:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "A-0006-001",
+      "case_id": "CS-2026-2-007",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:36703f7b7c154fa2903f589edf35cd2b083923862111eede94855d7afed7a1a1",
+      "output_sha256": "sha256:072dd9d5c40dd2fecbc72a2de225fe9655ff1d5b2d529bc3e664e8d45a4b5910",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:d376fa909e0ac638fcca6e640f6216a9fb7939f0709008481c1fcc089e97b7e5",
+        "claude-tools.json": "sha256:bd50d722e1b9ec26bca296064ecff2fce25572f429c9850ce87f960951970960",
+        "source-check.json": "sha256:b9387f8b45c62cc8d229050bf5f6aff8f2b7dd34ba6a2391699a0e4e6393bff6",
+        "result.json": "sha256:0c85e1f8209128208bf08871e3a4fab0eea87f6c239257968a4e6ba13fa467d6"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:78462aef8bd70d6b9eb4f97385a7501dc084d1991d159b740e32878b2f6f5df5",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:f9d070c5d26872eb1ca32c35e06828db2022c349bb0823ecd2cd9d55b19f1242",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:d316ec064f0d9df73e1067c6d503061a5b51112f78b1985368f77f4bd2e0646e",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0006-001",
+      "case_id": "CS-2026-2-007",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:36703f7b7c154fa2903f589edf35cd2b083923862111eede94855d7afed7a1a1",
+      "output_sha256": "sha256:68e861a7bb9aa376c502f81dd36b0e6b6bde80c6ebe7b67ada99884da20561be",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:c938487ffb3dddb8b73ea2f2838b6b7d82c9b28421087072483d28770b9b48bc",
+        "claude-tools.json": "sha256:8192d641236e96b105e58958761452f886eb98726f618b2b0e679b2ba820f9ec",
+        "source-check.json": "sha256:1139e58680b05ee171bc593a9f6bdf110d551ac167462cebfe9e249d023a08f8",
+        "result.json": "sha256:2a79cbcad65a20fdaff3d5b5ca2ac22a87bf55c8c132448826eaff9a53fdd436"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:78462aef8bd70d6b9eb4f97385a7501dc084d1991d159b740e32878b2f6f5df5",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:f9d070c5d26872eb1ca32c35e06828db2022c349bb0823ecd2cd9d55b19f1242",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:d316ec064f0d9df73e1067c6d503061a5b51112f78b1985368f77f4bd2e0646e",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0006-001",
+      "case_id": "CS-2026-2-007",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:36703f7b7c154fa2903f589edf35cd2b083923862111eede94855d7afed7a1a1",
+      "output_sha256": "sha256:caccb61bb50a2264fda4b2f13f867522d6cf836cec858528394812ee364453a1",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:16fe97102970364b54e28669add63a643ea64e663df35ad92051f54967af5834",
+        "claude-tools.json": "sha256:5fbbf1c5ad2e8222d599ff84f43ac26d722b0f02c513ef4074d7069667a4776a",
+        "source-check.json": "sha256:b6ebaf84c31f518e003c76291f41d551d2a5b410d2b26e3ec10d48a1f2ff64f2",
+        "result.json": "sha256:c63413652c1bfb02d59cdf0a020d293f2a6d36d9cb9da9a1366df5416617a63c"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "fail",
+      "unread_skill_files": [
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+      ],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "required_skill_reads",
+          "verdict": "fail",
+          "reason": "필수 문서 전체 읽기 누락: context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "next_action": "기존 읽기 누락을 그대로 유지하고 문서 전달 절차를 확인하세요."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0006-001",
+          "output_sha256": "sha256:caccb61bb50a2264fda4b2f13f867522d6cf836cec858528394812ee364453a1",
+          "citation_index": 0,
+          "citation_sha256": "sha256:b9eba39cd80cb14f46810a286489b0aaa9a478ab2a457f5ed594752d638f261a",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 역사와사상→한국현대사→3은 같은 영역/행이다. p48 표 색인이 없다."
+        },
+        {
+          "run_id": "C-0006-001",
+          "output_sha256": "sha256:caccb61bb50a2264fda4b2f13f867522d6cf836cec858528394812ee364453a1",
+          "citation_index": 1,
+          "citation_sha256": "sha256:459eee90df91540e2d941c3d87a661fdc3cdd10de0eaf8f2d64cb38c22447042",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 자연과과학→지구환경과기후변화→3이 맞다. p48 색인이 없다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:78462aef8bd70d6b9eb4f97385a7501dc084d1991d159b740e32878b2f6f5df5",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:f9d070c5d26872eb1ca32c35e06828db2022c349bb0823ecd2cd9d55b19f1242",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:d316ec064f0d9df73e1067c6d503061a5b51112f78b1985368f77f4bd2e0646e",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0007-001",
+      "case_id": "CS-2026-2-008",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:79e04e86fc9fba4039acb8daacf652951342796291f0d54189942653f181500a",
+      "output_sha256": "sha256:0cd021fe9b00029bc7b15104131fdbcb001b150868db7b1443f2fd8bc9796ee4",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:f99562967a75f8a7331e7dc4150dfffc6f9761b70db40ba89bc25630aa0c6477",
+        "claude-tools.json": "sha256:103095cf58807633e09a99e4afd4e449012cca71c9ee5959f32bb9d3e537bfc6",
+        "source-check.json": "sha256:21e73807720f27ec550f29a2cac795ebe943ce6fc4e6f7f4ec6651f4bf5130ec",
+        "result.json": "sha256:d4ac86ee56bc20535e06e0e225d078965cd9c7e2477261cdd98b9313d22c8bf1"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0007-001",
+          "output_sha256": "sha256:0cd021fe9b00029bc7b15104131fdbcb001b150868db7b1443f2fd8bc9796ee4",
+          "citation_index": 0,
+          "citation_sha256": "sha256:975b2ee543cb93f9e4f252e7dc9b3be714d7cfde8f5b2981ab928660103b4a42",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 지구환경과기후변화 3학점과 제외계열·2-4학년 병합셀은 맞다. 다섯 열 관계와 셀 안 구분자 처리가 필요하다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:567e878be37356e55112c163b2a44367b16eae17a168307c76319bf91000c51a",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:3c5991d5d63a33cc5a929473b8b443fbc30771845a24214928799f6173f41039",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0007-001",
+      "case_id": "CS-2026-2-008",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:79e04e86fc9fba4039acb8daacf652951342796291f0d54189942653f181500a",
+      "output_sha256": "sha256:ce421ecc693aa1baf0a0c461f928135c697d87ee7149842deab3f0ab71b68784",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:447601ead73a2c688a2692482a216cc01f2e989086a5993c9cfae52f8ff07797",
+        "claude-tools.json": "sha256:3b4221f87a4cbbfd533315302f5eaddb1283a64ebb8a657a8b283610e01dac64",
+        "source-check.json": "sha256:2d126649af821d434b5e03cd118df7f636257dc7dbb315ea72f7ba2c209d36da",
+        "result.json": "sha256:eb3bed5492fe48da0abf0c57f673487f497cf5c9441170db59145eb42d9c2359"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0007-001",
+          "output_sha256": "sha256:ce421ecc693aa1baf0a0c461f928135c697d87ee7149842deab3f0ab71b68784",
+          "citation_index": 0,
+          "citation_sha256": "sha256:459eee90df91540e2d941c3d87a661fdc3cdd10de0eaf8f2d64cb38c22447042",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 자연과과학→지구환경과기후변화→3이 맞다. p48 색인이 없다."
+        },
+        {
+          "run_id": "B-0007-001",
+          "output_sha256": "sha256:ce421ecc693aa1baf0a0c461f928135c697d87ee7149842deab3f0ab71b68784",
+          "citation_index": 1,
+          "citation_sha256": "sha256:563f5fdf83176ca4e4dbdafaaa50c915aa8281d9001f573ee4606e0ea57e4b6c",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 자연과과학 영역과 제외계열은 맞다. 과목 없이 머리글·제외계열만 연결하는 방식이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:f9d070c5d26872eb1ca32c35e06828db2022c349bb0823ecd2cd9d55b19f1242",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:5cdf9b525a802775dbf7432b9573dbe60657b47515d6da788315f687e966a1fe",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 47,
+          "quote_sha256": "sha256:41cc3a283252dc3e702399e3d4c080a75347b748dbb9b590ae044c05535f5c79",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0007-001",
+      "case_id": "CS-2026-2-008",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:79e04e86fc9fba4039acb8daacf652951342796291f0d54189942653f181500a",
+      "output_sha256": "sha256:161a4b03db58500c1439817b1f179215af35539082c4009ce799985dce370acc",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:f133ef2f692f91049d974ac498182818353064b111881a05d920251c4a112a7e",
+        "claude-tools.json": "sha256:522d0b55bed945fb5e80c6c1f77d8c62c7e244c451490347daa2d6cc5c8d49fe",
+        "source-check.json": "sha256:7cd3686decc0e8d4fc8a403815441d4c5fcb426eacdcc1a1acc7904d2b133d28",
+        "result.json": "sha256:0a3ca77e1734041117848004eef4271535a429b23847f703aa60e8bbf1a542bb"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0007-001",
+          "output_sha256": "sha256:161a4b03db58500c1439817b1f179215af35539082c4009ce799985dce370acc",
+          "citation_index": 0,
+          "citation_sha256": "sha256:2f47d215a9be845732a2e5887e373270dde1c2a90b05d53794ccc46b48a5c6ee",
+          "category": "table_relationship_unhandled",
+          "reason": "p47 페이지 제목 2023학년도와 균형교양 행의 2영역·6학점 문구를 이어 썼다. 두 위치 모두 존재하지만 연속 인용은 아니다."
+        },
+        {
+          "run_id": "C-0007-001",
+          "output_sha256": "sha256:161a4b03db58500c1439817b1f179215af35539082c4009ce799985dce370acc",
+          "citation_index": 1,
+          "citation_sha256": "sha256:7127dc466ef56ede38b97d5c8bc4611d47a99e018ac32df68a749a3ad746e807",
+          "category": "table_relationship_unhandled",
+          "reason": "p48 지구환경과기후변화의 영역·학점·제외계열·이수시기 관계는 맞다. 머리글과 값의 교차 연결은 미지원이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 47,
+          "quote_sha256": "sha256:95c1de325a261770a0e92b15349c4761d1d9d1c20ff9e4f3cb1bbc9045e7edec",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 48,
+          "quote_sha256": "sha256:cf49e850721f90fa7e5b8185d0800cb5b50802567276dce6cc0d5c44618f838a",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "A-0008-001",
+      "case_id": "CS-2026-2-009",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:ed58b1de3cbd4e6fdc1f2f1ad7fb3ab051f760694b8a4292117206f0e1aee076",
+      "output_sha256": "sha256:e06f24bab5c2ba81973c52d49c408860a804ce90d5625871e9cdafdb228d0093",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:fe6e1fe20060876a1d95fcdf48517758f5a3ac489096fdb4fa7f1ecab62d3343",
+        "claude-tools.json": "sha256:5376cf3e29a3f8acf8cd523462c3d1aab636d9dacf114875a93eac6decf353c8",
+        "source-check.json": "sha256:4a835d88acc654b13e38512ea5f0844d2092c540a2b59bf02fe3cb286f4baed2",
+        "result.json": "sha256:a420aa6209f812d1161a69bb6a3fa7d4fac1f405d9b3f6baef9c39b5bafc210a"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:4677ade0a1b42d3796f156a610dc61af4d3c483b6cd15c257a185c456ab3248d",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:27c91565aed7095c740a7ab9ca860b2d4b702ac8724db1da5e0e99f360617d6b",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:d316ec064f0d9df73e1067c6d503061a5b51112f78b1985368f77f4bd2e0646e",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0008-001",
+      "case_id": "CS-2026-2-009",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:ed58b1de3cbd4e6fdc1f2f1ad7fb3ab051f760694b8a4292117206f0e1aee076",
+      "output_sha256": "sha256:55da02a8c485e4b843679b4142d1d45fce83f2d37a84613956f8bda0717da580",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:d88e2506503a8369f1998f1bada21de5442a5a705311cc814c2d5c050decb36f",
+        "claude-tools.json": "sha256:aed5d67df15fc545557f309ce39273c9815ed0a5099a4d72b8d36bfa1e0c9207",
+        "source-check.json": "sha256:4b8dce1b2390f360c353a11901f82db9acb3f954482be60438ee9e94875a1b74",
+        "result.json": "sha256:1f37c244e859c870081447d65d8fc969248e34fe6d41b70feb271bf7dd4c8436"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0008-001",
+          "output_sha256": "sha256:55da02a8c485e4b843679b4142d1d45fce83f2d37a84613956f8bda0717da580",
+          "citation_index": 0,
+          "citation_sha256": "sha256:5eba8cb3efeee43dea241b066ef63ea721be6574fb866305454f3528f9f09c58",
+          "category": "table_relationship_unhandled",
+          "reason": "p36 자연과과학→수의세계→3은 대응한다. p36 표 색인이 없다."
+        },
+        {
+          "run_id": "B-0008-001",
+          "output_sha256": "sha256:55da02a8c485e4b843679b4142d1d45fce83f2d37a84613956f8bda0717da580",
+          "citation_index": 1,
+          "citation_sha256": "sha256:fef7a17cd07c091fd0771e13e834cef9f6b13b2327c460043a3d1fa5fc140c96",
+          "category": "table_relationship_unhandled",
+          "reason": "p36 문화와예술→현대예술의이해→3은 대응한다. p36 표 색인이 없다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 36,
+          "quote_sha256": "sha256:4677ade0a1b42d3796f156a610dc61af4d3c483b6cd15c257a185c456ab3248d",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 36,
+          "quote_sha256": "sha256:27c91565aed7095c740a7ab9ca860b2d4b702ac8724db1da5e0e99f360617d6b",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 36,
+          "quote_sha256": "sha256:800ba0020f662857ab5809105e9874c394cdb418502f8fc580391b7306cbb2ca",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0008-001",
+      "case_id": "CS-2026-2-009",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:ed58b1de3cbd4e6fdc1f2f1ad7fb3ab051f760694b8a4292117206f0e1aee076",
+      "output_sha256": "sha256:bc64e7b88a51b874bb3b226a550759d5923475343b955c86f13ccb7eb77a8895",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:6ffd74c5aace6473b872b8a7add8c3285ac903538a0e3c8bd58bfccbd1b4f336",
+        "claude-tools.json": "sha256:a5ca9d8d30738963bcdf66b6e5fddcd1b33616a6ae06b389b1b2ed83c860096e",
+        "source-check.json": "sha256:84ce68c334a7ad0ffd8372f439e423d7d97815a8412851410e5210e21f2e885e",
+        "result.json": "sha256:cab0062d2fe96a9832485d8723b45a9ce0280a7dd86ba79d08312d6894a8cfcc"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:4677ade0a1b42d3796f156a610dc61af4d3c483b6cd15c257a185c456ab3248d",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:27c91565aed7095c740a7ab9ca860b2d4b702ac8724db1da5e0e99f360617d6b",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0009-001",
+      "case_id": "CS-2026-2-010",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:07d201178c14ffb0bae35990fc9088d46bc89b5dba611b8dd420e216ecde9c37",
+      "output_sha256": "sha256:97f7632721fbca34d84594c63cb48f4adedbd48b7bb968025e21451404d9f3df",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:02cf949b2a69c6af1847656118902f7fde98d6968504d02e29d2cd02b1562557",
+        "claude-tools.json": "sha256:e9f869a287624d00bfca9e911e3851c587814baeb2aecee56081f370e8349e0a",
+        "source-check.json": "sha256:b5a607c751c144d949eb0fc03e3eab83378707d44b9138ad8b7e445afe9c3ab8",
+        "result.json": "sha256:cf970593a1ef73b1213774f2cfef40d2243d07758b01418996f2f0003c11a035"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0009-001",
+          "output_sha256": "sha256:97f7632721fbca34d84594c63cb48f4adedbd48b7bb968025e21451404d9f3df",
+          "citation_index": 1,
+          "citation_sha256": "sha256:3decfefbda0b4628e01939c785bd5282ab06b44d1cd208bb4a8fccc09507474e",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 수의세계의 영역·학점·제외계열·이수시기 값은 대응한다. 머리글과 이수시기까지 포함한 인용은 현 문법 밖이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 52,
+          "quote_sha256": "sha256:41cc3a283252dc3e702399e3d4c080a75347b748dbb9b590ae044c05535f5c79",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:6488e07e607ea8c5697199158a3633f0ce71485ca473927ec7e17e4a23baeb9c",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "B-0009-001",
+      "case_id": "CS-2026-2-010",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:07d201178c14ffb0bae35990fc9088d46bc89b5dba611b8dd420e216ecde9c37",
+      "output_sha256": "sha256:ed62f12280ab03ecfcea3f4a5aab388d344eae4cb4c42f9d05e005aaa71fea8b",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:5c9f78ed1c1cdd99227db9127b0abbcd9930ce4eab392ef414ce3ef3790c0065",
+        "claude-tools.json": "sha256:902b1245b2a2fa0b668d51aa53e7b7dda14ff7bbe176c3a2c4ca62d6282c58ef",
+        "source-check.json": "sha256:6c552400ea01b6303f649198a470bd747c94f4f82329ee68278a062f92e5fba6",
+        "result.json": "sha256:282e65b57ff88325667137b11417a468e94e09b5df538417b74b9db5f1fb54bd"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0009-001",
+          "output_sha256": "sha256:ed62f12280ab03ecfcea3f4a5aab388d344eae4cb4c42f9d05e005aaa71fea8b",
+          "citation_index": 1,
+          "citation_sha256": "sha256:ea64dd631740cfa41bfc49546c096dccd92f9419cba61d70d586bdeab2d00b97",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 수의세계의 영역과 제외계열은 대응한다. 머리글을 앞에 모아 쓰고 학점을 생략한 형태는 현 문법 밖이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:4677ade0a1b42d3796f156a610dc61af4d3c483b6cd15c257a185c456ab3248d",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:f26e6a7e3685e05fe6006892c3ca07badbdd5ab3eed8fc156b407c111511fc58",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 52,
+          "quote_sha256": "sha256:41cc3a283252dc3e702399e3d4c080a75347b748dbb9b590ae044c05535f5c79",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0009-001",
+      "case_id": "CS-2026-2-010",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:07d201178c14ffb0bae35990fc9088d46bc89b5dba611b8dd420e216ecde9c37",
+      "output_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:7197111db5d33c268dacb22b9ee03cd7698cca4650251d7a583ac54220e32fc1",
+        "claude-tools.json": "sha256:33b99f3188e68e839b82daad31316c1b9f1131a768df6536737c673274bea9ed",
+        "source-check.json": "sha256:44869708394c257fb7d7a201fcb2284338458dbb21b606239e396c32641812ce",
+        "result.json": "sha256:675b8bf37d7a2833a0d6a79d0512f70ab1388658cbfb19ea61a7976808c145f9"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_3:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0009-001",
+          "output_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+          "citation_index": 0,
+          "citation_sha256": "sha256:989035539267e1b0199bfe13feeee58fa69af05d01032ed71042cde17a9af1c1",
+          "category": "changed_source_word_or_unit",
+          "reason": "p53 셀 값은 3인데 3학점으로 썼다. 학점 열이므로 수량의 의미는 맞지만 직접 인용에 단위를 추가한 경우다."
+        },
+        {
+          "run_id": "C-0009-001",
+          "output_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+          "citation_index": 1,
+          "citation_sha256": "sha256:4ca3f1c2016e3353592ef074c55c1b2fc250f3eaab9e87c69d200498ce6c7652",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 자연과과학의 제외계열 병합셀과 대응한다. 과목·학점 없이 머리글과 제외계열을 연결한 인용이다."
+        },
+        {
+          "run_id": "C-0009-001",
+          "output_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+          "citation_index": 3,
+          "citation_sha256": "sha256:64c825925968cfaab6932d8f90681d9b50451a60adc705d7fb338ae2ac4b393f",
+          "category": "changed_source_word_or_unit",
+          "reason": "p52 원문 학생 자율선택을 학생 자유선택으로 바꾸었다. 직접 인용의 단어 불일치다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:4e1482f97cc29d4394881db2f6695bf6c897ada717c201799cf710775f55288b",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:4bb08eae44a52be17da235b98ed1937ac9f1735587530adb5e2228334e07e5dd",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:3c5991d5d63a33cc5a929473b8b443fbc30771845a24214928799f6173f41039",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 3,
+          "pdf_page": 52,
+          "quote_sha256": "sha256:c7ef92d0d5e055265a7a2a7a5e96933e64178a63c34abe4097f2469b1fffb52e",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_3:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "A-0010-001",
+      "case_id": "CS-2026-2-011",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "ok",
+      "original_error": null,
+      "case_sha256": "sha256:195e44e3c0b9c2d2ed53ba6fd8aac953bb0cfbd3323084cd55cd801e764f98c5",
+      "output_sha256": "sha256:3c4ece7748abff8be0e1a1b26e3ac41c5afd3b2a9424609d257cec2ca4422bd7",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:3c2069c7822c694d79a29a9a75c86efd2e4561fb15cc97b78d4929295fc5ec65",
+        "claude-tools.json": "sha256:ba8ba6bedb07b96f8f8502b6d40276141a72d9e04a22ac64c0dd43fc4fa000fa",
+        "source-check.json": "sha256:94d5f0a4e9778fdaf73cdba388a310f514dbcaef817b3e0bf58513d95886ce06",
+        "result.json": "sha256:d83ea2dd57a6bbc3720741a3e0a1e4bed7a9da6552ecadd03e083e487aa02c1b"
+      },
+      "objective_values": "fail",
+      "objective_details": [
+        {
+          "field": "facts.handbook_clause_category_name",
+          "reason": "mismatch",
+          "expected": "교양선택(2영역)",
+          "actual": "마.타학과전공선택인정교과목수강"
+        }
+      ],
+      "source_status": "pass",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 9,
+          "quote_sha256": "sha256:b613ce3f11063003ee2f4b7077b15c3e2f149f5e466d44bb09294c68b34d1766",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 9,
+          "quote_sha256": "sha256:723510a5e4e96a22a4c1c5eed786b05ab4234d24102cb6910eba83675e311bd8",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 9,
+          "quote_sha256": "sha256:5751bbb11f5ebea642a8db12d50a8d1fd85f1af39ef3b19817c41ffd28b75f00",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 3,
+          "pdf_page": 9,
+          "quote_sha256": "sha256:4549fffe02b3be95336101b316cf6a3074fdad70acde8d5d5fead0f0ea033799",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0010-001",
+      "case_id": "CS-2026-2-011",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:195e44e3c0b9c2d2ed53ba6fd8aac953bb0cfbd3323084cd55cd801e764f98c5",
+      "output_sha256": "sha256:5caf843b53c7d678c2721e43f921949117a11a865eb33749fb484bf71476da4f",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:065acaa38563795c985589772f6cc28127e951fc46a98edd1086ef9925bf2ad8",
+        "claude-tools.json": "sha256:f11c6fc4a2e98d486b0e36f64e42379b33c03a2dc418836bc44db3649ed09813",
+        "source-check.json": "sha256:c9e8091d85f176741ed1cfd3f72c656cf6e23eacb3e40758900afd7b27c66c45",
+        "result.json": "sha256:71c0c05f26781cfc859278629e5131a0ccd9f64817f6c50eea9adaf77140d556"
+      },
+      "objective_values": "fail",
+      "objective_details": [
+        {
+          "field": "action",
+          "reason": "mismatch",
+          "expected": "clarify",
+          "actual": "answer",
+          "actual_present": true
+        }
+      ],
+      "source_status": "pass",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 31,
+          "quote_sha256": "sha256:6fb14b4270bb22bf5a2ff4313cfb2f367c9cb3d5bdb19c2d73e4386fff862f8f",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:91c0b1e05476cdb1aa0a37f7f7d8218ab048b32817f75df4d6d128c556a5e232",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:ce9884b6b41094b8ba24e34cd86fc6d60702515df1e11d6da9a6e463a06c30fa",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0010-001",
+      "case_id": "CS-2026-2-011",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:195e44e3c0b9c2d2ed53ba6fd8aac953bb0cfbd3323084cd55cd801e764f98c5",
+      "output_sha256": "sha256:944d59e963d17c9afc58f9eddaa45d86cc7bef48121a8dbad9264e02a5fb95f8",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:9df246624281a8d566e3eb5d93210bcda054ce050d2510ba70ac4c2301653959",
+        "claude-tools.json": "sha256:3928a238694e31d3812307f8ee1ef694a50cf73b4938430e89a98aa4f37314fa",
+        "source-check.json": "sha256:e207b7b171b7000c55ddb6ad72962ee2d6abcb02e2fc3ecf940c5cc7c7a9477c",
+        "result.json": "sha256:117092ca2b7f7ff6f5330c51cf420f85cec8629dec468a698dc0f1551b387556"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:91c0b1e05476cdb1aa0a37f7f7d8218ab048b32817f75df4d6d128c556a5e232",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:ce9884b6b41094b8ba24e34cd86fc6d60702515df1e11d6da9a6e463a06c30fa",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0011-001",
+      "case_id": "CS-2026-2-012",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:2ec43d6170f4d13cc28fadef0de59a34939be3a6c80cba4f7f569786d7e03aff",
+      "output_sha256": "sha256:dc66adb88e9a6f5983694e7eefc1b18a2e541100dfa416644e7e5790ae95aa1b",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:043a327ef46efeb791fb1b45c7c30ea49391f2a2d95e97191ad761a4884f9a5b",
+        "claude-tools.json": "sha256:98522de627be9bc542e260e86d264fb1604288d6265c97a59a04520fcaa036b0",
+        "source-check.json": "sha256:52338ea7d82367f2d2f486375d86fc1744d1f3eec57f4ae029ee0fbbb9f5ee85",
+        "result.json": "sha256:3f2df9a12b682b353a8927619eabca47bc316ef9dbab43cb298c2bf5145c60fc"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0011-001",
+          "output_sha256": "sha256:dc66adb88e9a6f5983694e7eefc1b18a2e541100dfa416644e7e5790ae95aa1b",
+          "citation_index": 1,
+          "citation_sha256": "sha256:f4abe4da5141a7db5bf59f37a48ad3b12f7d85efebc9691d6344767533d616af",
+          "category": "table_relationship_unhandled",
+          "reason": "p58 사상과역사→세계사:인간과문명→3과 2-2·2학년은 같은 행에 있다. 2-2와 2학년은 서로 다른 계열 열의 값이므로 적용 학과 확인은 별도로 필요하다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:77aa883238637106dcb9c2906bac572f33880f26ba1bbbe41ac6e221fc1b2c28",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:5b488696e53a49d04ae73ec5fbd38c847b034ffb5fc3d284daee750fca0d3f32",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:e11364c3d7e6561d69281545cf3ba2a8bfad32b9d18bc5524d442c7c6620646c",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0011-001",
+      "case_id": "CS-2026-2-012",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "ok",
+      "original_error": null,
+      "case_sha256": "sha256:2ec43d6170f4d13cc28fadef0de59a34939be3a6c80cba4f7f569786d7e03aff",
+      "output_sha256": "sha256:cca9837a102fac32cbd3f9e0f3cc9b2781bc1ec76db74925a793c7270cc0ec9a",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:6fc9a93ebdbb72f59a9f69079f619b9275ab86b1a6156c59f4bd374d1f334176",
+        "claude-tools.json": "sha256:fdcb077ff2c42c31389840d444018ea0079a88844443aa407762e645c4d3a3ee",
+        "source-check.json": "sha256:2e2d589fb1fd3f01f3fe70edab53e2a370e850625110fdc904c9d0fb8722bdba",
+        "result.json": "sha256:4cec915449474b222be1389b7124977e24fe0d18b87bd1c7c414c7c9e62e033d"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:cc4800daa3310725bb41ca733a951a95e4b0af02f1bfe06c88f3b148a09edd29",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:5f8c7820a813bc963264ddbbcc2552bd6273e56c7ab49d12329ba6e746e0299c",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0011-001",
+      "case_id": "CS-2026-2-012",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:2ec43d6170f4d13cc28fadef0de59a34939be3a6c80cba4f7f569786d7e03aff",
+      "output_sha256": "sha256:ffa8436df171f63739fdf23a84051c4deb6d550e47d2c079742eb714b7c0b7a4",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:453e996c2e28d66d0d646b3c9d14ff04a9c745983acfe6b550f38f00d8f01221",
+        "claude-tools.json": "sha256:21f7970d928d99e5eb6bd6e21ea28c7daa244c5466d549131a191c4423a05d25",
+        "source-check.json": "sha256:a20d67f6133365fd0a0ca9ef1062c8cb79c14248a0a2fab0b5614ffc67f62d7d",
+        "result.json": "sha256:92510ac18b2ea1b5750a32973da056876a97f30d921b605efacfe0dd89e021c0"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_2:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0011-001",
+          "output_sha256": "sha256:ffa8436df171f63739fdf23a84051c4deb6d550e47d2c079742eb714b7c0b7a4",
+          "citation_index": 2,
+          "citation_sha256": "sha256:50a4879ace91cda2a0518387cbd4a338f9fc98444e7c31e7ecea3ba5379acf9f",
+          "category": "table_relationship_unhandled",
+          "reason": "p58 사상과역사→세계사:인간과문명→3은 맞다. 해당 표 색인이 없다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:cc4800daa3310725bb41ca733a951a95e4b0af02f1bfe06c88f3b148a09edd29",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:7c8daf7138105d67ac0cc3f17c4f562f0788a34a765d7bcb11409a153b13bb07",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:e3af1df5c2c26afef91ad2f864d160c66c46afc7b9340fbf33ca8b5b1d95d624",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_2:quote_unverified"
+          ]
+        },
+        {
+          "index": 3,
+          "pdf_page": 58,
+          "quote_sha256": "sha256:ac8f6cbccadcf21bd4c815ea1e56bc1677653147902ef7a5bb8dcee542459bdd",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0012-001",
+      "case_id": "CS-2026-2-013",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:371db85812fdb00417f25c4254adc98917dd3c8cccc57ea8f62ac923bd6f8ab2",
+      "output_sha256": "sha256:abcc786ff751858b95913611ebaa1a4f319837ecfdd0653996e864b70ca8d4ac",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:e33d0f94e310e8ddccca062fbfca7693033b02ffb8a4fbb39d191d75636f7f8a",
+        "claude-tools.json": "sha256:30f8da380a74866c7380db8ee8db7f0832232e2d164e2e58e662583e75478e2f",
+        "source-check.json": "sha256:c181571a20a2efdcc89c5736eb1e205f64fd06d5e651d3e92cc3f70c7d8437f1",
+        "result.json": "sha256:06f26734fe57242448a2f00a9c86dc537851774bb3cc9072775370600a91d403"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_2:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0012-001",
+          "output_sha256": "sha256:abcc786ff751858b95913611ebaa1a4f319837ecfdd0653996e864b70ca8d4ac",
+          "citation_index": 0,
+          "citation_sha256": "sha256:93e14c18dea9cee99cc3da1eb6676165575f5864e65728a25f3a58b6f8e3e788",
+          "category": "table_relationship_unhandled",
+          "reason": "p15 2023학년도 입학자부터 행의 세 인증 중 2개 이상 규칙이다. 왼쪽 병합셀과 오른쪽 문단이 추출본에서 이어지지 않는다. 예체능 예외는 별도 검토 대상이다."
+        },
+        {
+          "run_id": "A-0012-001",
+          "output_sha256": "sha256:abcc786ff751858b95913611ebaa1a4f319837ecfdd0653996e864b70ca8d4ac",
+          "citation_index": 2,
+          "citation_sha256": "sha256:e0154f050b40aad11fe571bc75e8d4563a5d16a6f8607e98901b956bb7d944ef",
+          "category": "changed_source_word_or_unit",
+          "reason": "p15 면제 문장의 원문은 호텔외식관광프렌차이즈경영학과인데 인용은 프랜차이즈로 썼다. 같은 대상을 의도했더라도 원문 명칭과 다르다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 15,
+          "quote_sha256": "sha256:2351c779bbdb33a822650d27d25e124ee3af163225f90c4ed44b7d40f71c3a6e",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 15,
+          "quote_sha256": "sha256:fd184d3ff2d2b2bc78d94119f3e4bdfb811e786c5e34fc164b8c09b95e9ef684",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 15,
+          "quote_sha256": "sha256:92f9021f2b618b7c96c716695b1cb0b43cbe4d27d1bfce5805e25234c6e6e70b",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_2:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "B-0012-001",
+      "case_id": "CS-2026-2-013",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:371db85812fdb00417f25c4254adc98917dd3c8cccc57ea8f62ac923bd6f8ab2",
+      "output_sha256": "sha256:5e516012670c8c2b2253e30b3cd5bafe3534a81df372391064578685e3462310",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:b40d9ff5f9cceaff1d74a15a0b102f6943ebb8c42a42a7580a09deb1773f374c",
+        "claude-tools.json": "sha256:49ea7a895793394d3d2ad25d6e663d496f833f11c7c2687470e35863d85b94fc",
+        "source-check.json": "sha256:2daaaa607367eba632c4fec3ed3b6e09a85c1076b6e9230c3d18ee15983522d1",
+        "result.json": "sha256:ad7659d2b07a43c0e533d61cba930f8e8c6eda6bb7f5d7c21e28719fab5b4d12"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0012-001",
+          "output_sha256": "sha256:5e516012670c8c2b2253e30b3cd5bafe3534a81df372391064578685e3462310",
+          "citation_index": 0,
+          "citation_sha256": "sha256:ba115008e167e018dbcdcc1a57f0153d85eb13ee4194eafc119a989697fe2a90",
+          "category": "changed_source_word_or_unit",
+          "reason": "p15 2023학년도를 2023학번도로 오기했다. 표 셀 결합 문제도 있으나 원문 오타를 우선 분류했다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 15,
+          "quote_sha256": "sha256:b1c17f8e2f9b17a481c235723b4ddff8abb18d56f9710b73711a9c186c89fcf8",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 15,
+          "quote_sha256": "sha256:4886eb3d5a920efbf65cdf4a5e91ba1faca033dbc2a146bf049bd986c389c695",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0012-001",
+      "case_id": "CS-2026-2-013",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:371db85812fdb00417f25c4254adc98917dd3c8cccc57ea8f62ac923bd6f8ab2",
+      "output_sha256": "sha256:620c4d5dc991d81cc934d47afcdf38accc2318268771b95fec1e95b28138c1ef",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:a6f83b4c63454beaee9e8c580e77e2732d128d0e4d82b224916906e8072e51e7",
+        "claude-tools.json": "sha256:888ac03dd5fd379594c346fea0d8fff96478e3ac0fe21afd74de45aaa2193bd0",
+        "source-check.json": "sha256:7886e67cc256006055fd6aad2863f18147ff5dcada07efd7a05bdb9b64e59499",
+        "result.json": "sha256:bf166c31a751b9e9466d512a779fef1f7d73a9d33d58bdbf85cca519ffc6606c"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "fail",
+      "unread_skill_files": [
+        "context/skills/skill-bundle/CLAUDE.md",
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+      ],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "required_skill_reads",
+          "verdict": "fail",
+          "reason": "필수 문서 전체 읽기 누락: context/skills/skill-bundle/CLAUDE.md, context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "next_action": "기존 읽기 누락을 그대로 유지하고 문서 전달 절차를 확인하세요."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0012-001",
+          "output_sha256": "sha256:620c4d5dc991d81cc934d47afcdf38accc2318268771b95fec1e95b28138c1ef",
+          "citation_index": 0,
+          "citation_sha256": "sha256:e91dfb120d0b6b3d0d13c5a1f4f2686bc7effa82b03dbc288f84733d3310e59a",
+          "category": "table_relationship_unhandled",
+          "reason": "p15 머리글·2023학년도 행·인증 목록을 연결했다. 원문의 셀 관계는 대응하지만 현재 이 표는 미지원이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 15,
+          "quote_sha256": "sha256:7f6a86b7f0005c3a3778b577fec6a93cd1b96a12492a4dfa4e13c8deca7c7c88",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 15,
+          "quote_sha256": "sha256:4886eb3d5a920efbf65cdf4a5e91ba1faca033dbc2a146bf049bd986c389c695",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0013-001",
+      "case_id": "CS-2026-2-014",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:28f0d9ea28b612fbfcd0e34f8a02a39ecb1686739226c989305359f1239a0019",
+      "output_sha256": "sha256:43c9d8d23a0ad315af265fbc1b0819f456ac1db12dfe25a8201c8e17840478f0",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:d3709244eddda7bf37eab988671a8d2b215dbb7628ac60cbebc1020c4f50530d",
+        "claude-tools.json": "sha256:acfb13589ce15ad3fcf16e3b1df2b165ee4626fc27341052bf952184a5ccbf9f",
+        "source-check.json": "sha256:c384fb35018ec58f0e7624358f2cd71eb3ee1e156faa4b35a843645077bb0b03",
+        "result.json": "sha256:4c9f221e5f0cc7c2b0b28392ab4db1d18ba3b9508422dc4f88f8c31e19d23301"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0013-001",
+          "output_sha256": "sha256:43c9d8d23a0ad315af265fbc1b0819f456ac1db12dfe25a8201c8e17840478f0",
+          "citation_index": 0,
+          "citation_sha256": "sha256:ed4b1fcb72d7d0e2a8f81669e1d5e8deb825615e48e786717ebac952f8fb25d5",
+          "category": "table_relationship_unhandled",
+          "reason": "p30 동일과목 병합셀 안에 세계사:인간과문명→세계사와 변경년도 2023이 있다. 올바른 관계지만 해당 색인이 없다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 30,
+          "quote_sha256": "sha256:0e406fed9a9e03f978e1256bdadb060b8a52fdb04cf959cd5752c517ced7cb86",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "B-0013-001",
+      "case_id": "CS-2026-2-014",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:28f0d9ea28b612fbfcd0e34f8a02a39ecb1686739226c989305359f1239a0019",
+      "output_sha256": "sha256:1c2a8d8efae34e03d135682437e079a124798b601d793c9e39741455a463d119",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:c145c18e5a6ed352f178a5a41961607aad4965882cc4e2eb5d28c98b81e2167f",
+        "claude-tools.json": "sha256:a77a03ff1d4168a79f788d43743c3297f317adc19cee9a6b654801d831090334",
+        "source-check.json": "sha256:70e7b929630e7faaf14e0ca68bdd8360c16755c7a52844b3a8861723b4cb684a",
+        "result.json": "sha256:b514b243f4c6cd09d60c3c62a273fe13f690751e4f82ef2267ee2fff55030b27"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0013-001",
+          "output_sha256": "sha256:1c2a8d8efae34e03d135682437e079a124798b601d793c9e39741455a463d119",
+          "citation_index": 0,
+          "citation_sha256": "sha256:ed4b1fcb72d7d0e2a8f81669e1d5e8deb825615e48e786717ebac952f8fb25d5",
+          "category": "table_relationship_unhandled",
+          "reason": "p30 동일과목 병합셀 안에 세계사:인간과문명→세계사와 변경년도 2023이 있다. 올바른 관계지만 해당 색인이 없다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 30,
+          "quote_sha256": "sha256:0e406fed9a9e03f978e1256bdadb060b8a52fdb04cf959cd5752c517ced7cb86",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "C-0013-001",
+      "case_id": "CS-2026-2-014",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:28f0d9ea28b612fbfcd0e34f8a02a39ecb1686739226c989305359f1239a0019",
+      "output_sha256": "sha256:259c2daee1fdd7a7ff8f8fa1fab98af6053f24ce754a1046d88d9a11d87ba660",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:2f90a8dbace36ea2f78a29626b2fbf8db29c296705c62eb4e4c22b054ffad033",
+        "claude-tools.json": "sha256:3d66eeaf1d5157b3c5185e7800626c334125192a369db46b87de98450e247352",
+        "source-check.json": "sha256:3f685f55a7b6995b606b1da9c05868b415fc0aa8d2c66ab6d3a95f03bbb09253",
+        "result.json": "sha256:91acf67608e99f27d2fdd36dca2dbdf5b3c3edf88ca800af885f619830b53486"
+      },
+      "objective_values": "fail",
+      "objective_details": [
+        {
+          "field": "facts.current_course_name",
+          "reason": "mismatch",
+          "expected": "세계사",
+          "actual": ""
+        },
+        {
+          "field": "facts.same_course_designation",
+          "reason": "mismatch",
+          "expected": true,
+          "actual": false
+        }
+      ],
+      "source_status": "inconclusive",
+      "skill_read_status": "fail",
+      "unread_skill_files": [
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+      ],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_2:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "required_skill_reads",
+          "verdict": "fail",
+          "reason": "필수 문서 전체 읽기 누락: context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "next_action": "기존 읽기 누락을 그대로 유지하고 문서 전달 절차를 확인하세요."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0013-001",
+          "output_sha256": "sha256:259c2daee1fdd7a7ff8f8fa1fab98af6053f24ce754a1046d88d9a11d87ba660",
+          "citation_index": 1,
+          "citation_sha256": "sha256:e785f819da863e64c7f0b6486b38279786e2c8a71efbd90667292db9e54239c1",
+          "category": "wrong_table_relation",
+          "reason": "p30 세계사:인간과문명→세계사는 2023년 동일과목이다. 대체과목이라고 연결한 인용은 실제 관계 오류다."
+        },
+        {
+          "run_id": "C-0013-001",
+          "output_sha256": "sha256:259c2daee1fdd7a7ff8f8fa1fab98af6053f24ce754a1046d88d9a11d87ba660",
+          "citation_index": 2,
+          "citation_sha256": "sha256:bcf54b98c89c99ac2168e8aa40114a9cb61f8b7deab8d4b074347409c3b57126",
+          "category": "table_relationship_unhandled",
+          "reason": "p30 동일과목 병합셀 안에 프로그래밍입문-P→프로그래밍활용-P가 있다. 실제 행의 문구와 관계는 맞지만 표 색인이 없다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 30,
+          "quote_sha256": "sha256:35a0b83476a8941f2dcf9dfae986f2c2daed6b246437c87bee348733e290c345",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 30,
+          "quote_sha256": "sha256:9fb012b2509522abd9058a110aeefe50cddbea62d17f5765da526c3892015437",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 30,
+          "quote_sha256": "sha256:970f1a32475d2e57982d0e99c3bd270068a2fe8e3678054b8568f8481b2d49c8",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_2:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "A-0014-001",
+      "case_id": "CS-2026-2-015",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "ok",
+      "original_error": null,
+      "case_sha256": "sha256:2ecc2c9719dcabd0d5c24ab78b5bb48e71c53dd8bc666a7a13846770a2e28722",
+      "output_sha256": "sha256:c1925a8c1e5e03f47f0604e75234dd327217b54552a92eb38b4b9ea050a8b3bc",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:499e5483152813801038c0cdf39cd0159b9616f4d3e9789d3a821d0016a8ac23",
+        "claude-tools.json": "sha256:d6579a6057203ecc3485599592d0128bbd4a5a4f613764f188c7bdb21a8bf622",
+        "source-check.json": "sha256:cd86b2b23f7ce8a8d2b87533218d89f5aaec9600882f7a63f3b93b162a071800",
+        "result.json": "sha256:d8e1a32d0f846b298d31dee7d7c1944d6bb472e7643d24ab998290c595432fdd"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:840dc6cbcaf14fa2b596ab4020127f4281f3c50edbeba67dd8ed808e83a0de0d",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:0073e0c80803c5019c9de61459022e5eb3792ce1b9212ea73f784b72d1b9c749",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:0fbfa24fd9bd3240709e615041040fb0786508c0af45e86ecf6bc2f01c240ec4",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0014-001",
+      "case_id": "CS-2026-2-015",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "ok",
+      "original_error": null,
+      "case_sha256": "sha256:2ecc2c9719dcabd0d5c24ab78b5bb48e71c53dd8bc666a7a13846770a2e28722",
+      "output_sha256": "sha256:1c688487af55f0ce0e055eeb0101ea66f7068c4e79b632a595784498d75c379d",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:16c5c7cf5f14aaae5ee068eae245a5c9da5abb6ea29d0e0dbbfd5d2d4444ef27",
+        "claude-tools.json": "sha256:74729bdead2b299eb984c8adbd0ac54cce14c595585c86aaae53da1b35e839f6",
+        "source-check.json": "sha256:949c61a4ac1bb574d58860d9c142a51498a7ac5d3d183b2318ade3e94ef6c301",
+        "result.json": "sha256:bf2d67c6e52571d1d3b2c1e999af9ce6c2bfc09acdbbdde10bc95afe610248d0"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:0073e0c80803c5019c9de61459022e5eb3792ce1b9212ea73f784b72d1b9c749",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:8dbdd8a5887bb0cd72b417137aacfdce20aa50160d795f5719411260cc04e52e",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0014-001",
+      "case_id": "CS-2026-2-015",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "ok",
+      "original_error": null,
+      "case_sha256": "sha256:2ecc2c9719dcabd0d5c24ab78b5bb48e71c53dd8bc666a7a13846770a2e28722",
+      "output_sha256": "sha256:3adf8a8d1282ac5dddb43c87a1781bad18446d9003eaeb09527bda1280d1ab24",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:00064f1fe51cf50bcdc62e44aba93c253d35e7c3ef4fde70804f43a03c9917a5",
+        "claude-tools.json": "sha256:6c83244b2933439c6c5efb4881af7513e52a1c9a207f33a186d00d0bea42b0da",
+        "source-check.json": "sha256:a43a9e2b1cee65214fc8142e117f0a5ddda25b7eb9a12cb3074e1ec4548f3146",
+        "result.json": "sha256:3b94495b60df5f62efc7262e1ce6bef9e247434e2f21aefc1a2d0eb9ec7b5bec"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:8dbdd8a5887bb0cd72b417137aacfdce20aa50160d795f5719411260cc04e52e",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:0073e0c80803c5019c9de61459022e5eb3792ce1b9212ea73f784b72d1b9c749",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0015-001",
+      "case_id": "CS-2026-2-016",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:2778bfcddffa488c00770aef1fe85504ca546bb86d463fde132c55c286c3981b",
+      "output_sha256": "sha256:4d9f6043f5ec231f2ab475066e7803f34777787d469bc3378722c77fc5f5d75d",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:dfc1f8d58becc7dce5077b4613ea2a3c7cd99b4404c3b50745ab0ccde30b2e1f",
+        "claude-tools.json": "sha256:9cb4a237b46ae090908b04c18abf54e7a55309fa2e57d43e76b34756b86f17ec",
+        "source-check.json": "sha256:7b29bbc7948813a8876bb637f4188824e3eca1c1af903ad2eb1316ad9e5988d4",
+        "result.json": "sha256:7dccb0e6839e4a0f41cd528ebfb25feaae16132d681fce56be3ec811483335d9"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "fail",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:page_read",
+          "verdict": "fail",
+          "reason": "인용한 PDF 페이지가 전달된 기록이 없습니다.",
+          "next_action": "문구의 정확성과 원본 페이지 확인 절차를 구분해 검토하세요."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_2:page_read",
+          "verdict": "fail",
+          "reason": "인용한 PDF 페이지가 전달된 기록이 없습니다.",
+          "next_action": "문구의 정확성과 원본 페이지 확인 절차를 구분해 검토하세요."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0015-001",
+          "output_sha256": "sha256:4d9f6043f5ec231f2ab475066e7803f34777787d469bc3378722c77fc5f5d75d",
+          "citation_index": 0,
+          "citation_sha256": "sha256:84213fe7362f3e572815900f8a72f6bd9d486ac6455c4a323a23f06fe197a1b3",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p49 반도체시스템 열의 공업수학1·일반물리학2는 각 3학점, 1-2이다. 두 행을 엮고 표/입학년도 설명을 덧붙였다."
+        },
+        {
+          "run_id": "A-0015-001",
+          "output_sha256": "sha256:4d9f6043f5ec231f2ab475066e7803f34777787d469bc3378722c77fc5f5d75d",
+          "citation_index": 1,
+          "citation_sha256": "sha256:17f16b95927b770f179587e652814d0ae7a3bc6ed43c0d4d0f84f893f7db0f4e",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p4 공업수학1,2와 일반물리학1,2의 학문기초교양필수→전공기초 변경은 맞다. 두 행과 제목·시행 설명을 합쳤으며 해당 PDF 페이지 전달 기록도 없다."
+        },
+        {
+          "run_id": "A-0015-001",
+          "output_sha256": "sha256:4d9f6043f5ec231f2ab475066e7803f34777787d469bc3378722c77fc5f5d75d",
+          "citation_index": 2,
+          "citation_sha256": "sha256:8df761a3bac81da1ef30e8afd0bfc20cf9bce31a62e3a847dffdbf1c8dfd2c27",
+          "category": "original_page_not_read",
+          "reason": "p4 원문의 인용부호 차이는 이미 정규화되어 문구 검사를 통과한다. 남은 실패는 p4 PDF 전달 기록이 없다는 점이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 49,
+          "quote_sha256": "sha256:733bbf7b3c929040e595ee506495fa4b121e8fa3243b9ed74eb09d4d8be6c5d4",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:a1e14a42bf395d6cda3e743073038278c27e343ebadf86b500616b9b0f435ac4",
+          "verdict": "fail",
+          "issue_ids": [
+            "citation_1:page_read",
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 4,
+          "quote_sha256": "sha256:1aace400470b4bd3ca29b5c0050f852855c9897d7257fc325aa2577f4ab98404",
+          "verdict": "fail",
+          "issue_ids": [
+            "citation_2:page_read"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "B-0015-001",
+      "case_id": "CS-2026-2-016",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:2778bfcddffa488c00770aef1fe85504ca546bb86d463fde132c55c286c3981b",
+      "output_sha256": "sha256:7e32053229bc8243a3e58b73a2ad39f0f2af4a9f7b75a1cd867e65fa006b40a7",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:45b2e5a4b49756d3d47f773976346e07f516d38537e2cf60a8908ece31d0acfb",
+        "claude-tools.json": "sha256:09efad5fc48410c65b9929730d351c6080ceaf9f0c80e906ebc21e0ddf837187",
+        "source-check.json": "sha256:e526b6eee8b8377a1120bb4c307713e8da1800a4b0460c17a84a3d4c62184d88",
+        "result.json": "sha256:11114ddc0785bf197e9d24d1763730197f228c943236590e97a0cb9bd042ff40"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_3:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_4:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0015-001",
+          "output_sha256": "sha256:7e32053229bc8243a3e58b73a2ad39f0f2af4a9f7b75a1cd867e65fa006b40a7",
+          "citation_index": 0,
+          "citation_sha256": "sha256:2da1db75ff65b75f25677cfc3bfd96ca43108d4da9db21fde099c72e545e8cc9",
+          "category": "table_relationship_unhandled",
+          "reason": "p49 수리적분석→공업수학1→3은 대응한다. 해당 표 색인이 없다."
+        },
+        {
+          "run_id": "B-0015-001",
+          "output_sha256": "sha256:7e32053229bc8243a3e58b73a2ad39f0f2af4a9f7b75a1cd867e65fa006b40a7",
+          "citation_index": 1,
+          "citation_sha256": "sha256:d801a16e320782572ff28d36f7591257cfbdfe67441b91b6bf2183770abc8513",
+          "category": "table_relationship_unhandled",
+          "reason": "p49 과학적사고와실험→일반물리학2→3은 대응한다. 해당 표 색인이 없다."
+        },
+        {
+          "run_id": "B-0015-001",
+          "output_sha256": "sha256:7e32053229bc8243a3e58b73a2ad39f0f2af4a9f7b75a1cd867e65fa006b40a7",
+          "citation_index": 3,
+          "citation_sha256": "sha256:7c50a5d0d5c3503d03c5b7e3d331fa0f68bdf27bf934310f9325fa5d9e39321a",
+          "category": "table_relationship_unhandled",
+          "reason": "p49 반도체시스템 열과 공업수학1 행의 교차 셀은 1-2이다. 행·열 교차 조회는 현재 미지원이다."
+        },
+        {
+          "run_id": "B-0015-001",
+          "output_sha256": "sha256:7e32053229bc8243a3e58b73a2ad39f0f2af4a9f7b75a1cd867e65fa006b40a7",
+          "citation_index": 4,
+          "citation_sha256": "sha256:bcccfa5ac2c4ab5c33db9f26074bba6898a129e5fb023f3350e79498a627efb7",
+          "category": "table_relationship_unhandled",
+          "reason": "p49 반도체시스템 열과 일반물리학2 행의 교차 셀은 1-2이다. 행·열 교차 조회는 현재 미지원이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 49,
+          "quote_sha256": "sha256:0b104579ee4e909ad3dd5801c8b25ec57ecf14cef506e01b2d70e03d74023a0a",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 49,
+          "quote_sha256": "sha256:a32eb0ef0bf56953410c424ba7335fd0fe2507d1e223836c8fc6f07a7882df1b",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 49,
+          "quote_sha256": "sha256:f9f80e7d1185a1b1e61f483dcb1e795703d930dffe849e4c4ce7c699981632de",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 3,
+          "pdf_page": 49,
+          "quote_sha256": "sha256:c36f22ea48c8b6b5227a27863dc963c53a47386fb5445295215e06e963cab009",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_3:quote_unverified"
+          ]
+        },
+        {
+          "index": 4,
+          "pdf_page": 49,
+          "quote_sha256": "sha256:25fc547251f12a9e02ef986ea4eea45279c0bc0fe517c70ce548e273b81b0476",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_4:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "C-0015-001",
+      "case_id": "CS-2026-2-016",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:2778bfcddffa488c00770aef1fe85504ca546bb86d463fde132c55c286c3981b",
+      "output_sha256": "sha256:aa1d054c7e27ee41f304ac169ac7f1a193f7cf0f45f400bd994d81ba249340c2",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:00a3e2a81219bd762f38754f3f6c967e99de69db4c616f1eaf16ef47f259f3cb",
+        "claude-tools.json": "sha256:997e972e8f2893996f012577c67d7193f409f29b912cf885e7b4c013595b6339",
+        "source-check.json": "sha256:5759a07e817c63f29e2dbb2119cc87ed1c7535a4c1bae4b3597e653f7023bec5",
+        "result.json": "sha256:d95d397965fa856dd028ac75b784ea0a734e05595579d59e7f162c7a94b51183"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0015-001",
+          "output_sha256": "sha256:aa1d054c7e27ee41f304ac169ac7f1a193f7cf0f45f400bd994d81ba249340c2",
+          "citation_index": 0,
+          "citation_sha256": "sha256:a5170c6566ca526aeba6dc60bc20906f0fa7c3656fda36b9b7702423d0ad0bf8",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p49 수리적분석·공업수학1·반도체시스템 1-2는 맞지만 원문에 없는 and를 인용 안에 삽입했다."
+        },
+        {
+          "run_id": "C-0015-001",
+          "output_sha256": "sha256:aa1d054c7e27ee41f304ac169ac7f1a193f7cf0f45f400bd994d81ba249340c2",
+          "citation_index": 1,
+          "citation_sha256": "sha256:8ed574f5443c1a49bc3a682b77a1e79cb96fd897c460b0675b72136b784a84bc",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p49 과학적사고와실험·일반물리학2·반도체시스템 1-2는 맞지만 원문에 없는 and를 삽입했다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 49,
+          "quote_sha256": "sha256:4c246c6cb8e7785a37e93b4a59e40f5af0e927df0faf3ec0dccf275b244d86e3",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 49,
+          "quote_sha256": "sha256:173774f76f3e38fe9d6816a6cf3847542a040babca3159648ab88c70e0b4873a",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 49,
+          "quote_sha256": "sha256:10e11f3a2f089eab2503ff047a5a2cd5418a6783206fba4edadc8e3ee5a703e9",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0016-001",
+      "case_id": "CS-2026-2-017",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:fcc63642d649ef12eaeb8e0c0bec5409b7e166384643209a3ca524a2f2f4c82d",
+      "output_sha256": "sha256:d5c192e083004a0e7b1678ea28f6781038d5a2c6d615d851596b980f372568c6",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:4742177af46253873248a9ef8f6a20419cf7f7987ce668d6d133bdc026d69ab7",
+        "claude-tools.json": "sha256:6bedfab35f9d86ff031ef7cc331f7fe1dff8a91f608301bb600cb8ac35d89ff1",
+        "source-check.json": "sha256:e1ddc767a0263862f21f17ffc36d76769c36f3432058d900f301c2f12894ac7a",
+        "result.json": "sha256:9ebb2d216248451da42fb76e7770e1c41a87f2bb208d8119f39c51d9ce2aa951"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_2:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0016-001",
+          "output_sha256": "sha256:d5c192e083004a0e7b1678ea28f6781038d5a2c6d615d851596b980f372568c6",
+          "citation_index": 1,
+          "citation_sha256": "sha256:9f2a622ecc18a2b3d39dd2d62e00487206757bc7821ae406e6abda40c96697b0",
+          "category": "table_relationship_unhandled",
+          "reason": "p43 소통역량→취창업과진로설계→1→3-4학년(건축학과 4-5학년)과 별도 합계 13은 맞다. 과목 행과 합계 행 결합은 미지원이다."
+        },
+        {
+          "run_id": "A-0016-001",
+          "output_sha256": "sha256:d5c192e083004a0e7b1678ea28f6781038d5a2c6d615d851596b980f372568c6",
+          "citation_index": 2,
+          "citation_sha256": "sha256:2863f61e85fe2cf19a55784846adaa93b4446425ebe4724a6ff55f708fdf4d9d",
+          "category": "table_relationship_unhandled",
+          "reason": "p46 공과대학 국방시스템공학과 행의 12/9/12/12/45/28/73/85/130 값과 각 열은 대응한다. 여러 머리글·값 결합은 미지원이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 43,
+          "quote_sha256": "sha256:df1ada0f1e14ecc60de88368519af5a0b4bb1e97745d0d13fde2642f16458f8b",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 43,
+          "quote_sha256": "sha256:26c82576314e83f2e391295f211688f6154fa022e5a6381da7777fe0d54a323b",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 46,
+          "quote_sha256": "sha256:0b8a496867dca24d4dad9deea6d9c002e0a30efafb4eef5aea321fbfeba88a7a",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_2:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "B-0016-001",
+      "case_id": "CS-2026-2-017",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:fcc63642d649ef12eaeb8e0c0bec5409b7e166384643209a3ca524a2f2f4c82d",
+      "output_sha256": "sha256:076a39d00793a6912b5f0f39a680d1edfd4d381feb06e3480fb7b116bccf7ed2",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:75ad6d5d9735c63ac72b9368a2a2551298f5db03c3829390e634038b9d8dc5fd",
+        "claude-tools.json": "sha256:f4590c07cdc3b41c0f962ab06ff1b8570ded3e00981808cc84a3cc1e8ddf7482",
+        "source-check.json": "sha256:c29a04c1321711621d77efc3f3ca16c4708e184bf50e003cd264b25d5fe24c4a",
+        "result.json": "sha256:5d5fa922c3657dc5dce159a50fd925b0a66fa7cf258e50847dde74a13ef2b53e"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0016-001",
+          "output_sha256": "sha256:076a39d00793a6912b5f0f39a680d1edfd4d381feb06e3480fb7b116bccf7ed2",
+          "citation_index": 0,
+          "citation_sha256": "sha256:2863f61e85fe2cf19a55784846adaa93b4446425ebe4724a6ff55f708fdf4d9d",
+          "category": "table_relationship_unhandled",
+          "reason": "p46 공과대학 국방시스템공학과 행의 12/9/12/12/45/28/73/85/130 값과 각 열은 대응한다. 여러 머리글·값 결합은 미지원이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 46,
+          "quote_sha256": "sha256:0b8a496867dca24d4dad9deea6d9c002e0a30efafb4eef5aea321fbfeba88a7a",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 43,
+          "quote_sha256": "sha256:467620869d1cd42c551c5e06d6e7ce037fe4a6c6cdd4db2e80777a51d217e77e",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 43,
+          "quote_sha256": "sha256:f3324b56d361cc78173bff0055ebcdb87e3c287ff2f3e59ef97b9c76823cf37f",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0016-001",
+      "case_id": "CS-2026-2-017",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:fcc63642d649ef12eaeb8e0c0bec5409b7e166384643209a3ca524a2f2f4c82d",
+      "output_sha256": "sha256:86a1bd6d3fb5371ef0ad255b2a81979dd137bf2478f70f3a4cfd54e482927053",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:97edab1652f4d10389087d42fcfdd5589474bd02b8fc686be504d93e72e335a1",
+        "claude-tools.json": "sha256:3fc7671116379daedd0b3c9934208e1d7231dc1e2a31e5667901115670c95531",
+        "source-check.json": "sha256:7d63a820aa62646022be9c51763978bc8dc28d7e38b24e9a973bb07e8d52198a",
+        "result.json": "sha256:ae4c422986cef5704a6d78e3d6afb11188714ce591b8f51ae14f0a0cb358449d"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "fail",
+      "unread_skill_files": [
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+      ],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "citation_2:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "required_skill_reads",
+          "verdict": "fail",
+          "reason": "필수 문서 전체 읽기 누락: context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "next_action": "기존 읽기 누락을 그대로 유지하고 문서 전달 절차를 확인하세요."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0016-001",
+          "output_sha256": "sha256:86a1bd6d3fb5371ef0ad255b2a81979dd137bf2478f70f3a4cfd54e482927053",
+          "citation_index": 2,
+          "citation_sha256": "sha256:a9d644e21769d7b27e90c97e455c0ed39549861c1723dac56bcf90c0f3d2329c",
+          "category": "table_relationship_unhandled",
+          "reason": "p46 국방시스템공학과 행의 수치는 모두 대응한다. 소계·총계 머리글을 짧게 쓰고 여러 열을 연결했다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 43,
+          "quote_sha256": "sha256:df1ada0f1e14ecc60de88368519af5a0b4bb1e97745d0d13fde2642f16458f8b",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 43,
+          "quote_sha256": "sha256:f3324b56d361cc78173bff0055ebcdb87e3c287ff2f3e59ef97b9c76823cf37f",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 46,
+          "quote_sha256": "sha256:967186fa115be7025e82f5496c26026f1b2c5c816268fff3e7f09c43ca087164",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_2:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "A-0017-001",
+      "case_id": "CS-2026-2-018",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:118291987a236209eb4b899cfccdb8cc620747014cf1c59394c9b328b2126ee0",
+      "output_sha256": "sha256:7416a5ffd2146bd5f36c27c749ca838ac24d526030f9ee7a5a1df5b84b0bf060",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:8df82dd72e4ae4e7c6e7e868514dce07a936c4c680be93bbd76bdd9f72dd57ec",
+        "claude-tools.json": "sha256:ae5f2c99d948d0b9dcf8f8170191f6b6f4c0c762a1d4a8cb5e73e0e57654d724",
+        "source-check.json": "sha256:34f4a44fa440935472fcf99355c3561f954ecc16098d7dcbac8f2009c02400f6",
+        "result.json": "sha256:d0f284ae6dba15339be69d365e63dea26bb269e49b7ad2777b629dbcebd5478d"
+      },
+      "objective_values": "fail",
+      "objective_details": [
+        {
+          "field": "action",
+          "reason": "mismatch",
+          "expected": "clarify",
+          "actual": "answer",
+          "actual_present": true
+        }
+      ],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_2:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_3:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_4:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0017-001",
+          "output_sha256": "sha256:7416a5ffd2146bd5f36c27c749ca838ac24d526030f9ee7a5a1df5b84b0bf060",
+          "citation_index": 1,
+          "citation_sha256": "sha256:b0f258c7b2cc549a2c4b62ca1e38c6b53299fbf8109d41d83b7b80d51b50be27",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p16 전체 10권·서양의 역사와 사상 4권은 맞지만 원문에 없는 and로 연결했다."
+        },
+        {
+          "run_id": "A-0017-001",
+          "output_sha256": "sha256:7416a5ffd2146bd5f36c27c749ca838ac24d526030f9ee7a5a1df5b84b0bf060",
+          "citation_index": 2,
+          "citation_sha256": "sha256:12f025c0ea4e47563a69d894cb2f6b2879ba4f5d3fdc884ae5d901479c3ccc02",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p16 전체 10권·동양의 역사와 사상 2권은 맞지만 원문에 없는 and로 연결했다."
+        },
+        {
+          "run_id": "A-0017-001",
+          "output_sha256": "sha256:7416a5ffd2146bd5f36c27c749ca838ac24d526030f9ee7a5a1df5b84b0bf060",
+          "citation_index": 3,
+          "citation_sha256": "sha256:61b5917b8ec3c0be3d6e3c4b57677a06f5de9e3f608dd75f0d6fc8d6df10c0c2",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p16 전체 10권·동·서양의 문학 3권은 맞지만 원문에 없는 and로 연결했다."
+        },
+        {
+          "run_id": "A-0017-001",
+          "output_sha256": "sha256:7416a5ffd2146bd5f36c27c749ca838ac24d526030f9ee7a5a1df5b84b0bf060",
+          "citation_index": 4,
+          "citation_sha256": "sha256:e215fba45db07ff4f8d7fbbc270ab006bdd67b3fd9fb257c90a06afbad4b9358",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p16 전체 10권·과학 사상 1권은 맞지만 원문에 없는 and로 연결했다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:e7cd3e4aac9c59c61eae8218eb5d3623450717154af47f41ac7b761670bfd9db",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:d009af249c5d15219d12c05efb62c496d9c86a39b04601d63fd4e0321d10134e",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:735db3cc90ca01228e1ca77a25b459a847c4ca7b9036a2f5abd87e0a20c8018b",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_2:quote_unverified"
+          ]
+        },
+        {
+          "index": 3,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:137707c67ee45d7f55a64388ff137e9a00c3893793031e96754102c8e06e3a10",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_3:quote_unverified"
+          ]
+        },
+        {
+          "index": 4,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:80d6eb40e936575a3a37cea5ae4a1230266b2b120258135bcfc19b3ee288e0eb",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_4:quote_unverified"
+          ]
+        },
+        {
+          "index": 5,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:01c612ce97d1a77b331708f21f3b0d19a106f391ca3dd65c007d2fdcb720e7ec",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 6,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:e41b3c05ae7a706edc1a18955c1a146d5b4b98b41d585e83ebcd0c5e499ef383",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0017-001",
+      "case_id": "CS-2026-2-018",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:118291987a236209eb4b899cfccdb8cc620747014cf1c59394c9b328b2126ee0",
+      "output_sha256": "sha256:119f15f751e16f3108f7ef087850d22003e093578a498b0c301d49292717a82f",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:76d11f634ed38f592001ab34a3d7d206b7143b7af570c40c2003e9c0fcb3525d",
+        "claude-tools.json": "sha256:f18dd707af4de36349871fee85d5fcd2570dc3d60bfa339f1580111cee733689",
+        "source-check.json": "sha256:b7c6aa1aaf714592fb440eae7d3f5b51933763eb181a15d7b8d9c438b6cd6c34",
+        "result.json": "sha256:d92f88aff8257920b97b7d13bd21efd88f44afa0b09029f616ed60dc60b2686c"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_3:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0017-001",
+          "output_sha256": "sha256:119f15f751e16f3108f7ef087850d22003e093578a498b0c301d49292717a82f",
+          "citation_index": 1,
+          "citation_sha256": "sha256:04b068afc5d05c8d45378c0cdfaa33876829fb4f1d8fe0d2707d0faf39174c22",
+          "category": "table_relationship_unhandled",
+          "reason": "p16 전체 10권과 영역별 4/2/3/1권의 열 관계가 맞다. 머리글 행을 먼저, 값 행을 나중에 모은 형식은 미지원이다."
+        },
+        {
+          "run_id": "B-0017-001",
+          "output_sha256": "sha256:119f15f751e16f3108f7ef087850d22003e093578a498b0c301d49292717a82f",
+          "citation_index": 3,
+          "citation_sha256": "sha256:9a25167d1c174ee494e549e89caeff2c941f9325c19c661b1c20fec2d50d2c33",
+          "category": "changed_source_word_or_unit",
+          "reason": "p16 이수 대상의 2012학년도를 2012학번도로 오기했다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:15aec6200ab825b0ed08cbc6d78fb65ffb92ac70a234005794ccbb4d81f322aa",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:2b2b2849702453a822dcfb20f2c1297533384588f30f6d6fee845b193d7b9843",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:70170b27ca070d4de1c266fa4b2b3c03b04db6b6c1bbdb3fbbfc8c17166e3312",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 3,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:8c769730396b9e5aea9579c65113c470d585193bcada9a67e4360e780b1d613b",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_3:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "C-0017-001",
+      "case_id": "CS-2026-2-018",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:118291987a236209eb4b899cfccdb8cc620747014cf1c59394c9b328b2126ee0",
+      "output_sha256": "sha256:d65731cc23cf2e2805f8b3383cd123a7940edb322755a85874bc6555b7fe1127",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:c194d699e76939aace848341668e056a44e7f90ceecf58db0bb828ce23a2ccdf",
+        "claude-tools.json": "sha256:df9a34e714846ff7fc94f1b8e6a51c37917376626259d77915f795238658e457",
+        "source-check.json": "sha256:28a678547e668fea620699037e61e545297478ab0a5b5a9eaa2fa755d8a7ad6d",
+        "result.json": "sha256:6ecc974c3babe15db5ebf9deeada277c697810444ff5456b940ff42d196b6c6d"
+      },
+      "objective_values": "fail",
+      "objective_details": [
+        {
+          "field": "action",
+          "reason": "mismatch",
+          "expected": "clarify",
+          "actual": "answer",
+          "actual_present": true
+        }
+      ],
+      "source_status": "inconclusive",
+      "skill_read_status": "fail",
+      "unread_skill_files": [
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+      ],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "required_skill_reads",
+          "verdict": "fail",
+          "reason": "필수 문서 전체 읽기 누락: context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "next_action": "기존 읽기 누락을 그대로 유지하고 문서 전달 절차를 확인하세요."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0017-001",
+          "output_sha256": "sha256:d65731cc23cf2e2805f8b3383cd123a7940edb322755a85874bc6555b7fe1127",
+          "citation_index": 1,
+          "citation_sha256": "sha256:04b068afc5d05c8d45378c0cdfaa33876829fb4f1d8fe0d2707d0faf39174c22",
+          "category": "table_relationship_unhandled",
+          "reason": "p16 전체 10권과 영역별 4/2/3/1권의 열 관계가 맞다. 머리글 행을 먼저, 값 행을 나중에 모은 형식은 미지원이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:e7cd3e4aac9c59c61eae8218eb5d3623450717154af47f41ac7b761670bfd9db",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:2b2b2849702453a822dcfb20f2c1297533384588f30f6d6fee845b193d7b9843",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:fa9ef60fd2aa4b6f12f8f2fe44cd114d0d9a3c5d3392bffc73bf2e8f99013f3e",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 3,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:e41b3c05ae7a706edc1a18955c1a146d5b4b98b41d585e83ebcd0c5e499ef383",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0018-001",
+      "case_id": "CS-2026-2-019",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:6bb35b2ffb0f303a2d252220acfccd9fc394fc0b8a889b004444ea3874a490c3",
+      "output_sha256": "sha256:f7977934a2f7d60195c2349b6cbf3f37971e254a1f28b377db570a5971faa1be",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:29f9ad0af4bf8adb0d392fb7cd98312ed38f79bae2d551faa207ee4375553038",
+        "claude-tools.json": "sha256:722b04dfce77cd9812e47b2456349da4cf46e8af2fb838f2cecdbbb1ea1908da",
+        "source-check.json": "sha256:1312d2ba90405a3e2dcaacd5b9d5e5fc7ac26d0ea0754b8fd409573794ed27d1",
+        "result.json": "sha256:c00f3671e35789470b49e4aa1e80d9cb104da86f88c020d36a0f8a7b78471704"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_5:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0018-001",
+          "output_sha256": "sha256:f7977934a2f7d60195c2349b6cbf3f37971e254a1f28b377db570a5971faa1be",
+          "citation_index": 5,
+          "citation_sha256": "sha256:631a5a97172d9a1ff58c3e07906102d802dea51757dcc6130698064029a36d7c",
+          "category": "table_relationship_unhandled",
+          "reason": "p15 2012-2022학년도 행에 영어졸업인증·고전독서졸업인증이 있다. 셀 결합 인용이며 예체능 대체 조건까지 확인한 것은 아니다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:f24b536d2f62af1b2e2fdbab9028b26b894dc726ac967ddc6a6255ef463db29f",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:de3cd1e87f6277e118783e6846facc5a2bf007f1c831ce142b08b2e3055f956e",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:477936fb7b19f4eed6c4bcc3e0cc200d3e63c324c04128dbc756cbf494f361de",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 3,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:10ff482f082392a88166eb6a858b70cc7fe00dd1987dcd46cf9bd67e99b3275f",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 4,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:f7fb280f601cba72a7a405da65153c8fe099b1480d40f5576c25a087641d829d",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 5,
+          "pdf_page": 15,
+          "quote_sha256": "sha256:fa253bc5afd87434d95479b3d9210f787173cb40b9728e21fbcb4b13d4713577",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_5:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "B-0018-001",
+      "case_id": "CS-2026-2-019",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:6bb35b2ffb0f303a2d252220acfccd9fc394fc0b8a889b004444ea3874a490c3",
+      "output_sha256": "sha256:38529d9cbca6a33ee6ec83e79a02ed0aad9965ff2cd736be4c4b1840d7a69ac1",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:1ca8aa33cf4ccb3d2b39fd1d790b08ab9bfe7d8491f7ff1f6411b291d4d736d1",
+        "claude-tools.json": "sha256:c1576c2ccee2ab5866f4962a95e933a2362eefd870c65dc31742eee8d5a0bc62",
+        "source-check.json": "sha256:34e3ecc80515c19ed3bbd8f49de41bdb4fdee7425d3a07d630f78e4d912ae5bc",
+        "result.json": "sha256:4316d33817cbfa752793a7142054e6c96025820de753592a429e7c69f2f3c6dd"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_3:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_4:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0018-001",
+          "output_sha256": "sha256:38529d9cbca6a33ee6ec83e79a02ed0aad9965ff2cd736be4c4b1840d7a69ac1",
+          "citation_index": 1,
+          "citation_sha256": "sha256:09740d762b20bd5823f3336d5f6137a9203a0c2e46c1f7024ae465729d5fac74",
+          "category": "changed_source_word_or_unit",
+          "reason": "p16 교환교류생을 교환학교류생으로 바꿨다. 제외 대상 명칭의 직접 인용 불일치다."
+        },
+        {
+          "run_id": "B-0018-001",
+          "output_sha256": "sha256:38529d9cbca6a33ee6ec83e79a02ed0aad9965ff2cd736be4c4b1840d7a69ac1",
+          "citation_index": 3,
+          "citation_sha256": "sha256:663e2380298a98c68173349cdce39cc3023984a4da8189ac7f5469a01dd00626",
+          "category": "changed_source_word_or_unit",
+          "reason": "p16 고전독서인증을 고전도서인증으로 바꿨다."
+        },
+        {
+          "run_id": "B-0018-001",
+          "output_sha256": "sha256:38529d9cbca6a33ee6ec83e79a02ed0aad9965ff2cd736be4c4b1840d7a69ac1",
+          "citation_index": 4,
+          "citation_sha256": "sha256:3c78cb7b19226548536669f5b7f95a3ae36b527b9fa4f084e0022e72941214e7",
+          "category": "changed_source_word_or_unit",
+          "reason": "p16 고전독서인증을 고전도서인증으로 바꿨다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:f24b536d2f62af1b2e2fdbab9028b26b894dc726ac967ddc6a6255ef463db29f",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:a0c691a31a1706204a4ecafa969416acfade5d6be1cc677fb4e020932c3e5cfc",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:10ff482f082392a88166eb6a858b70cc7fe00dd1987dcd46cf9bd67e99b3275f",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 3,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:88019d5d1d31d7f1da559440c31082baa31ce0e7cc6b32a312439f02b5e52cd0",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_3:quote_unverified"
+          ]
+        },
+        {
+          "index": 4,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:7a04be49cb3ff27cf433802268ec5c6216400ab53eafc480a6eed654099243d2",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_4:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "C-0018-001",
+      "case_id": "CS-2026-2-019",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:6bb35b2ffb0f303a2d252220acfccd9fc394fc0b8a889b004444ea3874a490c3",
+      "output_sha256": "sha256:b10b7d2fa261c5c942e865de2474528c85e1c1d083d28d6809fd695ea1b84df1",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:11ab9efc7b173140b08cefc0ade6ae0a44cb3dc50c949f276d60d80ec8afe236",
+        "claude-tools.json": "sha256:43c21bc679c101e51a673db1afd6a84cdf975b9a0739651cf0f7945c99105df7",
+        "source-check.json": "sha256:fe86dac2e550eb549d3299f804d0a0752537dcd398debb6539c710c307e35eaf",
+        "result.json": "sha256:1a408afea7df9d4798804213dc36937b43cc8b7924d531eae18d8741b4751f64"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "fail",
+      "unread_skill_files": [
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+      ],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_4:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "required_skill_reads",
+          "verdict": "fail",
+          "reason": "필수 문서 전체 읽기 누락: context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "next_action": "기존 읽기 누락을 그대로 유지하고 문서 전달 절차를 확인하세요."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0018-001",
+          "output_sha256": "sha256:b10b7d2fa261c5c942e865de2474528c85e1c1d083d28d6809fd695ea1b84df1",
+          "citation_index": 1,
+          "citation_sha256": "sha256:09740d762b20bd5823f3336d5f6137a9203a0c2e46c1f7024ae465729d5fac74",
+          "category": "changed_source_word_or_unit",
+          "reason": "p16 교환교류생을 교환학교류생으로 바꿨다. 제외 대상 명칭의 직접 인용 불일치다."
+        },
+        {
+          "run_id": "C-0018-001",
+          "output_sha256": "sha256:b10b7d2fa261c5c942e865de2474528c85e1c1d083d28d6809fd695ea1b84df1",
+          "citation_index": 4,
+          "citation_sha256": "sha256:8ef971a825137723731d6234e118a22774c7708fc603741195d545b529e7057b",
+          "category": "changed_source_word_or_unit",
+          "reason": "p16 인증받은 학생을 인증한 학생으로 바꿨다. 뜻이 유사해도 직접 인용과는 다르다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:f24b536d2f62af1b2e2fdbab9028b26b894dc726ac967ddc6a6255ef463db29f",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:a0c691a31a1706204a4ecafa969416acfade5d6be1cc677fb4e020932c3e5cfc",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        },
+        {
+          "index": 2,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:10ff482f082392a88166eb6a858b70cc7fe00dd1987dcd46cf9bd67e99b3275f",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 3,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:50db28d170d271bbd09eb4c7e6292f74335bc1a4521597b2f20534776f212d58",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 4,
+          "pdf_page": 16,
+          "quote_sha256": "sha256:9edf7220f4c08c8ffbb0ba0292053f294d43fa98e08ab50e009f6bbddfa978cf",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_4:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "A-0019-001",
+      "case_id": "CS-2026-2-020",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:72239a81db670ba73709a3840ca006323f61b965aa748cd64c57b8b9daf96a6c",
+      "output_sha256": "sha256:0f7d51be79f842f3b590a1898fc7727b0b74866b715d4dd98a77a50187de9c7b",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:306bd55f2a0499438684762c51af2544eb9cb57afa071cfbe217ce26999c4034",
+        "claude-tools.json": "sha256:bc0569ccfd970df7b976eccb7f649148c5f0640e30eab269e3d1b1ef0dba256e",
+        "source-check.json": "sha256:721c6b7920508f6ca13012c2b3f162ca3fb16d41ee9b2a9d10fa7666f344d038",
+        "result.json": "sha256:96ea2d29c4b12bb26e916c5513b9fd998650dde1e071df42cd1f5f03fce37dd9"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:27c91565aed7095c740a7ab9ca860b2d4b702ac8724db1da5e0e99f360617d6b",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:d316ec064f0d9df73e1067c6d503061a5b51112f78b1985368f77f4bd2e0646e",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 52,
+          "quote_sha256": "sha256:d82c0abbe35d72530c655e385791863c7565426dfe25bece2337157d5dfe858e",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "B-0019-001",
+      "case_id": "CS-2026-2-020",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:72239a81db670ba73709a3840ca006323f61b965aa748cd64c57b8b9daf96a6c",
+      "output_sha256": "sha256:3bd2a78c8e61a0fd1ebce2b0ac7e52ee0b8052485cd129a6bb6417a18d05280e",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:2ee06c4db0b68d8c51f105283f37c220cd1798b3196f71c2be81627733699252",
+        "claude-tools.json": "sha256:46655a1bcdcb7128fd97cc8c08a4556f1c7aeb4902e4ebff01564b50b5c24be0",
+        "source-check.json": "sha256:51b56fd8d22225eb7d775072f4d391e1e50b13e10881761eb267db1b382581d9",
+        "result.json": "sha256:33f16e147b00868b6ffb6e52e4f26d488251e46f08f4030919b7f16679aefbdf"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_2:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0019-001",
+          "output_sha256": "sha256:3bd2a78c8e61a0fd1ebce2b0ac7e52ee0b8052485cd129a6bb6417a18d05280e",
+          "citation_index": 2,
+          "citation_sha256": "sha256:737e8b0516978399e06eb0dadefbdb2a5fc7e9f1d54308102ca7b9ffb82c7080",
+          "category": "table_relationship_unhandled",
+          "reason": "p53 균형교양 표의 학점 합계는 6이다. 현재 영역→과목→학점 문법은 합계 행을 지원하지 않는다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:27c91565aed7095c740a7ab9ca860b2d4b702ac8724db1da5e0e99f360617d6b",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:3c5991d5d63a33cc5a929473b8b443fbc30771845a24214928799f6173f41039",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 2,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:e97c77f5d9823c1343cb7e6e755b0f8b942fd8228d30a01fa82c77c6d1086117",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_2:quote_unverified"
+          ]
+        },
+        {
+          "index": 3,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:66ef8c1021ee6ae1e56900ca4b1241aeee78051c3f40dc4772ba9ebd15b7a46a",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "C-0019-001",
+      "case_id": "CS-2026-2-020",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:72239a81db670ba73709a3840ca006323f61b965aa748cd64c57b8b9daf96a6c",
+      "output_sha256": "sha256:9003730bf5bfb18cf878fe7dd7f81eba08418749b381471eca2b12d251a9fd42",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:b38b6478e93708ec2209608e42c2cc901d5cea16caa682b9efe8df6acb449f4f",
+        "claude-tools.json": "sha256:570f3ac0a2830f4cad153e8d0883d62e234083bc1a671bba79a388d2a72bed13",
+        "source-check.json": "sha256:d131a94f49cb3e231f8c7131ec9f42e345b821e5f1465637f600ccd5500bcc5b",
+        "result.json": "sha256:7ffaea6cd1419d65c57129bd75ff4d4f2012422b9e938e29e6a1b8f47fcd3b99"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "pass",
+      "skill_read_status": "pass",
+      "unread_skill_files": [],
+      "automatic_status": "pass",
+      "automatic_issues": [],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:27c91565aed7095c740a7ab9ca860b2d4b702ac8724db1da5e0e99f360617d6b",
+          "verdict": "pass",
+          "issue_ids": []
+        },
+        {
+          "index": 1,
+          "pdf_page": 53,
+          "quote_sha256": "sha256:12e7c10509bfe0359c4e89e9fa6a8f64e30d4409964af563ad40622aa317e3c5",
+          "verdict": "pass",
+          "issue_ids": []
+        }
+      ]
+    },
+    {
+      "run_id": "A-0020-001",
+      "case_id": "OPS-2026-2-001",
+      "condition": "A",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:ecb03c7ac979063d3bc2c136a9590bdef0f6682a894417b8a035b9a60c207af8",
+      "output_sha256": "sha256:fae532460b563321245f528b4e9483f7fe20de970f1028ea1261523d94ec1993",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:041f3d15e2be102f46a9d7cc752ea722e02072cc044f9034c2cd73a609870389",
+        "claude-tools.json": "sha256:8950db3dfb9603ecd61c8e76b682a9e135f335172a7074fe85af8812d56941e9",
+        "source-check.json": "sha256:e2012635093ba5a7a34af54b79913f1eed7c75ee97358ba6c6cb90cdb2f44fcb",
+        "result.json": "sha256:334799a5dedee804048123e8f36d7e933af920c916e4b0ec6b20d68b85cbea66"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "A-0020-001",
+          "output_sha256": "sha256:fae532460b563321245f528b4e9483f7fe20de970f1028ea1261523d94ec1993",
+          "citation_index": 0,
+          "citation_sha256": "sha256:deb85b5511441a9eec54c8451ce86e7139069a0d3cb9c050ef5217ffd516ff72",
+          "category": "table_relationship_unhandled",
+          "reason": "p60 인공지능 열의 기초미적분학 행은 1-1이다. 행·열 교차 표 색인이 없다."
+        },
+        {
+          "run_id": "A-0020-001",
+          "output_sha256": "sha256:fae532460b563321245f528b4e9483f7fe20de970f1028ea1261523d94ec1993",
+          "citation_index": 1,
+          "citation_sha256": "sha256:0114c62f8805d5e022dd6e40d13a269685134ae446081d386e49fd65765028b4",
+          "category": "table_relationship_unhandled",
+          "reason": "p60 인공지능 열의 학점 합계는 9이다. 합계 행·학과 열 교차 조회는 미지원이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 60,
+          "quote_sha256": "sha256:c2d5b312e4b28621658e92b56af8a7ff671820f077c5b6107624ac37ef078289",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 60,
+          "quote_sha256": "sha256:b5eca59fc8de18968722e53546ceebda1aa8adc143ea1dcc3f9f17cfa493dad4",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "B-0020-001",
+      "case_id": "OPS-2026-2-001",
+      "condition": "B",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:ecb03c7ac979063d3bc2c136a9590bdef0f6682a894417b8a035b9a60c207af8",
+      "output_sha256": "sha256:3b45eba37377fe0ce8432d5d3c62f0f4168af1cf871188366bedfd26c9005e2f",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:24ef6ff1ac20332fdf4266a02b7cbd253b65ae39f0d26c20505276bb626a2137",
+        "claude-tools.json": "sha256:02049049ae855328e33b8ae26175ab2ad3b638f44ac7a8c3bcdbe9dd0915f612",
+        "source-check.json": "sha256:1bf8c6793c9ec390b2e60c024b7122cfbef4556b0c60bcc9fcc2312c7fe57ee7",
+        "result.json": "sha256:0590ff4a6fd15cb39d6263b2b463ac82ec211902aa4d5247c3401e9b9faf2282"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "not_requested",
+      "unread_skill_files": [],
+      "automatic_status": "inconclusive",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "B-0020-001",
+          "output_sha256": "sha256:3b45eba37377fe0ce8432d5d3c62f0f4168af1cf871188366bedfd26c9005e2f",
+          "citation_index": 0,
+          "citation_sha256": "sha256:4830131f0487ea1ff57b301fb7d1903a3f63ad39fbbaf02127d4236fd2a2309d",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p60 기초미적분학 3학점·인공지능 1-1은 맞다. 인용 안의 열:은 원문에 없는 설명이다."
+        },
+        {
+          "run_id": "B-0020-001",
+          "output_sha256": "sha256:3b45eba37377fe0ce8432d5d3c62f0f4168af1cf871188366bedfd26c9005e2f",
+          "citation_index": 1,
+          "citation_sha256": "sha256:54625944943deecb05a28542b8222099f795bcb410a377fa4bb2062d9a5240c1",
+          "category": "table_quote_with_added_explanation",
+          "reason": "p60 인공지능 합계 9는 맞지만 열:이라는 설명을 인용에 추가했다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 60,
+          "quote_sha256": "sha256:f066d399e5a1960650bd5520b6be3b0f53b340ec94e95eeac33397c7acecbc13",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 60,
+          "quote_sha256": "sha256:573e047285abe3aa8d5a4eaea06b841636e28d6601129b0fc444d7add3255316",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "C-0020-001",
+      "case_id": "OPS-2026-2-001",
+      "condition": "C",
+      "repeat": 1,
+      "execution_status": "completed",
+      "original_run_status": "error",
+      "original_error": "adapter_exit_2",
+      "case_sha256": "sha256:ecb03c7ac979063d3bc2c136a9590bdef0f6682a894417b8a035b9a60c207af8",
+      "output_sha256": "sha256:c01221c84bda0ca9f3c453fc9795c92ca63e2db5b4beae3623317fe243a8b32d",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "input_files": {
+        "request.json": "sha256:d884d2c3b665fbed98d4c35fd56fdb73fb826e9f2b9c3872835d5a6134456466",
+        "claude-tools.json": "sha256:f1b9f0be13356924c001294e4485b186f4c9b1d59ca767fc66a5d068b30d1c01",
+        "source-check.json": "sha256:2161eb61feb5c4f9f93622f306c2f33e52e67479642047089708aeec5e7122aa",
+        "result.json": "sha256:6733d78ab8bd99591aabcd9cc136f62700d510950ace822f088a75eb42edad12"
+      },
+      "objective_values": "pass",
+      "objective_details": [],
+      "source_status": "inconclusive",
+      "skill_read_status": "fail",
+      "unread_skill_files": [
+        "context/skills/skill-bundle/docs/agent-harness/PROJECT.md"
+      ],
+      "automatic_status": "fail",
+      "automatic_issues": [
+        {
+          "id": "citation_0:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "citation_1:quote_unverified",
+          "verdict": "inconclusive",
+          "reason": "문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.",
+          "next_action": "원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다."
+        },
+        {
+          "id": "required_skill_reads",
+          "verdict": "fail",
+          "reason": "필수 문서 전체 읽기 누락: context/skills/skill-bundle/docs/agent-harness/PROJECT.md",
+          "next_action": "기존 읽기 누락을 그대로 유지하고 문서 전달 절차를 확인하세요."
+        }
+      ],
+      "human_review": "pending",
+      "answer_quality": "not_established",
+      "assistant_analysis_notes": [
+        {
+          "run_id": "C-0020-001",
+          "output_sha256": "sha256:c01221c84bda0ca9f3c453fc9795c92ca63e2db5b4beae3623317fe243a8b32d",
+          "citation_index": 0,
+          "citation_sha256": "sha256:6bd319a8f81a9fa08daa945afe40c7e91579b0ecd944bbfee9e442ecfa438e52",
+          "category": "table_relationship_unhandled",
+          "reason": "p60 기초미적분학→3→인공지능 열의 1-1은 맞다. 행·열 교차 표 색인이 없다."
+        },
+        {
+          "run_id": "C-0020-001",
+          "output_sha256": "sha256:c01221c84bda0ca9f3c453fc9795c92ca63e2db5b4beae3623317fe243a8b32d",
+          "citation_index": 1,
+          "citation_sha256": "sha256:0114c62f8805d5e022dd6e40d13a269685134ae446081d386e49fd65765028b4",
+          "category": "table_relationship_unhandled",
+          "reason": "p60 인공지능 열의 학점 합계는 9이다. 합계 행·학과 열 교차 조회는 미지원이다."
+        }
+      ],
+      "citation_verdicts": [
+        {
+          "index": 0,
+          "pdf_page": 60,
+          "quote_sha256": "sha256:c573ff1c441ef5139fa5b704c56912d8963d5a123801c0ba7df3a1389e71114b",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_0:quote_unverified"
+          ]
+        },
+        {
+          "index": 1,
+          "pdf_page": 60,
+          "quote_sha256": "sha256:b5eca59fc8de18968722e53546ceebda1aa8adc143ea1dcc3f9f17cfa493dad4",
+          "verdict": "inconclusive",
+          "issue_ids": [
+            "citation_1:quote_unverified"
+          ]
+        }
+      ]
+    }
+  ]
+}

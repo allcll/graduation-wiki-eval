@@ -61,6 +61,8 @@ node dist/cli.js run --plan artifacts/new-run/plan.json -- \
 
 ## 저장된 응답만 다시 검사할 때
 
+여러 저장 응답의 실행·정답값·인용·Skill 읽기 상태를 한 보고서로 보려면 [`recheck-report`](offline-report.md)를 사용합니다. 아래 `source-recheck`는 작업 한 건의 인용 검사만 수행합니다.
+
 `source-recheck`는 모델을 호출하지 않습니다. 기존 작업의 요청·도구 기록·거절된 답변·원문 해시를 먼저 맞춰 본 뒤 새 검사 결과만 저장합니다. 과거 응답을 새 기준으로 재채점하는 작업이므로 이전 run의 오류 상태나 품질 보고서를 고쳐 쓰지 않습니다.
 
 ```sh
