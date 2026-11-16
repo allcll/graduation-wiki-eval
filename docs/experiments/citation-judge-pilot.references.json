@@ -1,0 +1,120 @@
+{
+  "schema": "graduation-wiki-eval/judge-references-v1",
+  "plan_sha256": "sha256:afb61ba512b0898e291fe90866a760fdb6157fb9758d1b38c35d68ee9eac75d3",
+  "reviewer_kind": "assistant_draft",
+  "human_review": "pending",
+  "entries": [
+    {
+      "sample_id": "sample-01",
+      "answer_sha256": "sha256:6df7a3716e9fbb3e7e6fbc8086cae682e650f2ef90c3637b1ca95f1cc4fa6da1",
+      "citation_index": 1,
+      "category": "normal",
+      "expected": {
+        "quote_fidelity": "pass",
+        "source_relation": "pass"
+      },
+      "source_pages": [
+        53
+      ],
+      "reason": "p53 역사와사상 병합셀 안의 한국현대사 행과 학점 3이 일치한다."
+    },
+    {
+      "sample_id": "sample-01",
+      "answer_sha256": "sha256:6df7a3716e9fbb3e7e6fbc8086cae682e650f2ef90c3637b1ca95f1cc4fa6da1",
+      "citation_index": 2,
+      "category": "normal",
+      "expected": {
+        "quote_fidelity": "pass",
+        "source_relation": "pass"
+      },
+      "source_pages": [
+        53
+      ],
+      "reason": "p53 자연과과학 병합셀 안의 생명과학의이해 행과 학점 3이 일치한다."
+    },
+    {
+      "sample_id": "sample-02",
+      "answer_sha256": "sha256:1c688487af55f0ce0e055eeb0101ea66f7068c4e79b632a595784498d75c379d",
+      "citation_index": 1,
+      "category": "normal",
+      "expected": {
+        "quote_fidelity": "pass",
+        "source_relation": "pass"
+      },
+      "source_pages": [
+        4
+      ],
+      "reason": "p4 항목 4의 교양 이수구분 소급 적용 제목과 적용 학번 범위를 그대로 옮겼다."
+    },
+    {
+      "sample_id": "sample-03",
+      "answer_sha256": "sha256:eb0364d8e72e215544a04c3af45d8ae32f4716aa7f44f6758c15515bc205e15d",
+      "citation_index": 0,
+      "category": "unsupported_table",
+      "expected": {
+        "quote_fidelity": "pass",
+        "source_relation": "pass"
+      },
+      "source_pages": [
+        53
+      ],
+      "reason": "p53 자연과과학 영역과 제외계열 병합셀의 관계가 맞다. 창의소프트학부 질문에 그대로 적용되는지는 각주를 포함한 별도 판단이다."
+    },
+    {
+      "sample_id": "sample-04",
+      "answer_sha256": "sha256:119f15f751e16f3108f7ef087850d22003e093578a498b0c301d49292717a82f",
+      "citation_index": 1,
+      "category": "unsupported_table",
+      "expected": {
+        "quote_fidelity": "pass",
+        "source_relation": "pass"
+      },
+      "source_pages": [
+        16
+      ],
+      "reason": "p16 이수 조건 표의 머리글을 먼저 나열하고 총권수·영역별 권수를 순서대로 연결했다. 10/4/2/3/1의 열 대응이 맞다."
+    },
+    {
+      "sample_id": "sample-05",
+      "answer_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+      "citation_index": 0,
+      "category": "actual_error",
+      "expected": {
+        "quote_fidelity": "fail",
+        "source_relation": "pass"
+      },
+      "source_pages": [
+        53
+      ],
+      "reason": "p53 수의세계 행의 학점 셀은 3이다. 직접 인용에 학점을 추가했으므로 원문 재현은 실패지만 학점 열의 수량 의미는 유지된다."
+    },
+    {
+      "sample_id": "sample-05",
+      "answer_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+      "citation_index": 3,
+      "category": "actual_error",
+      "expected": {
+        "quote_fidelity": "fail",
+        "source_relation": "pass"
+      },
+      "source_pages": [
+        52
+      ],
+      "reason": "p52 원문 학생 자율선택을 학생 자유선택으로 바꿨다. 직접 인용의 단어는 다르지만 소속 계열 외 2영역·6학점 선택 의미는 유지된다."
+    },
+    {
+      "sample_id": "sample-06",
+      "answer_sha256": "sha256:259c2daee1fdd7a7ff8f8fa1fab98af6053f24ce754a1046d88d9a11d87ba660",
+      "citation_index": 1,
+      "category": "actual_error",
+      "expected": {
+        "quote_fidelity": "fail",
+        "source_relation": "fail"
+      },
+      "source_pages": [
+        30
+      ],
+      "reason": "p30 세계사:인간과문명→세계사는 동일과목 병합셀·2023년 행에 있다. 대체과목으로 연결한 인용은 원문의 관계를 바꾸었다."
+    }
+  ]
+}

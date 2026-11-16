@@ -1,0 +1,176 @@
+{
+  "schema": "graduation-wiki-eval/published-judge-selection-v1",
+  "plan_sha256": "sha256:afb61ba512b0898e291fe90866a760fdb6157fb9758d1b38c35d68ee9eac75d3",
+  "selection_sha256": "sha256:dc1f17d4f23f5ad2d1a4d711885abbe2bec53161b15868364fc4aec18d92111b",
+  "reference_file_sha256": "sha256:212681e32a0be2eca4d7ad8c611df1d95fc1404f9b71c1e3c694755359f4cf45",
+  "selection_method": "purposive_development_sample",
+  "reference_kind": "assistant_draft",
+  "human_review": "pending",
+  "source_code_commit": "b46330cb5f336cafa38e037c1ad913ca69addc9e",
+  "dataset_sha256": "sha256:d21e74e3c1f90f724828a687f6685780517b50fb892bd81c2740621c5373f5e8",
+  "prompt_sha256": "sha256:1f625fce4dc1ea0ccf7de4eaa13944fdd150a7f1816681098c5aebb3a24ca30a",
+  "rubric_sha256": "sha256:a5853edb3eda7ab9b4f32d6a08cab0128bb19d45f1d4c319e9edbf988b725347",
+  "entries": [
+    {
+      "id": "sample-01",
+      "run_id": "A-0004-001",
+      "case_id": "CS-2026-2-005",
+      "condition": "A",
+      "case_sha256": "sha256:f6a2b7471f008b2058b350974685f373bcbc60fae650464a5b74bc3e4dc23200",
+      "answer_sha256": "sha256:6df7a3716e9fbb3e7e6fbc8086cae682e650f2ef90c3637b1ca95f1cc4fa6da1",
+      "input_sha256": "sha256:4c36cd1f40541f71007c5c6441ed2357b2c8918f7d2a75502317b61bb491c354",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "pdf_file": "context/sources/handbook.pdf",
+      "citation_indices": [
+        1,
+        2
+      ],
+      "evidence_pages": [
+        52,
+        53
+      ],
+      "original_files": {
+        "request.json": "sha256:7de2e7652693dfee52b2d2d5f6d16f77602713e2dff0470b8c2cee619f84f3df",
+        "claude-tools.json": "sha256:2218d93bf19abb824cb65dd4b5094ea356ac5e4125faec0ab4b41fb2a27fa834",
+        "source-check.json": "sha256:35cd382cf6438bc2c27dadf89f7f4f85f13ae5ec43e0971e4a350123519c657a",
+        "result.json": "sha256:0447982a2b15d640ebd9e52999d0a6223ea001de6ed5e34bf876ce19cf1d127f"
+      },
+      "automatic_checks_sha256": "sha256:f7819c170d52657e65f8273c55880ec371eb67ea261503370019f6e887243815"
+    },
+    {
+      "id": "sample-02",
+      "run_id": "B-0014-001",
+      "case_id": "CS-2026-2-015",
+      "condition": "B",
+      "case_sha256": "sha256:2ecc2c9719dcabd0d5c24ab78b5bb48e71c53dd8bc666a7a13846770a2e28722",
+      "answer_sha256": "sha256:1c688487af55f0ce0e055eeb0101ea66f7068c4e79b632a595784498d75c379d",
+      "input_sha256": "sha256:c5e7054af7cf6a9837da24c8b4ec0f55fb3b80816d7e7c2c6f6fd6dd03854457",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "pdf_file": "context/sources/handbook.pdf",
+      "citation_indices": [
+        1
+      ],
+      "evidence_pages": [
+        4
+      ],
+      "original_files": {
+        "request.json": "sha256:16c5c7cf5f14aaae5ee068eae245a5c9da5abb6ea29d0e0dbbfd5d2d4444ef27",
+        "claude-tools.json": "sha256:74729bdead2b299eb984c8adbd0ac54cce14c595585c86aaae53da1b35e839f6",
+        "source-check.json": "sha256:949c61a4ac1bb574d58860d9c142a51498a7ac5d3d183b2318ade3e94ef6c301",
+        "result.json": "sha256:bf2d67c6e52571d1d3b2c1e999af9ce6c2bfc09acdbbdde10bc95afe610248d0"
+      },
+      "automatic_checks_sha256": "sha256:23fde8d886d4d1ac29ada38d08b3f0a64abc3f371a955732bbc4ab992cbf9bcc"
+    },
+    {
+      "id": "sample-03",
+      "run_id": "A-0001-001",
+      "case_id": "CS-2026-2-002",
+      "condition": "A",
+      "case_sha256": "sha256:32932c7a6709f9275658545c462c3be77acda3d4b063bc53d7d6fbf426324a65",
+      "answer_sha256": "sha256:eb0364d8e72e215544a04c3af45d8ae32f4716aa7f44f6758c15515bc205e15d",
+      "input_sha256": "sha256:db586bea39672be1215c0c2c3fe37c68b20a8835dc2e6c279b047b36ba281479",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "pdf_file": "context/sources/handbook.pdf",
+      "citation_indices": [
+        0
+      ],
+      "evidence_pages": [
+        52,
+        53
+      ],
+      "original_files": {
+        "request.json": "sha256:1c5d2fd042e92deebd5635dda949f3fb3d0410cf2ab2985750c50c7d58684684",
+        "claude-tools.json": "sha256:8d49e4989b3205a64e7923a769a26d3d8699d56817800f94d35aa717df0ad701",
+        "source-check.json": "sha256:3e26d9880734c1d6b8ace6cb8e9891d9c05020c884f2b3138a89d1c6c3a279e1",
+        "result.json": "sha256:42a05f2a32cfd8f06f9a14259f98a26cbfef2195bf4381339a76b3858479b389"
+      },
+      "automatic_checks_sha256": "sha256:692d46851fc3c26f4aa0f5efe1a276f0080d016003e3968111eae5d2ed696134"
+    },
+    {
+      "id": "sample-04",
+      "run_id": "B-0017-001",
+      "case_id": "CS-2026-2-018",
+      "condition": "B",
+      "case_sha256": "sha256:118291987a236209eb4b899cfccdb8cc620747014cf1c59394c9b328b2126ee0",
+      "answer_sha256": "sha256:119f15f751e16f3108f7ef087850d22003e093578a498b0c301d49292717a82f",
+      "input_sha256": "sha256:fa9424ab71d93bd1717a72a012feffec3946ce7a16c3b662e748e8251d2a12a9",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "pdf_file": "context/sources/handbook.pdf",
+      "citation_indices": [
+        1
+      ],
+      "evidence_pages": [
+        16
+      ],
+      "original_files": {
+        "request.json": "sha256:76d11f634ed38f592001ab34a3d7d206b7143b7af570c40c2003e9c0fcb3525d",
+        "claude-tools.json": "sha256:f18dd707af4de36349871fee85d5fcd2570dc3d60bfa339f1580111cee733689",
+        "source-check.json": "sha256:b7c6aa1aaf714592fb440eae7d3f5b51933763eb181a15d7b8d9c438b6cd6c34",
+        "result.json": "sha256:d92f88aff8257920b97b7d13bd21efd88f44afa0b09029f616ed60dc60b2686c"
+      },
+      "automatic_checks_sha256": "sha256:be367af361d52bc7f99fa8fe94ced5c9bca1ba315c04ead067c3c3456c064696"
+    },
+    {
+      "id": "sample-05",
+      "run_id": "C-0009-001",
+      "case_id": "CS-2026-2-010",
+      "condition": "C",
+      "case_sha256": "sha256:07d201178c14ffb0bae35990fc9088d46bc89b5dba611b8dd420e216ecde9c37",
+      "answer_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+      "input_sha256": "sha256:208d75215139482cff486ede232b73a67dee5ab0a850d5a3c172958bf9f71e81",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "pdf_file": "context/sources/handbook.pdf",
+      "citation_indices": [
+        0,
+        3
+      ],
+      "evidence_pages": [
+        52,
+        53
+      ],
+      "original_files": {
+        "request.json": "sha256:7197111db5d33c268dacb22b9ee03cd7698cca4650251d7a583ac54220e32fc1",
+        "claude-tools.json": "sha256:33b99f3188e68e839b82daad31316c1b9f1131a768df6536737c673274bea9ed",
+        "source-check.json": "sha256:44869708394c257fb7d7a201fcb2284338458dbb21b606239e396c32641812ce",
+        "result.json": "sha256:675b8bf37d7a2833a0d6a79d0512f70ab1388658cbfb19ea61a7976808c145f9"
+      },
+      "automatic_checks_sha256": "sha256:e97e2282c5b68f64799d1de8c3541210e5624c49db3e170ba50fde515212d1e6"
+    },
+    {
+      "id": "sample-06",
+      "run_id": "C-0013-001",
+      "case_id": "CS-2026-2-014",
+      "condition": "C",
+      "case_sha256": "sha256:28f0d9ea28b612fbfcd0e34f8a02a39ecb1686739226c989305359f1239a0019",
+      "answer_sha256": "sha256:259c2daee1fdd7a7ff8f8fa1fab98af6053f24ce754a1046d88d9a11d87ba660",
+      "input_sha256": "sha256:47e859e64376b52e66c119b27312c592e90ba1c3495f1c5488e1218604101c13",
+      "source_pdf_sha256": "sha256:1d1063aead628b4a5bcd9a8a261f28498b23bb060aeb0cc564dc1d157c7e3f10",
+      "source_text_sha256": "sha256:8d1f05ba87ddc454c96363441892dbc3cfae69748c7a5c7c057d5a822331cad3",
+      "source_contract_sha256": "sha256:36baf0901014509904a39676659924a54ac7cf78b43c97eb5560786d55ac3af2",
+      "pdf_file": "context/sources/handbook.pdf",
+      "citation_indices": [
+        1
+      ],
+      "evidence_pages": [
+        30
+      ],
+      "original_files": {
+        "request.json": "sha256:2f90a8dbace36ea2f78a29626b2fbf8db29c296705c62eb4e4c22b054ffad033",
+        "claude-tools.json": "sha256:3d66eeaf1d5157b3c5185e7800626c334125192a369db46b87de98450e247352",
+        "source-check.json": "sha256:3f685f55a7b6995b606b1da9c05868b415fc0aa8d2c66ab6d3a95f03bbb09253",
+        "result.json": "sha256:91acf67608e99f27d2fdd36dca2dbdf5b3c3edf88ca800af885f619830b53486"
+      },
+      "automatic_checks_sha256": "sha256:07e91791d536d7805361836500aab18bc27ef3b9f02f83b2b202cd70fa069488"
+    }
+  ]
+}

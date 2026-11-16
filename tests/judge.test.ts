@@ -33,10 +33,10 @@ function fake(response=stream(), calls:string[][]=[]) {
   };
   return run;
 }
-async function fixture(t:TestContext) {
+async function fixture(t:TestContext, expectedCredits=6) {
   const f=await savedResponseFixture(t);
   const cases=parseCases([{id:'fixture',family:'fixture',split:'dev',origin:'synthetic',review_status:'draft',
-    independent_reference:false,question:f.request.question,inputs:f.request.inputs,expected:{action:'answer',facts:{credits:6}},
+    independent_reference:false,question:f.request.question,inputs:f.request.inputs,expected:{action:'answer',facts:{credits:expectedCredits}},
     rubric:{version:'v1',criteria:[{id:'answer',dimension:'answer',severity:'major',description:'6학점'},
       {id:'source',dimension:'evidence',severity:'major',description:'원문 대조'}]},
     sources:[{id:'fixture',version:'2026-2',locator:'p1',excerpt:'학점 합계 6',authoritative:true}]}]);
@@ -149,4 +149,16 @@ test('judge preparation and reporting CLI need no credentials or model executabl
   const report=await promisify(execFile)(process.execPath,[cli,'judge-report','--plan',f.planFile,
     '--references',f.refsFile,'--out',path.join(f.cwd,'cli-report')],{env:{PATH:''}});
   assert.equal(JSON.parse(report.stdout).summary.not_evaluated,2);
+});
+
+test('a passing judge opinion cannot hide the saved answer original fact mismatch',async t=>{
+  const f=await fixture(t,7);
+  await runJudge(f.planFile,f.refsFile,options,{run:fake(),env:{}});
+  const report=await writeJudgeReport(f.planFile,f.refsFile,path.join(f.cwd,'report'));
+  assert.equal(report.summary.agree,2);
+  assert.equal(report.summary.original_objective_fail,1);
+  assert.equal(report.rows[0]?.objective_values,'fail');
+  assert.equal(report.rows[0]?.objective_details[0]?.expected,7);
+  assert.equal(report.rows[0]?.objective_details[0]?.actual,6);
+  assert.equal(report.automatic_promotion,false);
 });
