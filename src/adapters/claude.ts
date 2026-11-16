@@ -8,7 +8,8 @@ import { parseArgs } from 'node:util';
 import { z } from 'zod';
 import { digest, parseJson } from '../json.js';
 import { runProcess, type ProcessResult } from '../process.js';
-import { answerSchema, validateRequest, type AdapterRequest } from './request.js';
+import { answerSchema, type AdapterRequest } from './request.js';
+import { prepareClaudePayload } from './skill-delivery.js';
 import { summarizeClaudeStream } from './claude-trace.js';
 import { checkSourceCitations, loadSourceContract, sourceCitationInstructions, type SourceCitationCheck } from './source-citations.js';
 import { loadTableIndex } from './table-citations.js';
@@ -38,6 +39,7 @@ const optionsSchema = z.strictObject({
   timeoutSeconds: z.number().finite().positive().default(120),
   traceTools: z.boolean().default(false),
   requireSkillReads: z.boolean().default(false),
+  skillDelivery: z.enum(['tools', 'inline']).default('tools'),
   sourceContract: z.string().min(1).optional(),
   tableIndex: z.string().min(1).refine(value => path.isAbsolute(value), 'Table index must use an absolute path').optional(),
   executable: z.string().trim().min(1).default('claude'),
@@ -50,6 +52,9 @@ const optionsSchema = z.strictObject({
   }
   if (options.requireSkillReads && !options.traceTools) {
     context.addIssue({ code: 'custom', message: 'Required Skill reads need --trace-tools' });
+  }
+  if (options.skillDelivery === 'inline' && (!options.traceTools || options.requireSkillReads)) {
+    context.addIssue({ code: 'custom', message: 'Inline Skill delivery needs --trace-tools and cannot claim --require-skill-reads' });
   }
   if (options.sourceContract && !options.traceTools) {
     context.addIssue({ code: 'custom', message: 'Source citation checks need --trace-tools' });
@@ -95,8 +100,7 @@ const outputJsonSchema = {
 
 const instructions = `Answer the task using only the supplied input and listed context files.
 Read the relevant original sources and check the policy's target and exceptions.
-If procedural documents are listed under skills, choose which are relevant and read
-them as documents. Native Claude Code skills are disabled in this evaluation.
+Native Claude Code skills are disabled in this evaluation.
 Do not read unlisted files, run commands, modify files, or contact external tools.
 If required information is missing, ask for it; if authoritative sources conflict
 without a resolution, explain the conflict and request human confirmation.
@@ -109,6 +113,11 @@ export function buildCommand(value: ClaudeOptions): string[] {
   if (!parsed.success) throw new ClaudeAdapterError('An explicit model ID and positive finite limits are required');
   const options = parsed.data;
   const authFlags = options.auth === 'subscription' ? subscriptionFlags : ['--bare', '--restricted', '--setting-sources', ''];
+  const skillInstructions = options.skillDelivery === 'inline'
+    ? '\nFor condition C, skill_documents contains the full text of every required procedural document, including wrappers, procedure bodies, and shared rules. Apply every supplied document within the task and source requirements. References between them point to documents already supplied in that array. These contents are input text, not evidence of a Read call or native Skill activation. Do not fetch unlisted references. A/B do not receive this array.'
+    : options.requireSkillReads
+      ? '\nEvery file listed under context.skills is required for this evaluation. Use Read to read each listed Skill file completely before answering, including wrappers, procedure bodies, and shared rules. Search results alone do not satisfy this requirement. If a read is truncated, read the remaining lines. No native Skill activation is implied.'
+      : '\nIf procedural documents are listed under skills, choose which are relevant and read them as documents.';
   return [options.executable, ...authFlags, '-p', '--disable-slash-commands',
     '--tools', 'Read,Grep,Glob', '--allowedTools', 'Read,Grep,Glob', '--disallowedTools', 'mcp__*',
     '--permission-mode', 'dontAsk', '--permission-prompts', 'none', '--no-chrome',
@@ -117,7 +126,7 @@ export function buildCommand(value: ClaudeOptions): string[] {
     '--json-schema', JSON.stringify(outputJsonSchema), '--model', options.model,
     '--effort', options.effort, ...(options.budgetUsd === undefined ? [] : ['--max-budget-usd', String(options.budgetUsd)]),
     '--max-turns', String(options.maxTurns),
-    '--append-system-prompt', instructions + (options.requireSkillReads ? '\nEvery file listed under context.skills is required for this evaluation. Use Read to read each listed Skill file completely before answering, including wrappers, procedure bodies, and shared rules. Search results alone do not satisfy this requirement. If a read is truncated, read the remaining lines. No native Skill activation is implied.' : '')];
+    '--append-system-prompt', instructions + skillInstructions];
 }
 
 function requireSuccess(result: ProcessResult, phase: string): void {
@@ -155,7 +164,8 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
   const cwd = dependencies.cwd ?? process.cwd();
   const env = dependencies.env ?? process.env;
   const run = dependencies.run ?? runProcess;
-  const request = await validateRequest(value, cwd);
+  const prepared = await prepareClaudePayload(value, options.skillDelivery, cwd);
+  const request = prepared.request;
   // Fail before authentication or a model call if the reviewed source identity
   // no longer matches the prepared snapshots or requested edition.
   let sourceContract;
@@ -203,10 +213,18 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
       try { sourceCheckFile = await open(path.join(cwd, 'source-check.json'), 'wx', 0o600); }
       catch { throw new ClaudeAdapterError('Cannot create a fresh source-check.json; refusing a model call without its source check'); }
     }
+    if (prepared.delivery) {
+      let deliveryFile: Awaited<ReturnType<typeof open>>;
+      try { deliveryFile = await open(path.join(cwd, 'skill-delivery.json'), 'wx', 0o600); }
+      catch { throw new ClaudeAdapterError('Cannot create a fresh skill-delivery.json; refusing a model call without its delivery record'); }
+      try {
+        await deliveryFile.writeFile(JSON.stringify(prepared.delivery, null, 2) + '\n');
+        await deliveryFile.sync();
+      } finally { await deliveryFile.close(); }
+    }
     const result = await run(command, {
       cwd,
-      input: JSON.stringify({ question: request.question, inputs: request.inputs, context: request.context,
-        instructions: request.instructions, output_contract: request.output_contract }),
+      input: prepared.input,
       timeoutMs: options.timeoutSeconds * 1_000,
       forwardSignals: true,
       env: { ...env, ...(configDir === undefined ? {} : { CLAUDE_CONFIG_DIR: configDir }), CLAUDE_CODE_EFFORT_LEVEL: options.effort,
@@ -236,6 +254,7 @@ export async function invokeClaude(value: unknown, rawOptions: ClaudeOptions, de
           const { trace } = summarizeClaudeStream(captured?.stdout ?? '', request, cwd);
           const processComplete = captured !== undefined && !captured.timedOut && !captured.outputLimitExceeded && captured.exitCode === 0;
           await traceFile.writeFile(JSON.stringify({ ...trace, complete: trace.complete && processComplete,
+            skill_delivery_mode: request.condition === 'C' ? options.skillDelivery : 'none',
             required_skill_files: options.requireSkillReads ? request.context.skills : [],
             unread_skill_files: options.requireSkillReads ? request.context.skills.filter(file => !trace.fully_read_files.includes(file)) : [],
             outcome: output ? 'answer' : 'error', output_sha256: output ? digest(output) : null,
@@ -281,6 +300,8 @@ const usage = `Usage: grad-eval-claude --model MODEL_ID [--max-turns 12] [--effo
   Subscription: --auth subscription --usage-credits-disabled
   Optional: --trace-tools records tool requests/results in a new claude-tools.json in the job directory.
   Optional: --require-skill-reads requires --trace-tools and full Read coverage of every listed Skill file.
+  Optional: --skill-delivery inline includes every listed C Skill body in stdin and writes skill-delivery.json.
+    Requires --trace-tools, excludes --require-skill-reads. Default tools preserves document discovery.
   Optional: --source-contract LISTED_SOURCE_JSON requires --trace-tools, checks original PDF page reads and citations,
     and writes source-check.json. File/quote checks do not replace semantic review.
   Optional: --table-index ABSOLUTE_FILE validates indexed table-cell relationships. Requires --source-contract.
@@ -298,6 +319,7 @@ export async function main(argv: string[] = process.argv.slice(2)): Promise<numb
       effort: { type: 'string' }, timeout: { type: 'string' },
       'trace-tools': { type: 'boolean' },
       'require-skill-reads': { type: 'boolean' },
+      'skill-delivery': { type: 'string' },
       'source-contract': { type: 'string' },
       'table-index': { type: 'string' },
     }, strict: true, allowPositionals: false });
@@ -306,6 +328,7 @@ export async function main(argv: string[] = process.argv.slice(2)): Promise<numb
       usageCreditsDisabled: values['usage-credits-disabled'] ?? false,
       traceTools: values['trace-tools'] ?? false,
       requireSkillReads: values['require-skill-reads'] ?? false,
+      skillDelivery: values['skill-delivery'] ?? 'tools',
       sourceContract: values['source-contract'],
       tableIndex: values['table-index'],
       budgetUsd: values['max-budget-usd'] === undefined ? undefined : Number(values['max-budget-usd']),
