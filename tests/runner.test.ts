@@ -93,6 +93,47 @@ test('an observer returning void does not stop the remaining jobs', async t => {
   assert(records.every(record => record.status === 'ok'));
 });
 
+test('selected jobs preserve the full plan and execute only selected slots in frozen order', async t => {
+  const f = await fixture(t);
+  const plan = await prepare(f.cases, f.config, f.out);
+  const before = await readFile(path.join(f.out, 'plan.json'), 'utf8');
+  const ids = plan.jobs.map(job => job.job_id);
+  const selected = ids.slice(1);
+  const records = await runPlan(path.join(f.out, 'plan.json'), [process.execPath, '-e', ADAPTER], { jobIds: [...selected].reverse() });
+  assert.deepEqual(records.map(record => record.run_id), selected);
+  assert(records.every(record => record.versions.dataset === plan.evaluation_plan.dataset_sha256 && record.plan_sha256 === plan.plan_sha256));
+  const started = JSON.parse(await readFile(path.join(f.out, 'started.json'), 'utf8'));
+  assert.deepEqual(started.selected_job_ids, selected);
+  assert.equal(started.selection_sha256, digest(selected));
+  assert.equal(await readFile(path.join(f.out, 'plan.json'), 'utf8'), before);
+  await assert.rejects(readFile(path.join(f.out, 'jobs', ids[0]!, 'result.json')), /ENOENT/);
+  await assert.rejects(runPlan(path.join(f.out, 'plan.json'), [process.execPath, '-e', ADAPTER], { jobIds: [ids[0]!] }), /already started/);
+});
+
+test('empty, duplicate and unknown selections fail before recording a start or calling an adapter', async t => {
+  const f = await fixture(t);
+  const plan = await prepare(f.cases, f.config, f.out);
+  const id = plan.jobs[0]!.job_id;
+  const marker = path.join(f.root, 'selection-started');
+  const command = [process.execPath, '-e', `require('node:fs').writeFileSync(${JSON.stringify(marker)}, 'started')`];
+  for (const jobIds of [[], [id, id], ['unknown-job']]) {
+    await assert.rejects(runPlan(path.join(f.out, 'plan.json'), command, { jobIds }));
+    await assert.rejects(readFile(path.join(f.out, 'started.json')), /ENOENT/);
+    await assert.rejects(readFile(marker), /ENOENT/);
+  }
+});
+
+test('selection does not bypass full snapshot checks for skipped jobs', async t => {
+  const f = await fixture(t);
+  const plan = await prepare(f.cases, f.config, f.out);
+  const first = plan.jobs[0]!;
+  await writeFile(path.join(f.out, 'jobs', first.job_id, first.files[0]!.path), 'changed');
+  await assert.rejects(runPlan(path.join(f.out, 'plan.json'), [process.execPath, '-e', ADAPTER], {
+    jobIds: [plan.jobs[1]!.job_id],
+  }), /snapshot changed/);
+  await assert.rejects(readFile(path.join(f.out, 'started.json')), /ENOENT/);
+});
+
 test('real C requires a contract and keeps its dependencies out of A/B', async (t) => {
   const f = await fixture(t);
   await assert.rejects(prepare(f.cases, { ...f.config, execution: 'real' }, f.out), /requires skill_contract/);

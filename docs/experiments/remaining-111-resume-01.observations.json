@@ -1,0 +1,1176 @@
+{
+  "schema": "graduation-wiki-eval/remaining-111-continuation-observations-v1",
+  "evaluated_on": "2026-11-15",
+  "plan_sha256": "sha256:edd41b6dd7369fd5bcf134f158fcd192eb04883b43e7f1938a6bc3d1408103bb",
+  "preserved_records_sha256": "sha256:1ee85b7e61a0c34a1c9a2e4481924f7b4f0b2943757ea50f3dc9061ea515c3ad",
+  "selection_sha256": "sha256:a358d3112f48f4f664e7ffb678b799d316feb20034ff57f08dda9ae5fbf20384",
+  "combined_records_sha256": "sha256:ab188f0bb95e2bbaca32a06c021b54209b2fe17a89d6c9b7f272542a728bcd36",
+  "planned_cases": 111,
+  "planned_evaluations": 333,
+  "preserved_answers": 46,
+  "new_records": 14,
+  "completed_answer_triplets": 20,
+  "answers_captured": 60,
+  "recorded_slots": 60,
+  "no_answer_slots": 0,
+  "interrupted_requests": 1,
+  "interrupted_job": {
+    "job_id": "A-0021-001",
+    "case_id": "OPS-2026-2-002",
+    "condition": "A"
+  },
+  "unstarted": 272,
+  "remaining_answers_needed": 273,
+  "raw_stop_reason": "user_requested_stop",
+  "confirmed_stop_reason": "user_requested_stop",
+  "displayed_reset_local": null,
+  "api_fallback": false,
+  "human_review": "pending",
+  "holdout_cases": 0,
+  "paired_conditions": {
+    "A": {
+      "cases": 20,
+      "objective_matches": 18,
+      "source_passes": 2,
+      "accepted": 2
+    },
+    "B": {
+      "cases": 20,
+      "objective_matches": 19,
+      "source_passes": 2,
+      "accepted": 2
+    },
+    "C": {
+      "cases": 20,
+      "objective_matches": 17,
+      "source_passes": 2,
+      "accepted": 1
+    }
+  },
+  "conditions": {
+    "A": {
+      "planned": 111,
+      "attempted": 20,
+      "accepted": 2,
+      "rejected": 18,
+      "candidate_answers": 20,
+      "candidate_objective_matches": 18,
+      "source_pass": 2,
+      "source_fail": 18,
+      "no_answer": 0,
+      "elapsed_ms": 1423623.7960000003,
+      "failure_kinds": {
+        "source_check": 18
+      }
+    },
+    "B": {
+      "planned": 111,
+      "attempted": 20,
+      "accepted": 2,
+      "rejected": 18,
+      "candidate_answers": 20,
+      "candidate_objective_matches": 19,
+      "source_pass": 2,
+      "source_fail": 18,
+      "no_answer": 0,
+      "elapsed_ms": 1181457.0430000003,
+      "failure_kinds": {
+        "source_check": 18
+      }
+    },
+    "C": {
+      "planned": 111,
+      "attempted": 20,
+      "accepted": 1,
+      "rejected": 19,
+      "candidate_answers": 20,
+      "candidate_objective_matches": 17,
+      "source_pass": 2,
+      "source_fail": 18,
+      "no_answer": 0,
+      "elapsed_ms": 1550677.317,
+      "failure_kinds": {
+        "source_check": 10,
+        "skill_read_check": 9
+      }
+    }
+  },
+  "note": "Objective matching compares action and facts only. Rejected candidate answers are included as diagnostic data, not successful runs. Previous quota-blocked attempt remains in the initial batch; only its no-answer slot was retried.",
+  "rows": [
+    {
+      "case_id": "CS-2026-2-002",
+      "family": "balance-creative-department-exception",
+      "condition": "A",
+      "run_id": "A-0001-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:eb0364d8e72e215544a04c3af45d8ae32f4716aa7f44f6758c15515bc205e15d",
+      "elapsed_ms": 98379.725,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-002",
+      "family": "balance-creative-department-exception",
+      "condition": "B",
+      "run_id": "B-0001-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:cdaa92c2acd6f690b2078739b75be91f23003926159bd8caf8dc112c751ea36e",
+      "elapsed_ms": 31846.278,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-002",
+      "family": "balance-creative-department-exception",
+      "condition": "C",
+      "run_id": "C-0001-001",
+      "status": "error",
+      "candidate_objective_match": false,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:7ddb63405d403253a78709dbb18d3d29a1cad46ef47b09b6746a2f63a1f22421",
+      "elapsed_ms": 83794.925,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-003",
+      "family": "pre2022-elective-policy-change",
+      "condition": "A",
+      "run_id": "A-0002-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:45683d52eba5f1ccb2744f05d32fabfec0d539cde34eabc62b2ac1bac9eac5a6",
+      "elapsed_ms": 138106.405,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-003",
+      "family": "pre2022-elective-policy-change",
+      "condition": "B",
+      "run_id": "B-0002-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_2:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:9ca8cafd32315cdee8a51cb5b36d04f7bc8e73b8db06cea97dbc60bd53ad2cac",
+      "elapsed_ms": 56476.375,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-003",
+      "family": "pre2022-elective-policy-change",
+      "condition": "C",
+      "run_id": "C-0002-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "pass",
+      "failure_kind": "skill_read_check",
+      "human_review": "pending",
+      "source_failures": [],
+      "candidate_output_sha256": "sha256:85a686447b1310ca12839709f2678752a3942a5b3aa4e0a15b7fe6e1cc6e38d3",
+      "elapsed_ms": 46954.906,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-004",
+      "family": "balance-area-recognition",
+      "condition": "A",
+      "run_id": "A-0003-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:d507158aa39b46613e73d408abf45b6ea5fd9409c63661b8b900f1e6fad80e25",
+      "elapsed_ms": 25013.175,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-004",
+      "family": "balance-area-recognition",
+      "condition": "B",
+      "run_id": "B-0003-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:4fe2db0a10383fadca0c0a1dab8141b9d2285b7b11b4878f7e19a0794c060ce0",
+      "elapsed_ms": 32004.853,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-004",
+      "family": "balance-area-recognition",
+      "condition": "C",
+      "run_id": "C-0003-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "skill_read_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:81ce6b31775610970eeb0c059d136853e9127ec740c83ec4d1c0dcc3354eee08",
+      "elapsed_ms": 30831.375,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-005",
+      "family": "balance-area-recognition",
+      "condition": "A",
+      "run_id": "A-0004-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:6df7a3716e9fbb3e7e6fbc8086cae682e650f2ef90c3637b1ca95f1cc4fa6da1",
+      "elapsed_ms": 80172.651,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-005",
+      "family": "balance-area-recognition",
+      "condition": "B",
+      "run_id": "B-0004-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded",
+        "citation_3:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:91e85a9f9c018cad8d5c9f4cfc542da729a2323c39acd993efe73d72443d1766",
+      "elapsed_ms": 162451.606,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-005",
+      "family": "balance-area-recognition",
+      "condition": "C",
+      "run_id": "C-0004-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:f5832f2996e295aa3392d1ab38a3e31108050f9fdb3b65ae9106203a6f304cba",
+      "elapsed_ms": 100889.99,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-006",
+      "family": "balance-area-recognition",
+      "condition": "A",
+      "run_id": "A-0005-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:format",
+        "citation_0:source",
+        "citation_0:edition",
+        "citation_0:page_exists",
+        "citation_0:page_read",
+        "citation_0:quote_nonempty",
+        "citation_0:quote_grounded",
+        "citation_1:format",
+        "citation_1:source",
+        "citation_1:edition",
+        "citation_1:page_exists",
+        "citation_1:page_read",
+        "citation_1:quote_nonempty",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:3672a5a21b672a612103273860f7cdc7cb0b2879d0b434e922b8728bde5bab04",
+      "elapsed_ms": 69729.831,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-006",
+      "family": "balance-area-recognition",
+      "condition": "B",
+      "run_id": "B-0005-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:f07b6827a7285fc1f557a6fba599fecc2dc4ca9440b71c3a6ea40e7c3144d439",
+      "elapsed_ms": 54982.163,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-006",
+      "family": "balance-area-recognition",
+      "condition": "C",
+      "run_id": "C-0005-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_2:quote_grounded",
+        "citation_3:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:d843e682146afd746c8b83ba738fa16256275b5f991ef755f7261c32ec54be26",
+      "elapsed_ms": 215563.772,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-007",
+      "family": "balance-area-recognition",
+      "condition": "A",
+      "run_id": "A-0006-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:072dd9d5c40dd2fecbc72a2de225fe9655ff1d5b2d529bc3e664e8d45a4b5910",
+      "elapsed_ms": 51428.917,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-007",
+      "family": "balance-area-recognition",
+      "condition": "B",
+      "run_id": "B-0006-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:68e861a7bb9aa376c502f81dd36b0e6b6bde80c6ebe7b67ada99884da20561be",
+      "elapsed_ms": 76910.877,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-007",
+      "family": "balance-area-recognition",
+      "condition": "C",
+      "run_id": "C-0006-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "skill_read_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:caccb61bb50a2264fda4b2f13f867522d6cf836cec858528394812ee364453a1",
+      "elapsed_ms": 78709.091,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-008",
+      "family": "balance-area-recognition",
+      "condition": "A",
+      "run_id": "A-0007-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:0cd021fe9b00029bc7b15104131fdbcb001b150868db7b1443f2fd8bc9796ee4",
+      "elapsed_ms": 70481.869,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-008",
+      "family": "balance-area-recognition",
+      "condition": "B",
+      "run_id": "B-0007-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:ce421ecc693aa1baf0a0c461f928135c697d87ee7149842deab3f0ab71b68784",
+      "elapsed_ms": 49797.916,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-008",
+      "family": "balance-area-recognition",
+      "condition": "C",
+      "run_id": "C-0007-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:161a4b03db58500c1439817b1f179215af35539082c4009ce799985dce370acc",
+      "elapsed_ms": 64563.127,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-009",
+      "family": "balance-area-recognition",
+      "condition": "A",
+      "run_id": "A-0008-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:e06f24bab5c2ba81973c52d49c408860a804ce90d5625871e9cdafdb228d0093",
+      "elapsed_ms": 27576.143,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-009",
+      "family": "balance-area-recognition",
+      "condition": "B",
+      "run_id": "B-0008-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:55da02a8c485e4b843679b4142d1d45fce83f2d37a84613956f8bda0717da580",
+      "elapsed_ms": 57647.945,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-009",
+      "family": "balance-area-recognition",
+      "condition": "C",
+      "run_id": "C-0008-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:bc64e7b88a51b874bb3b226a550759d5923475343b955c86f13ccb7eb77a8895",
+      "elapsed_ms": 40488.002,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-010",
+      "family": "balance-area-recognition",
+      "condition": "A",
+      "run_id": "A-0009-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:97f7632721fbca34d84594c63cb48f4adedbd48b7bb968025e21451404d9f3df",
+      "elapsed_ms": 61210.538,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-010",
+      "family": "balance-area-recognition",
+      "condition": "B",
+      "run_id": "B-0009-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:ed62f12280ab03ecfcea3f4a5aab388d344eae4cb4c42f9d05e005aaa71fea8b",
+      "elapsed_ms": 35353.287,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-010",
+      "family": "balance-area-recognition",
+      "condition": "C",
+      "run_id": "C-0009-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded",
+        "citation_3:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:16ed24cba4b5000adac9187c9d63a2207ec60e065a620dd975ca0e8652831208",
+      "elapsed_ms": 42912.013,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-011",
+      "family": "pre2022-cross-major-elective",
+      "condition": "A",
+      "run_id": "A-0010-001",
+      "status": "ok",
+      "candidate_objective_match": false,
+      "source_status": "pass",
+      "failure_kind": null,
+      "human_review": "pending",
+      "source_failures": [],
+      "candidate_output_sha256": "sha256:3c4ece7748abff8be0e1a1b26e3ac41c5afd3b2a9424609d257cec2ca4422bd7",
+      "elapsed_ms": 83051.455,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-011",
+      "family": "pre2022-cross-major-elective",
+      "condition": "B",
+      "run_id": "B-0010-001",
+      "status": "error",
+      "candidate_objective_match": false,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:5caf843b53c7d678c2721e43f921949117a11a865eb33749fb484bf71476da4f",
+      "elapsed_ms": 186367.143,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-011",
+      "family": "pre2022-cross-major-elective",
+      "condition": "C",
+      "run_id": "C-0010-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:944d59e963d17c9afc58f9eddaa45d86cc7bef48121a8dbad9264e02a5fb95f8",
+      "elapsed_ms": 97821.349,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-012",
+      "family": "pre2022-elective-policy-change",
+      "condition": "A",
+      "run_id": "A-0011-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:dc66adb88e9a6f5983694e7eefc1b18a2e541100dfa416644e7e5790ae95aa1b",
+      "elapsed_ms": 40704.404,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-012",
+      "family": "pre2022-elective-policy-change",
+      "condition": "B",
+      "run_id": "B-0011-001",
+      "status": "ok",
+      "candidate_objective_match": true,
+      "source_status": "pass",
+      "failure_kind": null,
+      "human_review": "pending",
+      "source_failures": [],
+      "candidate_output_sha256": "sha256:cca9837a102fac32cbd3f9e0f3cc9b2781bc1ec76db74925a793c7270cc0ec9a",
+      "elapsed_ms": 40554.358,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-012",
+      "family": "pre2022-elective-policy-change",
+      "condition": "C",
+      "run_id": "C-0011-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_2:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:ffa8436df171f63739fdf23a84051c4deb6d550e47d2c079742eb714b7c0b7a4",
+      "elapsed_ms": 97638.172,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-013",
+      "family": "certification-count-vs-display",
+      "condition": "A",
+      "run_id": "A-0012-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:abcc786ff751858b95913611ebaa1a4f319837ecfdd0653996e864b70ca8d4ac",
+      "elapsed_ms": 69053.296,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-013",
+      "family": "certification-count-vs-display",
+      "condition": "B",
+      "run_id": "B-0012-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:5e516012670c8c2b2253e30b3cd5bafe3534a81df372391064578685e3462310",
+      "elapsed_ms": 40400.076,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-013",
+      "family": "certification-count-vs-display",
+      "condition": "C",
+      "run_id": "C-0012-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "skill_read_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:620c4d5dc991d81cc934d47afcdf38accc2318268771b95fec1e95b28138c1ef",
+      "elapsed_ms": 130521.833,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-014",
+      "family": "course-equivalence-general-education",
+      "condition": "A",
+      "run_id": "A-0013-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:43c9d8d23a0ad315af265fbc1b0819f456ac1db12dfe25a8201c8e17840478f0",
+      "elapsed_ms": 29773.969,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-014",
+      "family": "course-equivalence-general-education",
+      "condition": "B",
+      "run_id": "B-0013-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:1c2a8d8efae34e03d135682437e079a124798b601d793c9e39741455a463d119",
+      "elapsed_ms": 48085.398,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-014",
+      "family": "course-equivalence-general-education",
+      "condition": "C",
+      "run_id": "C-0013-001",
+      "status": "error",
+      "candidate_objective_match": false,
+      "source_status": "fail",
+      "failure_kind": "skill_read_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:259c2daee1fdd7a7ff8f8fa1fab98af6053f24ce754a1046d88d9a11d87ba660",
+      "elapsed_ms": 79650.336,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-015",
+      "family": "pre2024-academic-basic-classification",
+      "condition": "A",
+      "run_id": "A-0014-001",
+      "status": "ok",
+      "candidate_objective_match": true,
+      "source_status": "pass",
+      "failure_kind": null,
+      "human_review": "pending",
+      "source_failures": [],
+      "candidate_output_sha256": "sha256:c1925a8c1e5e03f47f0604e75234dd327217b54552a92eb38b4b9ea050a8b3bc",
+      "elapsed_ms": 38577.673,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-015",
+      "family": "pre2024-academic-basic-classification",
+      "condition": "B",
+      "run_id": "B-0014-001",
+      "status": "ok",
+      "candidate_objective_match": true,
+      "source_status": "pass",
+      "failure_kind": null,
+      "human_review": "pending",
+      "source_failures": [],
+      "candidate_output_sha256": "sha256:1c688487af55f0ce0e055eeb0101ea66f7068c4e79b632a595784498d75c379d",
+      "elapsed_ms": 42753.707,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-015",
+      "family": "pre2024-academic-basic-classification",
+      "condition": "C",
+      "run_id": "C-0014-001",
+      "status": "ok",
+      "candidate_objective_match": true,
+      "source_status": "pass",
+      "failure_kind": null,
+      "human_review": "pending",
+      "source_failures": [],
+      "candidate_output_sha256": "sha256:3adf8a8d1282ac5dddb43c87a1781bad18446d9003eaeb09527bda1280d1ab24",
+      "elapsed_ms": 90079.257,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-016",
+      "family": "academic-basic-vs-transcript-classification",
+      "condition": "A",
+      "run_id": "A-0015-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:page_read",
+        "citation_1:quote_grounded",
+        "citation_2:page_read",
+        "citation_2:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:4d9f6043f5ec231f2ab475066e7803f34777787d469bc3378722c77fc5f5d75d",
+      "elapsed_ms": 129857.138,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-016",
+      "family": "academic-basic-vs-transcript-classification",
+      "condition": "B",
+      "run_id": "B-0015-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded",
+        "citation_3:quote_grounded",
+        "citation_4:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:7e32053229bc8243a3e58b73a2ad39f0f2af4a9f7b75a1cd867e65fa006b40a7",
+      "elapsed_ms": 34724.143,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-016",
+      "family": "academic-basic-vs-transcript-classification",
+      "condition": "C",
+      "run_id": "C-0015-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:aa1d054c7e27ee41f304ac169ac7f1a193f7cf0f45f400bd994d81ba249340c2",
+      "elapsed_ms": 71434.671,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-017",
+      "family": "department-common-required-exception",
+      "condition": "A",
+      "run_id": "A-0016-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:d5c192e083004a0e7b1678ea28f6781038d5a2c6d615d851596b980f372568c6",
+      "elapsed_ms": 132801.208,
+      "run_batch": "initial"
+    },
+    {
+      "case_id": "CS-2026-2-017",
+      "family": "department-common-required-exception",
+      "condition": "B",
+      "run_id": "B-0016-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:076a39d00793a6912b5f0f39a680d1edfd4d381feb06e3480fb7b116bccf7ed2",
+      "elapsed_ms": 56118.229,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "CS-2026-2-017",
+      "family": "department-common-required-exception",
+      "condition": "C",
+      "run_id": "C-0016-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "skill_read_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:86a1bd6d3fb5371ef0ad255b2a81979dd137bf2478f70f3a4cfd54e482927053",
+      "elapsed_ms": 90930.626,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "CS-2026-2-018",
+      "family": "sejong-2026-2-classics-book-requirements",
+      "condition": "A",
+      "run_id": "A-0017-001",
+      "status": "error",
+      "candidate_objective_match": false,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded",
+        "citation_3:quote_grounded",
+        "citation_4:quote_grounded",
+        "citation_5:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:7416a5ffd2146bd5f36c27c749ca838ac24d526030f9ee7a5a1df5b84b0bf060",
+      "elapsed_ms": 58159.6,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "CS-2026-2-018",
+      "family": "sejong-2026-2-classics-book-requirements",
+      "condition": "B",
+      "run_id": "B-0017-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded",
+        "citation_3:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:119f15f751e16f3108f7ef087850d22003e093578a498b0c301d49292717a82f",
+      "elapsed_ms": 35952.899,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "CS-2026-2-018",
+      "family": "sejong-2026-2-classics-book-requirements",
+      "condition": "C",
+      "run_id": "C-0017-001",
+      "status": "error",
+      "candidate_objective_match": false,
+      "source_status": "fail",
+      "failure_kind": "skill_read_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_1:quote_grounded",
+        "citation_2:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:d65731cc23cf2e2805f8b3383cd123a7940edb322755a85874bc6555b7fe1127",
+      "elapsed_ms": 43627.147,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "CS-2026-2-019",
+      "family": "classics-alternative-course",
+      "condition": "A",
+      "run_id": "A-0018-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_5:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:f7977934a2f7d60195c2349b6cbf3f37971e254a1f28b377db570a5971faa1be",
+      "elapsed_ms": 46629.382,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "CS-2026-2-019",
+      "family": "classics-alternative-course",
+      "condition": "B",
+      "run_id": "B-0018-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_1:quote_grounded",
+        "citation_3:quote_grounded",
+        "citation_4:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:38529d9cbca6a33ee6ec83e79a02ed0aad9965ff2cd736be4c4b1840d7a69ac1",
+      "elapsed_ms": 33464.849,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "CS-2026-2-019",
+      "family": "classics-alternative-course",
+      "condition": "C",
+      "run_id": "C-0018-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "skill_read_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_1:quote_grounded",
+        "citation_4:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:b10b7d2fa261c5c942e865de2474528c85e1c1d083d28d6809fd695ea1b84df1",
+      "elapsed_ms": 45088.162,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "CS-2026-2-020",
+      "family": "balance-area-recognition",
+      "condition": "A",
+      "run_id": "A-0019-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:0f7d51be79f842f3b590a1898fc7727b0b74866b715d4dd98a77a50187de9c7b",
+      "elapsed_ms": 53139.928,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "CS-2026-2-020",
+      "family": "balance-area-recognition",
+      "condition": "B",
+      "run_id": "B-0019-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_2:quote_grounded",
+        "citation_3:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:3bd2a78c8e61a0fd1ebce2b0ac7e52ee0b8052485cd129a6bb6417a18d05280e",
+      "elapsed_ms": 68869.357,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "CS-2026-2-020",
+      "family": "balance-area-recognition",
+      "condition": "C",
+      "run_id": "C-0019-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:9003730bf5bfb18cf878fe7dd7f81eba08418749b381471eca2b12d251a9fd42",
+      "elapsed_ms": 35864.076,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "OPS-2026-2-001",
+      "family": "ai-2021-foundation-math",
+      "condition": "A",
+      "run_id": "A-0020-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:fae532460b563321245f528b4e9483f7fe20de970f1028ea1261523d94ec1993",
+      "elapsed_ms": 119776.489,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "OPS-2026-2-001",
+      "family": "ai-2021-foundation-math",
+      "condition": "B",
+      "run_id": "B-0020-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "source_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:3b45eba37377fe0ce8432d5d3c62f0f4168af1cf871188366bedfd26c9005e2f",
+      "elapsed_ms": 36695.584,
+      "run_batch": "resume-01"
+    },
+    {
+      "case_id": "OPS-2026-2-001",
+      "family": "ai-2021-foundation-math",
+      "condition": "C",
+      "run_id": "C-0020-001",
+      "status": "error",
+      "candidate_objective_match": true,
+      "source_status": "fail",
+      "failure_kind": "skill_read_check",
+      "human_review": "pending",
+      "source_failures": [
+        "citation_0:quote_grounded",
+        "citation_1:quote_grounded"
+      ],
+      "candidate_output_sha256": "sha256:c01221c84bda0ca9f3c453fc9795c92ca63e2db5b4beae3623317fe243a8b32d",
+      "elapsed_ms": 63314.487,
+      "run_batch": "resume-01"
+    }
+  ]
+}
