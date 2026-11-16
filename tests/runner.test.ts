@@ -21,6 +21,36 @@ console.log(JSON.stringify({action:'answer',facts:{toy_result:7},
  answer_text:'Synthetic adapter output, not model performance.',citations:req.context.sources}));
 `;
 
+test('evaluated adapter envelopes preserve answers and checks, and reject stale check bindings', async t => {
+  for (const variant of ['fail', 'inconclusive', 'wrong-request', 'wrong-answer', 'execution-error']) {
+    const f = await fixture(t);
+    const plan = await prepare(f.cases, { ...f.config, conditions: ['A'] }, f.out);
+    const runs = await f.execute(`(async () => {
+      const {digest} = await import(${JSON.stringify(new URL('../dist/json.js', import.meta.url).href)});
+      const req = JSON.parse(require('node:fs').readFileSync(0,'utf8'));
+      const output = {action:'answer',facts:{toy_result:7},answer_text:'Fixture',citations:[]};
+      const variant = ${JSON.stringify(variant)};
+      if(variant === 'execution-error') process.exit(2);
+      console.log(JSON.stringify({schema:'graduation-wiki-eval/adapter-v2',output,
+        automatic_evaluation:{schema:'graduation-wiki-eval/automatic-evaluation-v1',checker_version:'test',
+          request_sha256:digest(variant === 'wrong-request' ? {} : req),
+          output_sha256:digest(variant === 'wrong-answer' ? {} : output),semantic_review:'pending',
+          checks:[{id:'source',verdict:variant === 'inconclusive' ? 'inconclusive':'fail',reason:'fixture',next_action:'Review fixture'}]}}));
+    })();`);
+    const run = runs[0]!;
+    if (['fail','inconclusive'].includes(variant)) {
+      assert.equal(run.status, 'ok');
+      if (run.status !== 'ok') throw new Error('Expected completed response');
+      assert.equal(run.automatic_evaluation?.checks[0]?.verdict, variant);
+      assert.equal(run.versions.automatic_evaluation, 'test');
+      const report = evaluate(f.cases, runs, [], plan.evaluation_plan);
+      assert.equal(report.overall_counts.error, 0);
+      assert.equal(report.overall_counts.objective_pass, 1);
+      assert.equal(report.overall_counts.reviewed_success, 0);
+    } else assert.equal(run.status, 'error');
+  }
+});
+
 async function fixture(t: TestContext) {
   const root = await mkdtemp(path.join(os.tmpdir(), "grad-eval-runner-"));
   t.after(() => rm(root, { recursive: true, force: true }));

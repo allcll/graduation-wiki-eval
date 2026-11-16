@@ -4,7 +4,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { test, type TestContext } from 'node:test';
-import { invokeClaude, buildCommand } from '../src/adapters/claude.js';
+import { invokeClaude, invokeClaudeEvaluated, buildCommand } from '../src/adapters/claude.js';
 import { summarizeClaudeStream } from '../src/adapters/claude-trace.js';
 import { checkSourceCitations, loadSourceContract, sourceCitationInstructions, type SourceContract } from '../src/adapters/source-citations.js';
 import type { AdapterAnswer, AdapterRequest } from '../src/adapters/request.js';
@@ -91,10 +91,14 @@ test('citation checks require returned page images, the correct edition and a li
     [], ['WIKI 2026-1 p.52'],
     [citation.replace('2026-2', '2026-1')], [citation.replace('source=handbook', 'source=other')],
     [citation.replace('pdf_page=2', 'pdf_page=1')], [citation.replace('pdf_page=2', 'pdf_page=3')],
-    [citation.replace('two distinct', 'three different')], [citation, 'Skill calculation procedure'],
+    [citation, 'Skill calculation procedure'],
     ['[source=handbook;edition=2026-2;pdf_page=2]    '],
   ];
   for (const citations of variants) assert.equal(checkSourceCitations({ ...answer, citations }, trace(), loaded).status, 'fail');
+  const unknown = checkSourceCitations({ ...answer, citations: [citation.replace('two distinct', 'three different')] }, trace(), loaded);
+  assert.equal(unknown.status, 'inconclusive');
+  assert.equal(unknown.citations[0]?.passed, false);
+  assert.equal(unknown.issues[0]?.id, 'citation_0:quote_unverified');
   assert.equal(checkSourceCitations({ ...answer, citations: [citation.replace('two distinct', 'two\n  distinct')] }, trace(), loaded).status, 'pass');
   assert.equal(checkSourceCitations({ ...answer, citations: ['[source=handbook;edition=2026-2;pdf_page=2] two'] }, trace(), loaded).status, 'pass');
   // A real quote can still accompany an incorrect interpretation. Never call this semantic PASS.
@@ -137,21 +141,24 @@ test('paired quotation typography is separate from literal matching and preserve
     ['At least 1.5 credits, ages 2-4, and 1,200 points.', 'At least 15 credits, ages 24, and 1200 points.'],
     ['Height 5\'9".', 'Height 59.'],
     [sentence, "창의소프트학부는 '문화와예술 영역 제외."],
-  ]) assert.equal(check(page!, quote!).status, 'fail', quote);
+  ]) {
+    assert.equal(check(page!, quote!).status, 'inconclusive', quote);
+    assert.equal(check(page!, quote!).citations[0]?.passed, false, quote);
+  }
   const quote = "창의소프트학부는 '문화와예술' 영역 제외.";
   assert.equal(checkSourceCitations({ ...answer, citations: [`[source=handbook;edition=2026-1;pdf_page=2] ${quote}`] }, trace(), { ...loaded, pages: [page1, sentence] }).status, 'fail');
   assert.equal(checkSourceCitations({ ...answer, citations: [`[source=handbook;edition=2026-2;pdf_page=2;] ${quote}`] }, trace(), { ...loaded, pages: [page1, sentence] }).status, 'fail');
   assert.equal(checkSourceCitations({ ...answer, citations: [`[source=handbook;edition=2026-2;pdf_page=2] ${quote}`] }, { ...trace(), calls: [] }, { ...loaded, pages: [page1, sentence] }).status, 'fail');
 });
 
-test('adapter applies source checks, preserves rejected answers, and never retries the model', async t => {
+test('a completed answer retains a failing source evaluation without becoming an execution error or retry', async t => {
   const options = { model: 'pinned-test-model', budgetUsd: 0.1, traceTools: true, sourceContract: manifest };
   assert.throws(() => buildCommand({ ...options, traceTools: false }));
   for (const valid of [true, false]) {
     const cwd = await fixture(t);
     const output = valid ? answer : { ...answer, citations: [citation.replace('2026-2', '2026-1')] };
     let modelCalls = 0;
-    const invocation = invokeClaude(request, options, { cwd, env: { ANTHROPIC_API_KEY: 'fixture-only' }, run: async (command) => {
+    const invocation = invokeClaudeEvaluated(request, options, { cwd, env: { ANTHROPIC_API_KEY: 'fixture-only' }, run: async (command) => {
       const version = command.includes('--version');
       if (!version) {
         modelCalls++;
@@ -161,14 +168,25 @@ test('adapter applies source checks, preserves rejected answers, and never retri
       }
       return { stdout: version ? '2.1.325' : stream(output), stderr: '', exitCode: 0, signal: null, timedOut: false, outputLimitExceeded: false } satisfies ProcessResult;
     } });
-    if (valid) assert.deepEqual(await invocation, answer);
-    else await assert.rejects(invocation, /source citation checks failed/);
+    const completed = await invocation;
+    assert.deepEqual(completed.output, output);
+    assert.equal(completed.automatic_evaluation.checks.some(check => check.verdict === 'fail'), !valid);
+    assert.equal(completed.automatic_evaluation.semantic_review, 'pending');
     const check = JSON.parse(await readFile(path.join(cwd, 'source-check.json'), 'utf8'));
     assert.equal(check.status, valid ? 'pass' : 'fail');
-    assert.equal(check.accepted_output, valid);
+    assert.equal(check.execution_status, 'completed');
+    assert.equal(check.accepted_output, undefined);
     assert.deepEqual(check.candidate_output, output);
     assert.equal(modelCalls, 1);
   }
+});
+
+test('a malformed citation produces one format issue, not fabricated edition and page errors', () => {
+  const checked = checkSourceCitations({ ...answer, citations: [citation.replace('pdf_page=2]', 'pdf_page=2;]')] }, trace(), loaded);
+  assert.deepEqual(checked.issues.map(issue => issue.id), ['citation_0:format']);
+  const mixed = checkSourceCitations({ ...answer, citations: [citation.replace('2026-2','2026-1'), citation.replace('two distinct','unknown words')] }, trace(), loaded);
+  assert.equal(mixed.status, 'fail');
+  assert(mixed.issues.some(issue => issue.verdict === 'inconclusive'));
 });
 
 test('invalid manifests and existing source-check files stop before a model call', async t => {

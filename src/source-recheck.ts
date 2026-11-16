@@ -16,8 +16,8 @@ const traceSchema = z.looseObject({
     delivered_pages: z.strictObject({ start: z.number().int().positive(), count: z.number().int().positive() }).nullable() })),
 });
 const previousSchema = z.looseObject({
-  schema: z.enum(['graduation-wiki-eval/source-check-v1', 'graduation-wiki-eval/source-check-v2']),
-  status: z.enum(['pass', 'fail']), request_sha256: sha, output_sha256: sha, contract_sha256: sha,
+  schema: z.enum(['graduation-wiki-eval/source-check-v1', 'graduation-wiki-eval/source-check-v2', 'graduation-wiki-eval/source-check-v3']),
+  status: z.enum(['pass', 'fail', 'inconclusive']), request_sha256: sha, output_sha256: sha, contract_sha256: sha,
   pdf_sha256: sha, text_sha256: sha, source_id: z.string(), edition: z.string(), candidate_output: answerSchema,
 });
 const fileHash = (bytes: Buffer) => 'sha256:' + createHash('sha256').update(bytes).digest('hex');

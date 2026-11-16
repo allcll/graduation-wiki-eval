@@ -4,7 +4,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { digest, parseJson } from '../src/json.js';
-import { loadTableIndex, matchTableCitation, tableIndexSchema } from '../src/adapters/table-citations.js';
+import { loadTableIndex, matchTableCitation, tableContradiction, tableIndexSchema } from '../src/adapters/table-citations.js';
 import { checkSourceCitations, type LoadedSourceContract } from '../src/adapters/source-citations.js';
 
 const fixture = new URL('../datasets/graduation-2026-2/source-indexes/handbook-2026-2-p53.tables.json', import.meta.url);
@@ -14,6 +14,17 @@ const quotations = [
   '문화와예술 한국의문화와한류 3 현대예술의이해 3 예체능',
   '경제와사회 경영학 3 사회과학 경영경제 호텔관광',
 ];
+
+test('unhandled table shapes are distinct from provable row, numeric and qualifier conflicts', () => {
+  for (const quote of ['역사와사상, 한국현대사, 4', '문화와예술, 한국현대사, 3', '자연과과학, 수의세계, 3, 예체능']) {
+    assert(tableContradiction(quote, 53, sourceIndex), quote);
+  }
+  for (const quote of ['역사와사상, 한국현대사, 3', '역사와사상, 한국현대사, 3학점',
+    '역사와사상, 한국현대사, 3, 인문과학 — 표 설명', '학점 합계, 6', '경제와사회, 경영학, 3, 호텔관광']) {
+    assert.equal(tableContradiction(quote, 53, sourceIndex), null, quote);
+  }
+  assert.equal(tableContradiction('역사와사상, 한국현대사, 4', 48, sourceIndex), null);
+});
 
 test('saved table quotes resolve through source rows and merged-cell spans', () => {
   const expectedRows = [[8], [15, 16], [9]];

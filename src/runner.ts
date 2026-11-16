@@ -27,7 +27,8 @@ import {
 } from "./schema.js";
 import { MAX_TIMEOUT_MS, ProcessInterruptedError, runProcess, TERMINATION_GRACE_MS } from "./process.js";
 
-import { adapterResultSchema } from './adapters/protocol.js';
+import { adapterResultSchema, evaluatedAdapterResultSchema } from './adapters/protocol.js';
+import type { AutomaticEvaluation } from './automatic-evaluation.js';
 import { skillContractSchema, validateSkillContext } from './skill-context.js';
 
 const RUNNER_SCHEMA = "graduation-wiki-eval/runner-v4";
@@ -426,7 +427,7 @@ export async function runPlan(planPath: string, command: readonly string[], opti
       const start = performance.now();
       let stdout = "";
       let stderr = "";
-      let result: { status: "ok"; output: z.infer<typeof outputSchema>; output_sha256: string } | { status: "error"; error: string };
+      let result: { status: "ok"; output: z.infer<typeof outputSchema>; output_sha256: string; automatic_evaluation?: AutomaticEvaluation } | { status: "error"; error: string };
       try {
         const completed = await runProcess(command, {
           cwd: directory, input: request, timeoutMs: plan.timeout * 1000,
@@ -440,7 +441,14 @@ export async function runPlan(planPath: string, command: readonly string[], opti
         const raw: unknown = parseJson(stdout);
         const envelope = raw && typeof raw === 'object' && !Array.isArray(raw) && 'schema' in raw && raw.schema === 'graduation-wiki-eval/adapter-v1'
           ? adapterResultSchema.parse(raw) : undefined;
-        const output = envelope ? envelope.output : outputSchema.parse(raw);
+        const evaluated = raw && typeof raw === 'object' && !Array.isArray(raw) && 'schema' in raw && raw.schema === 'graduation-wiki-eval/adapter-v2'
+          ? evaluatedAdapterResultSchema.parse(raw) : undefined;
+        const output = envelope ? envelope.output : evaluated ? evaluated.output : outputSchema.parse(raw);
+        if (evaluated) {
+          requireCondition(evaluated.automatic_evaluation.request_sha256 === job.request_sha256, 'Automatic evaluation request hash mismatch');
+          requireCondition(evaluated.automatic_evaluation.output_sha256 === digest(output), 'Automatic evaluation output hash mismatch');
+          Object.assign(versions, { automatic_evaluation: evaluated.automatic_evaluation.checker_version });
+        }
         if (envelope) {
           base.input_tokens = envelope.usage.input_tokens;
           base.output_tokens = envelope.usage.output_tokens;
@@ -450,7 +458,7 @@ export async function runPlan(planPath: string, command: readonly string[], opti
             tools: runtime.tools, runtime: runtime.runtime });
         }
         requireCondition(Array.isArray(output.citations), "Adapter citations must be a string array");
-        result = { status: "ok", output, output_sha256: digest(output) };
+        result = { status: "ok", output, output_sha256: digest(output), ...(evaluated ? { automatic_evaluation: evaluated.automatic_evaluation } : {}) };
       } catch (error: unknown) {
         if (error instanceof ProcessInterruptedError) throw error;
         result = { status: "error", error: error instanceof Error ? error.message : "Unknown adapter failure" };

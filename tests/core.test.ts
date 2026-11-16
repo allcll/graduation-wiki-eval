@@ -70,6 +70,43 @@ test('verified complete holdout can pass with a fixed plan', () => {
   assert.deepEqual(validateReport(result), result);
 });
 
+test('completed responses keep automatic failures and unknown verification out of execution errors and PASS', () => {
+  for (const verdict of ['fail', 'inconclusive'] as const) {
+    const f = fixtures(), run = success(f.runs);
+    run.automatic_evaluation = { schema: 'graduation-wiki-eval/automatic-evaluation-v1', checker_version: 'test-v1',
+      request_sha256: digest({ fixture: true }), output_sha256: run.output_sha256, semantic_review: 'pending',
+      checks: [{ id: 'source', verdict, reason: 'fixture', next_action: 'Inspect fixture evidence' }] };
+    const result = report(f);
+    assert.equal(result.overall_counts.error, 0);
+    assert.equal(result.overall_counts.objective_pass, 3);
+    assert.equal(result.overall_counts.reviewed_success, 2);
+    assert.equal(result.overall_counts.automatic_fail, verdict === 'fail' ? 1 : 0);
+    assert.equal(result.overall_counts.automatic_inconclusive, verdict === 'inconclusive' ? 1 : 0);
+    assert.equal(result.gates.C?.gate, verdict === 'fail' ? 'FAIL' : 'INCONCLUSIVE');
+    assert.deepEqual(validateReport(result), result);
+    assert.match(markdown(result), /Inspect fixture evidence/);
+    const changed = structuredClone(result);
+    changed.rows[0]!.automatic_evaluation!.output_sha256 = digest('another answer');
+    assert.throws(() => validateReport(changed), /Automatic evaluation output hash/);
+    run.automatic_evaluation.output_sha256 = digest('another answer');
+    assert.throws(() => report(f), /Automatic evaluation output hash/);
+  }
+});
+
+test('confirmed automatic errors and unresolved checks both survive aggregation', () => {
+  const f = fixtures(), run = success(f.runs);
+  run.automatic_evaluation = { schema: 'graduation-wiki-eval/automatic-evaluation-v1', checker_version: 'test',
+    request_sha256: digest({}), output_sha256: run.output_sha256, semantic_review: 'pending', checks: [
+      { id: 'format', verdict: 'fail', reason: 'Invalid metadata', next_action: 'Fix format' },
+      { id: 'table', verdict: 'inconclusive', reason: 'No table index', next_action: 'Review cells' },
+    ] };
+  const result = report(f);
+  assert.equal(result.overall_counts.automatic_fail, 1);
+  assert.equal(result.overall_counts.automatic_inconclusive, 1);
+  assert.equal(result.gates.C?.gate, 'FAIL');
+  assert(result.gates.C?.reasons.includes('automatic_verification_inconclusive'));
+});
+
 test('saved plan preserves missing conditions and repetitions', () => {
   const fixture = fixtures();
   const plan = makePlan(fixture.cases, ['A', 'B', 'C'], 3);

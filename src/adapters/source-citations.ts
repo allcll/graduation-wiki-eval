@@ -5,7 +5,8 @@ import { z } from 'zod';
 import { digest, parseJson } from '../json.js';
 import type { AdapterAnswer, AdapterRequest } from './request.js';
 import type { ClaudeToolTrace } from './claude-trace.js';
-import { matchTableCitation, normalizeQuote, type LoadedTableIndex } from './table-citations.js';
+import { matchTableCitation, tableContradiction, normalizeQuote, type LoadedTableIndex } from './table-citations.js';
+import { automaticStatus, type AutomaticCheck } from '../automatic-evaluation.js';
 
 const token = z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/);
 const checksum = z.string().regex(/^sha256:[a-f0-9]{64}$/);
@@ -99,11 +100,27 @@ export function checkSourceCitations(answer: AdapterAnswer, trace: SourceReadTra
       quote_within_limit: [...normalized].length <= 600,
       quote_grounded: located,
     };
+    const issues: AutomaticCheck[] = [];
+    const issue = (code: string, verdict: AutomaticCheck['verdict'], reason: string, next_action: string) =>
+      issues.push({ id: `citation_${index}:${code}`, verdict, reason, next_action });
+    if (!checks.format) issue('format', 'fail', '인용 메타데이터 형식이 올바르지 않습니다.', '출처·판본·페이지 형식을 확인하세요. 파싱 실패를 별도의 판본 오류로 중복 집계하지 않습니다.');
+    else {
+      for (const [key, reason] of Object.entries({ source: '지정한 원문 출처와 다릅니다.', edition: '요청한 편람 판본과 다릅니다.',
+        page_exists: '원본 PDF에 없는 페이지입니다.', quote_nonempty: '인용문이 비어 있습니다.', quote_within_limit: '인용문이 600자를 초과합니다.' })) {
+        if (!checks[key as keyof typeof checks]) issue(key, 'fail', reason, '해당 인용과 지정한 원문 정보를 대조하세요.');
+      }
+      if (checks.page_exists && !checks.page_read) issue('page_read', 'fail', '인용한 PDF 페이지가 전달된 기록이 없습니다.', '문구의 정확성과 원본 페이지 확인 절차를 구분해 검토하세요.');
+      if (checks.source && checks.edition && checks.page_exists && checks.quote_nonempty && checks.quote_within_limit && !located) {
+        const conflict = loaded.tables && page !== null ? tableContradiction(quote, page, loaded.tables.index) : null;
+        if (conflict) issue('table_conflict', 'fail', `색인된 표의 행·열 관계와 충돌합니다: ${conflict}`, '같은 행의 과목·학점과 병합셀의 영역·제외계열을 대조하세요.');
+        else issue('quote_unverified', 'inconclusive', '문구나 표 관계를 현재 검사 범위에서 확인하지 못했습니다. 내용 오류로 확정한 결과가 아닙니다.', '원문 페이지와 인용을 대조해 오타·설명 혼합·미지원 표를 구분하세요. 확인 전에는 통과로 세지 않습니다.');
+      }
+    }
     return { index, pdf_page: page !== null && Number.isSafeInteger(page) ? page : null,
       quote_sha256: match ? digest(quote) : null, literal_match: literal, normalized_match: normalizedMatch,
       match_basis: table?.status === 'matched' ? 'table_cells' as const : located && literal ? 'literal_text' as const
         : located && normalizedMatch ? 'normalized_text' as const : 'none' as const,
-      table_match: table, checks, passed: Object.values(checks).every(Boolean) };
+      table_match: table, checks, passed: Object.values(checks).every(Boolean), verdict: automaticStatus(issues), issues };
   });
   const failures = [
     ...(!trace.complete ? ['incomplete_tool_trace'] : []),
@@ -111,10 +128,17 @@ export function checkSourceCitations(answer: AdapterAnswer, trace: SourceReadTra
     ...(!citations.length ? ['missing_original_citation'] : []),
     ...citations.flatMap(citation => Object.entries(citation.checks).filter(([, ok]) => !ok).map(([key]) => `citation_${citation.index}:${key}`)),
   ];
+  const issues: AutomaticCheck[] = [
+    ...(!trace.complete ? [{ id: 'incomplete_tool_trace', verdict: 'fail' as const, reason: '도구 기록이 불완전합니다.', next_action: '실행 기록을 확인하세요.' }] : []),
+    ...(!delivered.length ? [{ id: 'original_pdf_not_read', verdict: 'fail' as const, reason: '원본 PDF 페이지 전달 기록이 없습니다.', next_action: '원문 확인 절차를 검토하세요.' }] : []),
+    ...(!citations.length ? [{ id: 'missing_original_citation', verdict: 'fail' as const, reason: '원문 인용이 없습니다.', next_action: '주장을 뒷받침할 편람 근거를 확인하세요.' }] : []),
+    ...citations.flatMap(citation => citation.issues),
+  ];
   return {
-    schema: 'graduation-wiki-eval/source-check-v2' as const,
-    checker_version: 'citation-format-3' as const,
-    status: failures.length === 0 ? 'pass' as const : 'fail' as const,
+    schema: 'graduation-wiki-eval/source-check-v3' as const,
+    checker_version: 'citation-verdict-4' as const,
+    status: automaticStatus(issues), issues,
+    legacy_status: failures.length === 0 ? 'pass' as const : 'fail' as const,
     request_sha256: trace.request_sha256, output_sha256: digest(answer),
     contract_sha256: loaded.contract_sha256, source_id: contract.source_id, edition: contract.edition,
     pdf_sha256: contract.pdf.sha256, text_sha256: contract.text.sha256,

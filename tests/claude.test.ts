@@ -7,7 +7,7 @@ import { test, type TestContext } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import {
-  buildCommand, ClaudeAdapterError, invokeClaude, parseResponse, validateRequest,
+  buildCommand, ClaudeAdapterError, invokeClaude, invokeClaudeEvaluated, parseResponse, validateRequest,
   type ClaudeRequest,
 } from '../src/adapters/claude.js';
 import { type ProcessResult, runProcess } from '../src/process.js';
@@ -95,7 +95,7 @@ test('failed or incomplete streams preserve a bounded trace and never return a p
   }
 });
 
-test('required Skill reads need trace mode and reject skipped or partial bodies', async (t) => {
+test('required Skill reads distinguish skipped procedures from completed response generation', async (t) => {
   assert.throws(() => buildCommand({ ...options, requireSkillReads: true }), ClaudeAdapterError);
   for (const count of [0, 1, 3]) {
     const cwd = await fixture(t);
@@ -110,12 +110,12 @@ test('required Skill reads need trace mode and reject skipped or partial bodies'
         tool_use_result: { type: 'text', file: { filePath: req.context.skills[0], content: 'body', startLine: 1, numLines: count, totalLines: 3 } } },
     ];
     const run: typeof runProcess = async command => result(command.includes('--version') ? '2.1.325' : [...events.map(event => JSON.stringify(event)), response].join('\n'));
-    const invocation = invokeClaude(req, { ...options, traceTools: true, requireSkillReads: true }, { cwd, env: { ANTHROPIC_API_KEY: 'unit-test-only' }, run });
-    if (count === 3) assert.deepEqual(await invocation, answer);
-    else await assert.rejects(invocation, /Skill files were not fully read/);
+    const completed = await invokeClaudeEvaluated(req, { ...options, traceTools: true, requireSkillReads: true }, { cwd, env: { ANTHROPIC_API_KEY: 'unit-test-only' }, run });
+    assert.deepEqual(completed.output, answer);
+    assert.equal(completed.automatic_evaluation.checks.find(check => check.id === 'required_skill_reads')?.verdict, count === 3 ? 'pass' : 'fail');
     const trace = JSON.parse(await readFile(path.join(cwd, 'claude-tools.json'), 'utf8')) as { unread_skill_files: string[]; outcome: string };
     assert.deepEqual(trace.unread_skill_files, count === 3 ? [] : req.context.skills);
-    assert.equal(trace.outcome, count === 3 ? 'answer' : 'error');
+    assert.equal(trace.outcome, 'answer');
   }
 });
 
