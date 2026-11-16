@@ -30,7 +30,11 @@ export async function loadSourceContract(file: string, request: AdapterRequest, 
   const manifestBytes = await readFile(path.join(cwd, file));
   if (manifestBytes.length > 64 * 1024) throw new Error('Source contract exceeds 64 KiB');
   const contract = sourceContractSchema.parse(parseJson(manifestBytes.toString('utf8')));
-  if (request.inputs['policy_edition'] !== contract.edition) throw new Error('Source edition differs from inputs.policy_edition');
+  const editions = ['policy_edition', 'policy_term']
+    .filter(key => Object.hasOwn(request.inputs, key)).map(key => request.inputs[key]);
+  if (!editions.length || editions.some(edition => edition !== contract.edition)) {
+    throw new Error('Source edition differs from inputs.policy_edition/policy_term');
+  }
   if (new Set([file, contract.pdf.path, contract.text.path]).size !== 3 ||
       ![contract.pdf.path, contract.text.path].every(item => request.context.sources.includes(item))) {
     throw new Error('PDF and extracted text must be distinct listed source files');

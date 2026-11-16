@@ -62,6 +62,17 @@ test('source identity is checked against the request edition and exact snapshot 
   await assert.rejects(loadSourceContract(manifest, request, cwd), /checksum/);
 });
 
+test('edition aliases accept existing cases but reject missing, invalid and conflicting declarations', async t => {
+  const cwd = await fixture(t);
+  for (const inputs of [{ policy_term: '2026-2' }, { policy_edition: '2026-2', policy_term: '2026-2' }]) {
+    assert.equal((await loadSourceContract(manifest, { ...request, inputs }, cwd)).contract.edition, '2026-2');
+  }
+  for (const inputs of [{}, { policy_term: '2026-1' }, { policy_edition: null, policy_term: '2026-2' },
+    { policy_edition: '2026-2', policy_term: '2026-1' }, { policy_edition: '2026-1', policy_term: '2026-2' }]) {
+    await assert.rejects(loadSourceContract(manifest, { ...request, inputs }, cwd), /edition/);
+  }
+});
+
 test('citation checks require returned page images, the correct edition and a literal quote on that page', () => {
   const check = checkSourceCitations(answer, trace(), loaded);
   assert.equal(check.status, 'pass');
